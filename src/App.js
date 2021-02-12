@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+// Main App
 
-function App() {
+import React from 'react';
+import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+// import MomentUtils from 'material-ui-pickers/utils/moment-utils';
+// import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
+
+import App from './container/App';
+
+// css
+
+import './lib/reactifyCss';
+
+import { configureStore } from './store';
+
+
+
+
+function MainApp() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={configureStore()}>
+
+          <Router>
+            <Switch>
+               <Route path="/" component={App} />
+            </Switch>
+         </Router>
+
+
+    
+
+
+    </Provider>
   );
 }
 
-export default App;
+export default MainApp;

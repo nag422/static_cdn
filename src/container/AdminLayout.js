@@ -18,20 +18,20 @@ class AdminLayout extends Component {
 
     render() {
         const {match, location} = this.props;
-        console.log(match.url)
+        
         
         return (
             <>
             <CssBaseline />
-            <AdminHeader />
+            {/* <AdminHeader /> */}
             
             <Switch>
             {routerService && routerService.map((route,key)=>
-					<Route key={key} path={`/auth/${route.path}`} component={route.component} />
+					<Route key={key} path={`/admin/${route.path}`} component={route.component} />
 				)}
                 
                 
-                <Redirect from="*" to="/auth/signin" />
+                <Redirect from="*" to="/admin/signin" />
                 
                 </Switch>
             </>

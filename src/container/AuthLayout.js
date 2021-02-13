@@ -54,7 +54,7 @@ class AuthLayout extends Component {
             <>
             <CssBaseline />
             <AdminHeader sidebardrawer={this.sidebardrawer} />
-            <Container fixed style={{paddingLeft:width,overflow:'hidden',marginTop:100,height:'100vh'}}>
+            <Container style={{paddingLeft:width,overflow:'hidden',marginTop:100,height:'100vh'}}>
                 <Box className={classes.root}>
                 <Typography className={classes.color}>
                     Dashboard

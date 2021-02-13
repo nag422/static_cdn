@@ -113,11 +113,11 @@ const Dashboardadmin = () => {
                 <Grid item xs={12} sm={3}>
                 
                     <Paper className={classes.paper}>
-                    <LinearProgress value={80}  />
+                    
                         <Box display="flex" alignItems="flex-start" flexDirection="column">
                             <Typography component='p' className={classes.headingtext}>
                             TASKS PROGRESS 
-                            <LinearProgress value={80}  />
+                            <LinearProgress variant="determinate" value={30.5}  />
                             <Typography variant="body2" color="textSecondary"
                             style={{
                                 color: red[800],

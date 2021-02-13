@@ -17,6 +17,7 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import FullscreenOutlinedIcon from '@material-ui/icons/FullscreenOutlined';
 import Grow from '@material-ui/core/Grow';
 import Hidden from '@material-ui/core/Hidden';
+import Switch from '@material-ui/core/Switch';
 // Side Drawer
 import Drawer from '@material-ui/core/Drawer';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
@@ -27,11 +28,14 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
+import DraftsIcon from '@material-ui/icons/Drafts';
+import SendIcon from '@material-ui/icons/Send';
+import MenuBookIcon from '@material-ui/icons/MenuBook';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import StarBorder from '@material-ui/icons/StarBorder';
 import clsx from 'clsx';
-import { Box, Collapse, Paper } from '@material-ui/core';
+import { Box, Collapse, ListSubheader, Paper } from '@material-ui/core';
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 // Side Drawer
 
@@ -136,9 +140,10 @@ list: {
     width: drawerWidth,
     flexShrink: 0,
     whiteSpace: 'nowrap',
+    overflow:'hidden',
   },
   drawerOpen: {
-    width: drawerWidth,
+    width: 'auto',
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -159,6 +164,7 @@ list: {
     padding: theme.spacing(2,0),
     backgroundColor: theme.palette.primary.main,
     color:theme.palette.primary.contrastText,
+    
     [theme.breakpoints.down('md')]: {
       padding: theme.spacing(1.6,0),
     },
@@ -168,6 +174,14 @@ list: {
 nested: {
   paddingLeft: theme.spacing(4),
 },
+listItemText:{
+  fontSize:'1em',//Insert your required size
+},
+modechanger:{
+  position:'absolute',
+  bottom:0,
+  alignItems:'center'
+}
 
 
 }));
@@ -182,6 +196,14 @@ const AdminHeader = (props)=> {
     bottom: false,
     right: false,
   });
+  const [switchstate, setSwitchstate] = React.useState({
+    checkedA: true,
+    checkedB: true,
+  });
+
+  const switchhandleChange = (event) => {
+    setSwitchstate({ ...switchstate, [event.target.name]: event.target.checked });
+  };
   const [collapseopen,setCollapseopen] = React.useState(false)
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -239,6 +261,7 @@ const toggleDrawer = (anchor, open) => (event) => {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
     </Menu>
   );
 
@@ -301,7 +324,40 @@ const toggleDrawer = (anchor, open) => (event) => {
             MoviePlex
           </Typography>
           </Box>
-      <List>
+      <List
+
+      component="nav"
+          aria-labelledby="available-content"
+          subheader={
+            <ListSubheader component="div" id="available-content">
+              Content
+            </ListSubheader>
+          }
+          className={classes.root}
+      
+      
+      >
+
+      
+      
+      <ListItem button>
+        <ListItemIcon>
+        <MenuBookIcon />
+        </ListItemIcon>
+        <ListItemText primary="Explore Content" />
+      </ListItem>
+      <ListItem button>
+        <ListItemIcon>
+          <SendIcon />
+        </ListItemIcon>
+        <ListItemText primary="Request Content" />
+      </ListItem>
+      {/* <ListItem button>
+        <ListItemIcon>
+          <DraftsIcon />
+        </ListItemIcon>
+        <ListItemText primary="Drafts" />
+      </ListItem> */}
         
         <ListItem button onClick={()=>setCollapseopen(!collapseopen)}>
         <ListItemIcon>
@@ -322,6 +378,21 @@ const toggleDrawer = (anchor, open) => (event) => {
       </Collapse>
       </List>
       <Divider />
+      {/* <ListItem button>
+        <ListItemIcon>
+          <DraftsIcon />
+        </ListItemIcon>
+        <ListItemText primary="Drafts" />
+      </ListItem> */}
+      <Box className={classes.modechanger} p={2}>
+      <Switch
+        checked={switchstate.checkedB}
+        onChange={switchhandleChange}
+        color="primary"
+        name="checkedB"
+        inputProps={{ 'aria-label': 'primary checkbox' }}
+      />
+      </Box>
       
     </div>
   );

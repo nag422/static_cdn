@@ -16,6 +16,9 @@ const theme = createMuiTheme({
             dark: amber[800],
             contrastText: '#000',
           },
+    },
+    typography:{
+        fontFamily: "Lato, sans-serif"
     }
 });
 // Global props styles
@@ -33,31 +36,34 @@ theme.props = {
 }
 
 theme.overrides = {
-    MuiButton:{
-        default: {
-            borderRadius: 0,
-            textTransform:'none'
-        },
-        containedPrimary:{
-            "&:hover":{
-                backgroundColor: amber[500],
-                color: 'red'
-            }
-        }
-    },
+    // MuiButton:{
+    //     default: {
+    //         borderRadius: 0,
+    //         textTransform:'none'
+    //     },
+    //     containedPrimary:{
+    //         "&:hover":{
+    //             backgroundColor: amber[500],
+    //             color: 'red'
+    //         }
+    //     }
+    // },
     MuiInput:{
         root:{
-            border:'1px solid gray',
+            // border:'1px solid gray',
+            top:5,
             '&$focused':{
-                boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
+                borderRadius:5,
+                boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 0.1rem`,
                 borderColor: theme.palette.primary.main
             }
+            
         },
         
     },
     MuiInputLabel:{
         root:{
-            textTransform:'uppercase'
+            // textTransform:'uppercase'
         }
     }
 }

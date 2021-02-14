@@ -37,6 +37,7 @@ import StarBorder from '@material-ui/icons/StarBorder';
 import clsx from 'clsx';
 import { Box, Collapse, ListSubheader, Paper } from '@material-ui/core';
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
+import { Link } from 'react-router-dom';
 // Side Drawer
 
 const drawerWidth = 250;
@@ -339,19 +340,23 @@ const toggleDrawer = (anchor, open) => (event) => {
       >
 
       
-      
+      <Link to="/auth/content" style={{textDecoration:'none',color:'inherit'}}>
       <ListItem button>
         <ListItemIcon>
         <MenuBookIcon />
         </ListItemIcon>
         <ListItemText primary="Explore Content" />
       </ListItem>
+      </Link>
+
+      <Link to="/auth/contentrequest" style={{textDecoration:'none',color:'inherit'}}>
       <ListItem button>
         <ListItemIcon>
           <SendIcon />
         </ListItemIcon>
         <ListItemText primary="Request Content" />
       </ListItem>
+      </Link>
       {/* <ListItem button>
         <ListItemIcon>
           <DraftsIcon />

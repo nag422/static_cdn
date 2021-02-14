@@ -48,10 +48,12 @@ theme.overrides = {
     //         }
     //     }
     // },
+    
     MuiInput:{
         root:{
             // border:'1px solid gray',
             top:5,
+            
             '&$focused':{
                 borderRadius:5,
                 boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 0.1rem`,

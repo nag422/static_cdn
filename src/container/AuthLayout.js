@@ -45,7 +45,7 @@ class AuthLayout extends Component {
     
     render() {
         const {match, location} = this.props;
-        console.log(match.url)
+        
         const width = this.state.issidebar?250:80;
         const { classes } = this.props;
     
@@ -57,7 +57,8 @@ class AuthLayout extends Component {
             <Container style={{paddingLeft:width,overflow:'hidden',marginTop:100,height:'100vh'}}>
                 <Box className={classes.root}>
                 <Typography className={classes.color}>
-                    Dashboard
+                    
+                    {(location.pathname.split('/'))[2].slice(0).charAt(0).toUpperCase() +(location.pathname.split('/'))[2].slice(1)}
                 </Typography>
                 </Box>
             <Switch>

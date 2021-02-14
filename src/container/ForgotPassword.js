@@ -40,72 +40,79 @@ const useStyles = makeStyles((theme) => ({
         borderTop: `8px solid ${theme.palette.primary.main}`,
         borderRadius:10
     },
-    formfieldsalign:{
-        display:"flex",
-        flexDirection:"row",
-        justifyContent:"space-between",
-        
-        [theme.breakpoints.down('md')]:{
-            display:"flex",
-            flexDirection:"column",
+    pageTitle:{
+        position:'absolute',
+        left:'44vw',
+        top:80,    
+        // height:'4vh',
+        // padding:10
+        [theme.breakpoints.down('md')]: {
+            top:100,
+            left:'28vw',
         }
+
     }
     
    
 }))
 
-const SignupFirebase = () => {
+const ForgotPassword = () => {
     
 
     const classes = useStyles();
     return (
+        <>
+        <Box className={classes.pageTitle}>
+        <Typography component="h4" variant="h4">
+            MoviePlex
+            </Typography>
+            </Box>
         <Box component="section" className={classes.root}>  
+
+       
         
         <Grid item xs={12} sm={8} md={4} component={Paper} elevation={6} square className={classes.bordertopcolor} >
+        
         {/* <LinearProgress value={40} /> */}
         <Box display="flex" flexDirection="column" p={3}>
             <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center">
 
-            <Typography component="h1" variant="h5" style={{marginBottom:"5%"}}>
-                        SignUp
+            <Typography component="h5" variant="h5" style={{marginBottom:"5%"}}>
+                        Reset Your Password
                         
           </Typography>
          <HttpsOutlinedIcon style={{marginBottom:"5%"}} />
 
             </Box>
-            <Box className={classes.formfieldsalign}>
-                <Box style={{marginBottom:"5%"}}>
-                <TextField id="standard-basic" label="Firstname (optional)" fullWidth />
-                </Box>
-                
-                <Box style={{marginBottom:"5%"}}>
-                <TextField id="standard-basic" label="Lastname (optional)" fullWidth />
-                </Box>
-                </Box> 
-                <TextField id="standard-basic" label="Username" style={{marginBottom:"5%"}} required />
-          <TextField id="standard-basic" label="Email" style={{marginBottom:"5%"}} required />
-          <TextField id="standard-adornment-password" label="Password" style={{marginBottom:"5%"}} required />
+       
+          <TextField id="standard-basic" label="Email" type="email" style={{marginBottom:"5%"}} required />
+          
           
           <Button color="primary" variant="contained" classes={{label:classes.root.label}} style={{marginTop:'3%'}}>
-            Sign Up
+            Reset
             </Button>
-
-            <Box display="flex" alignContent="center" justifyContent="center" mt={3}>
-            Already have an account ? <Link to="/admin/signin" style={{ textDecorationColor: 'none',color:'inherit' }}>Sign in</Link>
-            </Box>
+            <Box display="flex" alignContent="center" justifyContent="space-between" mt={3}>
+            <Typography component="h5" variant="body2">
+            Don't have an account ? <Link to="/admin/signup" style={{ textDecorationColor: 'none',color:'inherit' }}>Sign up</Link>
+            </Typography>
+            <Typography component="h5" variant="body2">
+             <Link to="/admin/signin" style={{ textDecoration: 'none',color:'inherit' }}>Back</Link>
+            </Typography>
             
+            </Box> 
 </Box>
-        
-      
+
+
       
         </Grid>     
             
             
-            
+         
             
         
         </Box>
+        </>
     )
 }
 
-export default SignupFirebase
+export default ForgotPassword

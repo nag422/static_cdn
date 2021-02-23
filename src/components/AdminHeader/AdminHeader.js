@@ -34,6 +34,8 @@ import MenuBookIcon from '@material-ui/icons/MenuBook';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import StarBorder from '@material-ui/icons/StarBorder';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import GroupIcon from '@material-ui/icons/Group';
 import clsx from 'clsx';
 import { Box, Collapse, ListSubheader, Paper } from '@material-ui/core';
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
@@ -156,7 +158,7 @@ list: {
       duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: 'hidden',
-    width: theme.spacing(7) + 1,
+    width: 0,
     [theme.breakpoints.up('sm')]: {
       width: theme.spacing(9) + 1,
     },
@@ -338,9 +340,24 @@ const toggleDrawer = (anchor, open) => (event) => {
       
       
       >
-
+    <Link to="/admin/dashboard" style={{textDecoration:'none',color:'inherit'}}>
+      <ListItem button>
+        <ListItemIcon>
+        <DashboardIcon />
+        </ListItemIcon>
+        <ListItemText primary="Dashboard" />
+      </ListItem>
+      </Link>
+      <Link to="/admin/users" style={{textDecoration:'none',color:'inherit'}}>
+      <ListItem button>
+        <ListItemIcon>
+        <GroupIcon />
+        </ListItemIcon>
+        <ListItemText primary="Users" />
+      </ListItem>
+      </Link>
       
-      <Link to="/auth/content" style={{textDecoration:'none',color:'inherit'}}>
+      <Link to="/admin/content" style={{textDecoration:'none',color:'inherit'}}>
       <ListItem button>
         <ListItemIcon>
         <MenuBookIcon />
@@ -349,7 +366,7 @@ const toggleDrawer = (anchor, open) => (event) => {
       </ListItem>
       </Link>
 
-      <Link to="/auth/contentrequest" style={{textDecoration:'none',color:'inherit'}}>
+      <Link to="/admin/contentrequest" style={{textDecoration:'none',color:'inherit'}}>
       <ListItem button>
         <ListItemIcon>
           <SendIcon />

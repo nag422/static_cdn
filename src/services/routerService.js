@@ -4,6 +4,7 @@ import Dashboardadmin from '../container/Dashboardadmin'
 import ForgotPassword from '../container/ForgotPassword';
 import ContentRequest from '../container/ContentRequest'
 import ContentExplore from '../container/ContentExplore'
+import UsersList from '../container/UsersList'
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
@@ -21,6 +22,11 @@ export default [
     {
         path: "dashboard",
         component: Dashboardadmin,
+        exact: true
+    },
+    {
+        path: "users",
+        component: UsersList,
         exact: true
     },
     {

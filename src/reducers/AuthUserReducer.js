@@ -13,7 +13,8 @@ import {
     LOGOUT_USER_SUCCESS,
     LOGOUT_USER_FAILURE,
     CREATE_TWO_STEP_TOKEN_START,
-    CREATE_TWO_STEP_TOKEN_FINISH
+    CREATE_TWO_STEP_TOKEN_FINISH,
+    SIGNIN_USER
 } from "../actions/types";
 
 
@@ -21,11 +22,12 @@ import {
  * initial auth user
  */
 const INIT_STATE = {
-    user: localStorage.getItem("user")
-        ? JSON.parse(localStorage.getItem("user"))
-        : null,
+    // user: localStorage.getItem("user")
+    //     ? JSON.parse(localStorage.getItem("user"))
+    //     : null,
     access_token: localStorage.getItem("access_token"),
-    loading: false
+    loading: false,
+    user: null
 };
 
 
@@ -33,6 +35,7 @@ const INIT_STATE = {
 export default (state = INIT_STATE, action) => {
     switch (action.type) {
         case LOGIN_USER:
+        case SIGNIN_USER:
             return { ...state, loading: true };
 
         case LOGIN_USER_SUCCESS:

@@ -1,7 +1,7 @@
 /**
  * Auth Sagas
  */
-import { all, call, fork, put, takeEvery } from "redux-saga/effects";
+import { all, call, fork, put, takeEvery,takeLatest } from "redux-saga/effects";
 
 import {
     LOGIN_USER,
@@ -12,7 +12,8 @@ import {
     LOGOUT_USER,
     SIGNUP_USER,
     SIGNIN_USER,
-    CREATE_TWO_STEP_TOKEN_START
+    CREATE_TWO_STEP_TOKEN_START,
+    
 } from "../actions/types";
 
 import {
@@ -22,14 +23,25 @@ import {
     signUpUserInFirebaseFailure,
     logoutUserFromFirebaseSuccess,
     logoutUserFromFirebaseFailure,
-    createTwoStepTokenFinish
+    createTwoStepTokenFinish,
+
 } from "../actions";
 
+// const signInUserwithApiRequest = async (email, password) =>{
+    
+//     return {status:200}
+// }
 
 function* signInUserwithApi({ payload }) {
-    let userData = payload.user;
-    let history = payload.history;
+    let userData = payload.user;    
     console.log("consoling here: ", payload);
+    console.log("consoling here: ", payload.history);
+    // const signInResponse = yield call(
+    //     signInUserwithApiRequest,
+    //     userData.email,
+    //     userData.password
+    //   );
+      yield put(signinUserSuccess(userData));
 }
 
 /**
@@ -37,7 +49,7 @@ function* signInUserwithApi({ payload }) {
 */
 
 export function* signInUser() {
-    console.log("inside saga..");
+    console.log("sign in saga called..");
     yield takeEvery(SIGNIN_USER, signInUserwithApi);
 }
 

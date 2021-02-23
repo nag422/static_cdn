@@ -16,13 +16,13 @@ import AuthLayout from './AuthLayout';
 
 
 
-
 class App extends Component {
 
 render(){
     return(
 
         <ThemeProvider theme={theme}>
+          
           
           <Switch>
             <Route exact path="/" render={props => "welcome"} />
@@ -31,7 +31,9 @@ render(){
             
     </Switch>
     
+    
     </ThemeProvider>
+    
 
     )
 }

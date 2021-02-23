@@ -33,6 +33,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function ModelDialogue() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [fields, setFields] = React.useState([{ label: 'Cost' }])
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -62,7 +63,7 @@ export default function ModelDialogue() {
           </Toolbar>
         </AppBar>
        
-<CustomizedInputs />
+<CustomizedInputs fields={fields} />
 
         
       </Dialog>

@@ -54,7 +54,7 @@ class AdminLayout extends Component {
             <>
             <CssBaseline />
             <AdminHeader sidebardrawer={this.sidebardrawer} />
-            <Box style={{marginLeft:width,marginRight:15,overflow:'hidden',marginTop:100}}>
+            <Box style={{marginLeft:width,marginRight:15,overflow:'hidden',marginTop:100,flexGrow:1}}>
                 <Box className={classes.root}>
                 <Typography className={classes.color}>
                     

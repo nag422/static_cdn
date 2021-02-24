@@ -29,6 +29,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
+import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import SendIcon from '@material-ui/icons/Send';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import ExpandLess from '@material-ui/icons/ExpandLess';
@@ -40,6 +41,8 @@ import clsx from 'clsx';
 import { Box, Collapse, ListSubheader, Paper } from '@material-ui/core';
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import { Link } from 'react-router-dom';
+import SimpleList from '../ListSimple/SimpleList'
+
 // Side Drawer
 
 const drawerWidth = 250;
@@ -162,6 +165,9 @@ list: {
     [theme.breakpoints.up('sm')]: {
       width: theme.spacing(9) + 1,
     },
+    [theme.breakpoints.down('sm')]: {
+      width: 0,
+    }
   },
   logo:{
     padding: theme.spacing(2,0),
@@ -209,14 +215,25 @@ const AdminHeader = (props)=> {
   };
   const [collapseopen,setCollapseopen] = React.useState(false)
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [notifyanchorEl, setNotifyanchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const isNotificationOpen = Boolean(notifyanchorEl);
   
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+  const handleNotificationMenuOpen = (event) => {
+    setNotifyanchorEl(event.currentTarget);
+  };
+
+  const handleNotifyClose = () => {
+    setNotifyanchorEl(null);
+    handleMobileMenuClose();
   };
 
   const handleMobileMenuClose = () => {
@@ -265,6 +282,25 @@ const toggleDrawer = (anchor, open) => (event) => {
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
       <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+    </Menu>
+  );
+
+  const renderMenuSimplelist = (
+    <Menu
+      style={{top:40}}
+      anchorEl={notifyanchorEl}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={isNotificationOpen}
+      onClose={handleNotifyClose}
+      elevation={1}
+    >
+      {/* <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Logout</MenuItem> */}
+      <SimpleList />
     </Menu>
   );
 
@@ -322,10 +358,15 @@ const toggleDrawer = (anchor, open) => (event) => {
       // onClick={toggleDrawer(anchor, false)}
       // onKeyDown={toggleDrawer(anchor, false)}
     >
-      <Box display="flex" alignItems="center" justifyContent="center" className={classes.logo}>
+      <Box display="flex" alignItems="center" justifyContent="space-around" className={classes.logo}>
       <Typography className={classes.title} variant="h6" noWrap>
             MoviePlex
           </Typography>
+          <Hidden smUp>
+         <IconButton onClick={()=>setIsdrawer(!isdrawer)} size="small">
+         <MenuOpenIcon fontSize="small" style={{color:'#fff'}} /></IconButton>
+         </Hidden>
+
           </Box>
       <List
 
@@ -456,7 +497,7 @@ const toggleDrawer = (anchor, open) => (event) => {
        
         
           <IconButton
-            onClick = {toggleDrawer(anchor, true)}
+            onClick = {toggleDrawer(anchor, true)}            
             edge="start"
             className={classes.menuButton}
             color="inherit"
@@ -464,8 +505,13 @@ const toggleDrawer = (anchor, open) => (event) => {
             style={{border:'1px solid gray',marginLeft:`${drawerWidth-195}px`}}
             
           >
-            <MenuIcon />
+            <MenuIcon fontSize="small" />
           </IconButton>
+
+          
+
+
+
           <Hidden only={['sm', 'xs']}>
     
     
@@ -493,11 +539,25 @@ const toggleDrawer = (anchor, open) => (event) => {
                 <MailIcon />
               </Badge>
             </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
+
+           
+
+            <IconButton
+              
+              aria-label="show 17 new notifications"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              onClick={handleNotificationMenuOpen}
+              color="inherit"
+            >
               <Badge badgeContent={17} color="secondary">
                 <NotificationsIcon />
               </Badge>
+              
             </IconButton>
+
+
+
             <IconButton
               edge="end"
               aria-label="account of current user"
@@ -508,7 +568,12 @@ const toggleDrawer = (anchor, open) => (event) => {
             >
               <AccountCircle />
             </IconButton>
+
+            
+
           </div>
+
+
           <div className={classes.sectionMobile}>
             <IconButton
               aria-label="show more"
@@ -518,6 +583,7 @@ const toggleDrawer = (anchor, open) => (event) => {
               color="inherit"
             >
               <MoreIcon />
+              
             </IconButton>
           </div>
         </Toolbar>
@@ -525,6 +591,8 @@ const toggleDrawer = (anchor, open) => (event) => {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
+      
+      {renderMenuSimplelist}
      
      
       

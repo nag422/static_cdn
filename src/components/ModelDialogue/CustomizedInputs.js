@@ -98,7 +98,7 @@ const useStylesReddit = makeStyles((theme) => ({
 function RedditTextField(props) {
   const classes = useStylesReddit();
   // const { name:"formik", label:"formiklable", type : "text", required : false, textvariant:false} = props
-  console.log(props)
+  
 
   return <TextField InputProps={{ classes, disableUnderline: true }} {...props} />;
 }
@@ -146,34 +146,20 @@ export default function CustomizedInputs(props) {
   return (
     <Box className={classes.root} noValidate style={{marginTop:"1%"}}>
      
-     {props.fields.map((val,index)=>(
+     
        
    
     <RedditTextField
       variant='filled'
       required={true}
       autoComplete="off"
-      label={val.label}
-      name={'redditname'}
+      label={props.label}
+      name={props.label}
       fullWidth
       type={'text'}
-      id={`${val.label}-input`}
-      key={index}
       helperText={<ErrorMessage name={'name'} style={{color:'red'}} />}
  /> 
 
-
-    
- 
-    
-
-     ))} 
-
-    
-        
-     
-        
-      
 
       
     </Box>

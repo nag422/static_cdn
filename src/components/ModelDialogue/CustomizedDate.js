@@ -27,24 +27,21 @@ const useStyles = makeStyles((theme) => ({
 const DatePickers = (props) => {
   const classes = useStyles();
 
-  const [selectedDate, setSelectedDate] = React.useState(new Date());
-
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
+  
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
     <Box className={classes.container} pt={2}>
       <KeyboardDatePicker
           disableToolbar
+          name={props.label}
           variant="inline"
           format="MM/dd/yyyy"
           margin="normal"
           id="date-picker-inline"
           label={props.label}
-          value={selectedDate}
-          onChange={handleDateChange}
+          value={props.selectedDate}
+          onChange={props.handleDateChange}
           KeyboardButtonProps={{
             'aria-label': 'change date',
           }}

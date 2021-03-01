@@ -12,12 +12,14 @@ export default [
     {
         path: "signin",
         component: SigninFirebase,
-        exact: true
+        exact: true,
+        layout:'auth'
     },
     {
         path: "signup",
         component: SignupFirebase,
-        exact: true
+        exact: true,
+        layout:'auth'
     },
     {
         path: "dashboard",

@@ -127,6 +127,7 @@ const SigninFirebase = (props) => {
         password: "12345",
       }
       const history = props.history
+      
     dispatch(
       signinUser(
           data,

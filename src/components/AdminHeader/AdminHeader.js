@@ -398,6 +398,16 @@ const toggleDrawer = (anchor, open) => (event) => {
       </ListItem>
       </Link>
       
+      <Link to="/admin/contentadmin" style={{textDecoration:'none',color:'inherit'}}>
+      <ListItem button>
+        <ListItemIcon>
+        <MenuBookIcon />
+        </ListItemIcon>
+        <ListItemText primary="Explore Content (Admin) " />
+      </ListItem>
+      </Link>
+
+
       <Link to="/admin/content" style={{textDecoration:'none',color:'inherit'}}>
       <ListItem button>
         <ListItemIcon>

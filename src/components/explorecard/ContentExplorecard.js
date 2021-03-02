@@ -16,6 +16,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import faker from 'faker';
+import { Menu, MenuItem } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,12 +43,28 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ContentExplorecard(props) {
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
+  
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
+  const options = [
+    'None',
+    'Open',
+    'Deactive',
+    'Active',    
+    'Assign',
+    
+  ];
+
+  
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
   };
 
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   return (
     <Card className={classes.root}>
       <CardHeader
@@ -57,9 +74,30 @@ export default function ContentExplorecard(props) {
           </Avatar>
         }
         action={
-          <IconButton aria-label="settings">
+          <>
+          <IconButton aria-label="settings" onClick={handleClick} >
             <MoreVertIcon />
           </IconButton>
+          <Menu
+          id="long-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={open}
+          onClose={handleClose}
+          PaperProps={{
+            style: {
+              maxHeight: 48 * 4.5,
+              width: '20ch',
+            },
+          }}
+        >
+          {options.map((option) => (
+            <MenuItem key={option} selected={option === 'Active'} onClick={handleClose}>
+              {option}
+            </MenuItem>
+          ))}
+        </Menu>
+        </>
         }
         title={props.val.title}
         subheader={props.val.created.toLocaleString()}

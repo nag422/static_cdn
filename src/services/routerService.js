@@ -5,6 +5,7 @@ import ForgotPassword from '../container/ForgotPassword';
 import ContentRequest from '../container/ContentRequest'
 import ContentExplore from '../container/ContentExplore'
 import UsersList from '../container/UsersList'
+import ContentExploreAdmin from '../container/ContentExploreAdmin';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
@@ -39,6 +40,11 @@ export default [
     {
         path: "content",
         component: ContentExplore,
+        exact: true
+    },
+    {
+        path: "contentadmin",
+        component: ContentExploreAdmin,
         exact: true
     },
     {

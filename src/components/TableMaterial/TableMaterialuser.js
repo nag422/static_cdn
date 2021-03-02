@@ -21,24 +21,61 @@ import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import faker from 'faker';
+import axios from 'axios';
+import ConfirmModel from '../ModelDialogue/ConfirmModel'
+import { Button } from '@material-ui/core';
+import CreateIcon from '@material-ui/icons/Create';
 function createData(id,role, category, name, email, created) {
   return { id,role, category, name, email, created };
+}
+const url = "http://127.0.0.1:8000/"
+
+const getCookie = (name) => {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      // Does this cookie string begin with the name we want?
+      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+const config = {
+  headers: {
+      'content-type': 'multipart/form-data',          
+      'X-CSRFToken': getCookie('csrftoken')
+  }
 }
 
 
 
 
 
-const rows = [
-  createData(1,'Admin', 'Producer',faker.name.findName(),faker.internet.email(), faker.date.future().toLocaleString()),
-  createData(2,'User','Creator',faker.name.findName(),faker.internet.email(),   faker.date.future().toLocaleString()),
-  createData(3,'User','Hybrid',faker.name.findName(),faker.internet.email(),  faker.date.future().toLocaleString()),
-  createData(4,'Admin','Hybrid',faker.name.findName(),faker.internet.email(),   faker.date.future().toLocaleString()),
-  createData(5,'Admin','Hybrid',faker.name.findName(),faker.internet.email(),   faker.date.future().toLocaleString()),
-  createData(6,'Admin','Hybrid',faker.name.findName(),faker.internet.email(),   faker.date.future().toLocaleString()),
-  createData(7,'Admin','Hybrid',faker.name.findName(),faker.internet.email(),   faker.date.future().toLocaleString()),
+
+
+
+
+// const rows = [
+//   createData(1,'Admin', 'Producer',faker.name.findName(),faker.internet.email(), faker.date.future().toLocaleString()),
+//   createData(2,'User','Creator',faker.name.findName(),faker.internet.email(),   faker.date.future().toLocaleString()),
+//   createData(3,'User','Hybrid',faker.name.findName(),faker.internet.email(),  faker.date.future().toLocaleString()),
+//   createData(4,'Admin','Hybrid',faker.name.findName(),faker.internet.email(),   faker.date.future().toLocaleString()),
+//   createData(5,'Admin','Hybrid',faker.name.findName(),faker.internet.email(),   faker.date.future().toLocaleString()),
+//   createData(6,'Admin','Hybrid',faker.name.findName(),faker.internet.email(),   faker.date.future().toLocaleString()),
+//   createData(7,'Admin','Hybrid',faker.name.findName(),faker.internet.email(),   faker.date.future().toLocaleString()),
   
-];
+// ];
+
+
+
+
+
+
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -72,6 +109,7 @@ const headCells = [
   { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
   { id: 'email', numeric: false, disablePadding: false, label: 'Email' },
   { id: 'created', numeric: false, disablePadding: false, label: 'Created' },
+  
 ];
 
 function EnhancedTableHead(props) {
@@ -79,6 +117,9 @@ function EnhancedTableHead(props) {
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
+
+ 
+
 
   return (
     <TableHead>
@@ -169,15 +210,22 @@ const EnhancedTableToolbar = (props) => {
       )}
 
       {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton aria-label="delete">
-            <DeleteIcon />
+        <>
+        <Tooltip title="Edit">
+          <IconButton aria-label="edit">
+            <CreateIcon />            
           </IconButton>
         </Tooltip>
+        <Tooltip title="Delete">
+          <IconButton aria-label="delete" onClick={props.deleteUsersclick}>
+            <DeleteIcon />            
+          </IconButton>
+        </Tooltip>
+        </>
       ) : (
         <Tooltip title="Filter list">
-          <IconButton aria-label="filter list">
-            <FilterListIcon />
+          <IconButton aria-label="filter list" onClick = {props.handleClickOpen}>
+            <FilterListIcon />            
           </IconButton>
         </Tooltip>
       )}
@@ -221,6 +269,80 @@ export default function TableMaterialuser() {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [queryfromodel, setQueryfromodel] = React.useState('');
+
+      // backend operations
+
+    const [rows,setRows] = React.useState([])
+    
+    const [modelopen, setModelopen] = React.useState(false);
+
+      const handleClickOpen = () => {
+        setModelopen(true);
+      };
+
+      const handleClose = () => {
+        setModelopen(false);
+      };
+
+    const getallusers = async() => {
+      axios.get(url+'auth/admin/saveuser/',config).then(res=>{
+        if(!res.data.error){
+            
+          setRows(res.data.GETmethodData)
+          
+        }
+    }).catch(err=>{
+        
+        alert(err.message)
+        
+    })
+    }
+
+    React.useEffect(() => {
+      getallusers()
+    }, [])
+
+    const handleSearchsubmit = async (e) => {
+
+        setModelopen(false)
+        axios.get(url+'auth/admin/getsingleuser/?username='+(queryfromodel),config).then(res=>{
+          if(!res.data.error){
+              
+            setRows(res.data.GETmethodData)
+            
+          }
+      }).catch(err=>{
+          
+          alert(err.message)
+          
+      })
+      
+
+    }
+
+    const deleteUsers = async () => {
+
+      const form_data = new FormData();
+      form_data.append('itemlist',selected)
+      
+        axios.post(url+'auth/admin/deleteusers/',form_data,config).then(res=>{
+          if(!res.data.error){
+              
+            alert('Successfully Deleted')
+            
+          }
+      }).catch(err=>{
+          
+          alert(err.message)
+          
+      })
+
+    }
+
+
+    // backedn operations
+  
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -274,8 +396,9 @@ export default function TableMaterialuser() {
 
   return (
     <div className={classes.root}>
+      <ConfirmModel setQueryfromodel = {setQueryfromodel} modelopen={modelopen} handleSearchsubmit={handleSearchsubmit} handleClickOpen={handleClickOpen} handleClose={handleClose} />
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar deleteUsersclick={deleteUsers} numSelected={selected.length} handleClickOpen={handleClickOpen} />
         <TableContainer>
           <Table
             className={classes.table}
@@ -316,13 +439,14 @@ export default function TableMaterialuser() {
                         />
                       </TableCell>
                       <TableCell component="th" id={labelId} scope="row" padding="none">
-                        {row.role}
+                        {row.is_staff?row.is_superuser? 'Superuser':'Admin':'User'}
                       </TableCell>
                       {/* <TableCell align="left">{row.role}</TableCell> */}
-                      <TableCell align="left">{row.category}</TableCell>
-                      <TableCell align="left">{row.name}</TableCell>
-                      <TableCell align="left">{row.email}</TableCell>
-                      <TableCell align="left">{row.created}</TableCell>
+                      <TableCell align="left">{row.content?row.content:'-------'}</TableCell>
+                      <TableCell align="left">{row.username}</TableCell>
+                      <TableCell align="left">{row.email?row.email:'-----------'}</TableCell>
+                      <TableCell align="left">{row.date_joined}</TableCell>
+                     
                     </TableRow>
                   );
                 })}

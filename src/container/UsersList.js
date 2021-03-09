@@ -1,4 +1,4 @@
-import { Box, Button, Card, FormControl, Grid, InputLabel, MenuItem, TextField, Typography } from '@material-ui/core'
+import { Box, Button, Card, CardContent, FormControl, Grid, InputLabel, MenuItem, TextField, Typography } from '@material-ui/core'
 import React from 'react'
 import CustomizedInputs from '../components/ModelDialogue/CustomizedInputs'
 import SelectFieldCustom from '../components/SelectFieldCustom/SelectFieldCustom'
@@ -45,14 +45,16 @@ const useStyles = makeStyles((theme) => ({
 const UsersList = () => {
     
     const calsses = useStyles();
-    const [usercategory,setUsercategory] =  React.useState('')
-    const [usertype,setUsertype] =  React.useState('')
+    const [usercategory,setUsercategory] =  React.useState('creator')
+    const [usertype,setUsertype] =  React.useState('user')
     const [productlistvalue,setProductlistvalue] =  React.useState('')
     const [userlist,setUserlist] =  React.useState('')
+    const [usergroup,setUsergroup] =  React.useState('')
     const [open,setOpen] =  React.useState(false)
     const [usercreatedmessage,setUsercreatedmessage] =  React.useState('')
     const [alertseverity,setAlertseverity] =  React.useState('success')
     const [userslistdata,setUserslistdata] =  React.useState([])
+    const [usersgroupdata,setUsersgroupdata] =  React.useState([])
     const [productlistdata,setProductlistdata] =  React.useState([])
     
     
@@ -125,12 +127,36 @@ const UsersList = () => {
           
       })
       }
+
+
+       // Users
+
+     const getallgroups = async() => {
+        const config = {
+            headers: {
+                'content-type': 'application/json',          
+                'X-CSRFToken': getCookie('csrftoken')
+            }
+          }
+        axios.get(url+'admin/getallgroups/',config).then(res=>{
+          if(!res.data.error){
+              
+            setUsersgroupdata(res.data.groups)            
+            
+            
+          }
+      }).catch(err=>{
+          
+          alert(err.message)
+          
+      })
+      }
   
       React.useEffect(() => {
         getalluserss()
-        
+        getallgroups()
         return () => {
-
+            
         }
       }, [])
       React.useEffect(() => {
@@ -329,61 +355,78 @@ const getCookie = (name) => {
                     <Card style={{ height: '100%' }}>
                         <Box p={1}>
                             <Typography>
-                                Create Notification
+                                Create Assign
                             </Typography>
                         </Box>
-                        <Box p={1}>
-                        <FormControl fullWidth>
-                                <InputLabel id="userlist">Category</InputLabel>
-                                <Select
-                                    labelId="userlist"
-                                    id="userlist"
-                                    variant="outlined"
-                                    name="userlist"
-                                    style={{marginTop:'30px'}}
-                                    value={userlist}
-                                    onChange={onhandleChangecategory}
-                                    
-                                    
+                       
+                        <Box p={2} className={calsses.root}>
+                            
 
-                                >
-                                    <MenuItem value={""}>Choose User</MenuItem>
+
+
+                            <FormControl fullWidth>
+                            <InputLabel  id="userlist">Users</InputLabel>
+
+                            <Select
+                                labelId="userlist"
+                                id="userlist"
+                                variant="outlined"
+                                name="userlist"
+                                value={userlist}                                    
+                                // style={{marginTop:'30px'}}
+                                onChange={(e) => setUserlist(e.target.value)}
+                                
+
+                            >
+                               <MenuItem value="">Choose User</MenuItem>
                                     {userslistdata.map((val,index) => {
                                         return <MenuItem key={val.id} value={val.id}>{val.username}</MenuItem>
                                     })}
-                                    
-                                    
-                                    
-                                    
-                                </Select>
-                                </FormControl>
-                                <br></br>
-                                <FormControl fullWidth>
-                                <InputLabel id="productlist">Products</InputLabel>
-                                <Select
-                                    labelId="productlist"
-                                    id="productlist"
-                                    variant="outlined"
-                                    name="productlist"
-                                    style={{marginTop:'30px'}}
-                                    value={productlistvalue}
-                                    onChange={(e) => setProductlistvalue(e.target.value)}
-                                 
-                                >
-                                    <MenuItem value={""}>Choose Product</MenuItem>
+                            </Select>
+                            </FormControl>
+
+
+                            <br></br>
+                            <FormControl fullWidth  style={{marginTop:'30px'}}>
+                            <InputLabel shrink={true} id="productlist">Products</InputLabel>
+                            <Select
+                                labelId="productlist"
+                                id="productlist"
+                                variant="outlined"
+                                name="productlist"
+                               
+                                value={productlistvalue}
+                                
+                                onChange={(e) => setProductlistvalue(e.target.value)}
+                                
+                                
+
+                            >
+                                <MenuItem value="">Choose Product</MenuItem>
                                     {productlistdata.map((val,index) => {
                                          return <MenuItem key={val.id} value={val.id}>{val.title}</MenuItem>
                                     })}
-                                   
-                                    
-                                    
-                                    
-                                    
-                                </Select>
-                                </FormControl>
-                                <br></br>
-                                <Button style={{top:'20px'}} color="primary" variant="contained">Assign</Button>
-                        </Box>
+                                
+                            </Select>
+                            </FormControl>
+                            <br></br>
+
+
+                            <Box pl={1} pt={2}>
+                                <Button
+
+                                    type="button" onClick={handleSubmit} color="primary" variant="contained">Create</Button>
+                            </Box>
+                        
+
+
+
+
+
+
+
+                    </Box>
+                       
                     </Card>
 
 
@@ -392,6 +435,26 @@ const getCookie = (name) => {
             </Grid>
             <Grid container>
                 <Grid item md={12} xs={12} sm={12}>
+                <FormControl fullWidth>
+                            <InputLabel  id="usergroup">Groups</InputLabel>
+
+                            <Select
+                                labelId="usergroup"
+                                id="usergroup"
+                                variant="outlined"
+                                name="usergroup"
+                                value={usergroup}                                    
+                                // style={{marginTop:'30px'}}
+                                onChange={(e) => setUsergroup(e.target.value)}
+                                
+
+                            >
+                               <MenuItem value="">Choose Group</MenuItem>
+                                    {usersgroupdata.map((val,index) => {
+                                        return <MenuItem key={val.id} value={val.id}>{val.groupname}({val.rule})</MenuItem>
+                                    })}
+                            </Select>
+                            </FormControl>
                     <TableMaterialuser />
                 </Grid>
             </Grid>

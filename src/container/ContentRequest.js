@@ -9,9 +9,11 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { useSelector, useDispatch } from 'react-redux';
 import FormikField from "../components/formikcontrol/FormikField";
-import { saveProduct,requestProduct } from '../actions'
+import { saveProduct, requestProduct } from '../actions'
 import Fileuploadbutton from '../components/button/Fileuploadbutton'
 import BackupIcon from '@material-ui/icons/Backup';
+
+
 
 const creatorSchema = Yup.object().shape({
     title: Yup.string()
@@ -50,7 +52,7 @@ const initialValues = {
 };
 const initialcreatorValues = {
     title: ""
-    
+
 };
 const ContentRequest = (props) => {
     const [fields, setFields] = React.useState([{ label: 'Cost' }])
@@ -62,7 +64,7 @@ const ContentRequest = (props) => {
     const [selectedDate, setSelectedDate] = React.useState(new Date());
     const [selectedCategory, setSelectedCategory] = React.useState('');
 
-    const [authortype,setAuthortype] = React.useState('producer')
+    const [authortype, setAuthortype] = React.useState('creator')
     const [selectedfile, setSelectedfile] = React.useState({
         thumbnail: '',
         video: ''
@@ -76,41 +78,41 @@ const ContentRequest = (props) => {
 
     const onCreatorrequestSave = async (values) => {
         const history = props.history
-        
+
         const finvalues = {
-            ...values, 
-            author_type:'producer',
+            ...values,
+            author_type: 'producer',
             category: selectedCategory
-            
+
         }
-        
-        return dispatch( 
+
+        return dispatch(
             requestProduct(
                 finvalues,
                 history
             )
-          );
-        
+        );
+
     };
 
     const onCreatorrequestProducerSave = async (values) => {
         console.log('submitting');
         const history = props.history
-        
-         const finvalues = {
-            ...values, 
-            author_type:'producer',
+
+        const finvalues = {
+            ...values,
+            author_type: 'producer',
             category: selectedCategory
-            
+
         }
-        
-        return dispatch( 
+
+        return dispatch(
             requestProduct(
                 finvalues,
                 history
             )
-          );
-        
+        );
+
     };
 
     const onProductSave = async (values) => {
@@ -123,29 +125,32 @@ const ContentRequest = (props) => {
             category: selectedCategory,
             createdat: selectedDate
         }
-        
-        return dispatch( 
+
+        return dispatch(
             saveProduct(
                 finvalues,
                 history
             )
-          );
+        );
 
 
 
     };
 
+
+   
+
     React.useEffect(() => {
-        if (response.isproductsaved){
+        if (response.isproductsaved) {
             alert('Saved')
-        }else if(response.isproductsaved != null && !response.isproductsaved){
+        } else if (response.isproductsaved != null && !response.isproductsaved) {
             alert('Fail')
         }
-         
+
         return () => {
 
         }
-        
+
     }, [response.isproductsaved])
 
     const handleDateChange = (date) => {
@@ -173,18 +178,18 @@ const ContentRequest = (props) => {
 
     return (
         <div>
-            {authortype == "creator" ? 
-            <Grid container spacing={1}>
-                
-                <Grid item md={6} sm={12} xs={12}>
-                    <Card>
-                        <Box p={1}>
-                            <Typography>
-                                Requirements (Creator)
+            {authortype == "creator" ?
+                <Grid container spacing={1}>
+
+                    <Grid item md={6} sm={12} xs={12}>
+                        <Card>
+                            <Box p={1}>
+                                <Typography>
+                                    Requirements (Creator)
                    </Typography>
-                        </Box>
-                        <Box p={2}>
-                            <Formik
+                            </Box>
+                            <Box p={2}>
+                                <Formik
                                     initialValues={initialcreatorValues}
                                     onSubmit={onCreatorrequestSave}
                                     validationSchema={creatorequestschema}
@@ -192,170 +197,170 @@ const ContentRequest = (props) => {
                                     {({ dirty, isValid }) => {
                                         return (
                                             <Form>
-                                        <FormikField
-                                                name="title"
-                                                label="title"
-                                                type="text"
-                                                required
-                                                textvariant="filled"
-                                            />
-                                            <CustomizedSelect
-                                                fieldname={'Type'}
-                                                label="category"
-                                                handlecategoryChange={handlecategoryChange}
-                                                selectedCategory={selectedCategory}
-                                            />
-                                <Box pl={1} pt={2}>
-                                <Button 
-                                disabled={!dirty || !isValid}
-                                type="submit" color="primary" variant="contained">Submit</Button>
-                                </Box>
-                            
-                                </Form>
+                                                <FormikField
+                                                    name="title"
+                                                    label="title"
+                                                    type="text"
+                                                    required
+                                                    textvariant="outlined"
+                                                />
+                                                <CustomizedSelect
+                                                    fieldname={'Type'}
+                                                    label="category"
+                                                    handlecategoryChange={handlecategoryChange}
+                                                    selectedCategory={selectedCategory}
+                                                />
+                                                <Box pl={1} pt={2}>
+                                                    <Button
+                                                        disabled={!dirty || !isValid}
+                                                        type="submit" color="primary" variant="contained">Submit</Button>
+                                                </Box>
+
+                                            </Form>
                                         );
                                     }}
                                 </Formik>
-                        </Box>
-                    </Card>
-                </Grid>
+                            </Box>
+                        </Card>
+                    </Grid>
 
-               
-                <Grid item md={6} sm={12} xs={12}>
-                    <Card>
-                        <Box p={1}>
-                            <Typography>
-                                Submit Content (Creator)
+
+                    <Grid item md={6} sm={12} xs={12}>
+                        <Card>
+                            <Box p={1}>
+                                <Typography>
+                                    Submit Content (Creator)
                    </Typography>
-                        </Box>
-                        <Box p={2}>
-                            <Formik
-                                initialValues={initialValues}
-                                onSubmit={onProductSave}
-                                validationSchema={creatorSchema}
-                            >
-                                {({ dirty, isValid }) => {
-                                    return (
-                                        <Form>
-                                            <FormikField
-                                                name="title"
-                                                label="title"
-                                                type="text"
-                                                required
-                                                textvariant="filled"
-                                            />
-                                            <FormikField
-                                                name="description"
-                                                label="description"
-                                                type="text"
-                                                required
-                                                textvariant="filled"
-                                            />
-                                            <FormikField
-                                                name="rights"
-                                                label="rights"
-                                                type="text"
-                                                required
-                                                textvariant="filled"
-                                                style={{ backgroundColor: "#fff" }}
+                            </Box>
+                            <Box p={2}>
+                                <Formik
+                                    initialValues={initialValues}
+                                    onSubmit={onProductSave}
+                                    validationSchema={creatorSchema}
+                                >
+                                    {({ dirty, isValid }) => {
+                                        return (
+                                            <Form>
+                                                <FormikField
+                                                    name="title"
+                                                    label="title"
+                                                    type="text"
+                                                    required
+                                                    textvariant="outlined"
+                                                />
+                                                <FormikField
+                                                    name="description"
+                                                    label="description"
+                                                    type="text"
+                                                    required
+                                                    textvariant="outlined"
+                                                />
+                                                <FormikField
+                                                    name="rights"
+                                                    label="rights"
+                                                    type="text"
+                                                    required
+                                                    textvariant="outlined"
+                                                    style={{ backgroundColor: "#fff" }}
 
 
-                                            />
-                                            <FormikField
-                                                name="castncrew"
-                                                label="castncrew"
-                                                type="text"
-                                                required
-                                                textvariant="filled"
-                                            />
-                                            <FormikField
-                                                name="price"
-                                                label="price"
-                                                type="text"
-                                                required
-                                                textvariant="filled"
-                                            />
-                                            {/* <Input type="file" id="thumbnail" name="thumbnail" onChange={handlefileChange}></Input>
+                                                />
+                                                <FormikField
+                                                    name="castncrew"
+                                                    label="castncrew"
+                                                    type="text"
+                                                    required
+                                                    textvariant="outlined"
+                                                />
+                                                <FormikField
+                                                    name="price"
+                                                    label="price"
+                                                    type="text"
+                                                    required
+                                                    textvariant="outlined"
+                                                />
+                                                {/* <Input type="file" id="thumbnail" name="thumbnail" onChange={handlefileChange}></Input>
                                                  <Input type="file" id="video" name="video" onChange={handlefileChange}></Input> */}
 
 
-                                            <div>
-                                                <input
-                                                    accept="image/*"
-                                                    style={{ display: 'none' }}
-                                                    id="thumbnail"
-                                                    name="thumbnail"
-                                                    type="file"
-                                                    onChange={handlefileChange}
-                                                />
-                                                <label htmlFor="thumbnail">
-                                                    <Button variant="contained" color="primary" component="span">
-                                                        Upload Thumbnail &nbsp;<BackupIcon />
+                                                <div>
+                                                    <input
+                                                        accept="image/*"
+                                                        style={{ display: 'none' }}
+                                                        id="thumbnail"
+                                                        name="thumbnail"
+                                                        type="file"
+                                                        onChange={handlefileChange}
+                                                    />
+                                                    <label htmlFor="thumbnail">
+                                                        <Button variant="contained" color="primary" component="span">
+                                                            Upload Thumbnail &nbsp;<BackupIcon />
                                                         </Button>
-                                                </label>
-                                                {JSON.stringify(selectedfile.thumbnail.name)}
-                                            </div>
-                                            <br></br>
-                                            <div>
-                                                <Input
-                                                    accept="video/*"
-                                                    style={{ display: 'none' }}
-                                                    id="video"
-                                                    name="video"
-                                                    type="file"
-                                                    onChange={handlefileChange}
-                                                />
-                                                <label htmlFor="video">
-                                                    <Button variant="contained" color="primary" component="span">
-                                                        Upload Video &nbsp;<BackupIcon />
+                                                    </label>
+                                                    {JSON.stringify(selectedfile.thumbnail.name)}
+                                                </div>
+                                                <br></br>
+                                                <div>
+                                                    <Input
+                                                        accept="video/*"
+                                                        style={{ display: 'none' }}
+                                                        id="video"
+                                                        name="video"
+                                                        type="file"
+                                                        onChange={handlefileChange}
+                                                    />
+                                                    <label htmlFor="video">
+                                                        <Button variant="contained" color="primary" component="span">
+                                                            Upload Video &nbsp;<BackupIcon />
                                                         </Button>
-                                                </label>
-                                                {JSON.stringify(selectedfile.video.name)}
-                                            </div>
+                                                    </label>
+                                                    {JSON.stringify(selectedfile.video.name)}
+                                                </div>
 
-                                            <CustomizedSelect
-                                                fieldname={'Type'}
-                                                label="category"
-                                                handlecategoryChange={handlecategoryChange}
-                                                selectedCategory={selectedCategory}
-                                            />
+                                                <CustomizedSelect
+                                                    fieldname={'Type'}
+                                                    label="category"
+                                                    handlecategoryChange={handlecategoryChange}
+                                                    selectedCategory={selectedCategory}
+                                                />
 
-                                            {/* <CustomizedDate
+                                                {/* <CustomizedDate
                                                 label="createdat"
                                                 handleDateChange={handleDateChange}
                                                 selectedDate={selectedDate}
                                             /> */}
 
-                                            <Box pl={1} pt={2}>
-                                                <Button type="submit" color="primary" variant="contained"
-                                                    disabled={!dirty || !isValid}
-                                                >Submit</Button>
-                                            </Box>
+                                                <Box pl={1} pt={2}>
+                                                    <Button type="submit" color="primary" variant="contained"
+                                                        disabled={!dirty || !isValid}
+                                                    >Submit</Button>
+                                                </Box>
 
 
 
-                                        </Form>
-                                    );
-                                }}
-                            </Formik>
-                        </Box>
-                    </Card>
+                                            </Form>
+                                        );
+                                    }}
+                                </Formik>
+                            </Box>
+                        </Card>
+                    </Grid>
+
+
                 </Grid>
 
+                :
+                <Grid container spacing={1}>
 
-            </Grid>
-
-            :
-            <Grid container spacing={1}>
-
-<Grid item md={6} sm={12} xs={12}>
-                    <Card>
-                        <Box p={1}>
-                            <Typography>
-                                Requirements (Producer)
+                    <Grid item md={6} sm={12} xs={12}>
+                        <Card>
+                            <Box p={1}>
+                                <Typography>
+                                    Requirements (Producer)
                    </Typography>
-                        </Box>
-                        <Box p={2}>
-                            <Formik
+                            </Box>
+                            <Box p={2}>
+                                <Formik
                                     initialValues={initialcreatorValues}
                                     onSubmit={onCreatorrequestProducerSave}
                                     validationSchema={creatorequestschema}
@@ -363,37 +368,37 @@ const ContentRequest = (props) => {
                                     {({ dirty, isValid }) => {
                                         return (
                                             <Form>
-                                        <FormikField
-                                                name="title"
-                                                label="title"
-                                                type="text"
-                                                required
-                                                textvariant="filled"
-                                            />
-                                            <CustomizedSelect
-                                                fieldname={'Type'}
-                                                label="category"
-                                                handlecategoryChange={handlecategoryChange}
-                                                selectedCategory={selectedCategory}
-                                            />
-                                <Box pl={1} pt={2}>
-                                <Button 
-                                disabled={!dirty || !isValid}
-                                type="submit" color="primary" variant="contained">Submit</Button>
-                                </Box>
-                            
-                                </Form>
+                                                <FormikField
+                                                    name="title"
+                                                    label="title"
+                                                    type="text"
+                                                    required
+                                                    textvariant="outlined"
+                                                />
+                                                <CustomizedSelect
+                                                    fieldname={'Type'}
+                                                    label="category"
+                                                    handlecategoryChange={handlecategoryChange}
+                                                    selectedCategory={selectedCategory}
+                                                />
+                                                <Box pl={1} pt={2}>
+                                                    <Button
+                                                        disabled={!dirty || !isValid}
+                                                        type="submit" color="primary" variant="contained">Submit</Button>
+                                                </Box>
+
+                                            </Form>
                                         );
                                     }}
                                 </Formik>
-                        </Box>
-                    </Card>
+                            </Box>
+                        </Card>
+                    </Grid>
+
+
                 </Grid>
 
 
-            </Grid>
-            
-            
             }
 
             <br></br>

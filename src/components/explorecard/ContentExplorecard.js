@@ -15,7 +15,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import faker from 'faker';
+import LocalMallIcon from '@material-ui/icons/LocalMall';
 import { Menu, MenuItem } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -43,18 +43,20 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ContentExplorecard(props) {
   const classes = useStyles();
-  
+
+ 
+
 
   const options = [
     'None',
     'Open',
     'Deactive',
-    'Active',    
+    'Active',
     'Assign',
-    
+
   ];
 
-  
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -75,29 +77,29 @@ export default function ContentExplorecard(props) {
         }
         action={
           <>
-          <IconButton aria-label="settings" onClick={handleClick} >
-            <MoreVertIcon />
-          </IconButton>
-          <Menu
-          id="long-menu"
-          anchorEl={anchorEl}
-          keepMounted
-          open={open}
-          onClose={handleClose}
-          PaperProps={{
-            style: {
-              maxHeight: 48 * 4.5,
-              width: '20ch',
-            },
-          }}
-        >
-          {options.map((option) => (
-            <MenuItem key={option} selected={option === 'Active'} onClick={handleClose}>
-              {option}
-            </MenuItem>
-          ))}
-        </Menu>
-        </>
+            <IconButton aria-label="settings" onClick={handleClick} >
+              <MoreVertIcon />
+            </IconButton>
+            <Menu
+              id="long-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={open}
+              onClose={handleClose}
+              PaperProps={{
+                style: {
+                  maxHeight: 48 * 4.5,
+                  width: '20ch',
+                },
+              }}
+            >
+              {options.map((option) => (
+                <MenuItem key={option} selected={option === 'Active'} onClick={handleClose}>
+                  {option}
+                </MenuItem>
+              ))}
+            </Menu>
+          </>
         }
         title={props.val.title}
         subheader={props.val.created.toLocaleString()}
@@ -113,15 +115,15 @@ export default function ContentExplorecard(props) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
+        <IconButton color={props.val.isliked?'primary':'secondary'} aria-label="add to favorites" onClick={(e) => props.likefun(e,props.val.id)}>
           <FavoriteIcon />
         </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
+        <IconButton aria-label="share" color={props.val.isfavored?'primary':'secondary'} onClick={(e) => props.interestfun(e,props.val.id)}>
+          <LocalMallIcon />
         </IconButton>
-       
+
       </CardActions>
-      
+
     </Card>
   );
 }

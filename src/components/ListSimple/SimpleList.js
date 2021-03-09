@@ -1,5 +1,4 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
@@ -8,22 +7,15 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%',
-    maxWidth: '36ch',
-    backgroundColor: theme.palette.background.paper,
-  },
-  inline: {
-    display: 'inline',
-  },
-}));
 
-export default function SimpleList() {
-  const classes = useStyles();
+
+const SimpleList = React.forwardRef((props,ref) => {
+ 
 
   return (
-    <List className={classes.root}>
+    <div>
+    <List style={{width: '100%',
+    maxWidth: '36ch'}}>
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
           <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
@@ -35,7 +27,7 @@ export default function SimpleList() {
               <Typography
                 component="span"
                 variant="body2"
-                className={classes.inline}
+                style={{display:'inline'}}
                 color="textPrimary"
               >
                 Ali Connors
@@ -57,7 +49,7 @@ export default function SimpleList() {
               <Typography
                 component="span"
                 variant="body2"
-                className={classes.inline}
+                style={{display:'inline'}}
                 color="textPrimary"
               >
                 to Scott, Alex, Jennifer
@@ -79,7 +71,7 @@ export default function SimpleList() {
               <Typography
                 component="span"
                 variant="body2"
-                className={classes.inline}
+                style={{display:'inline'}}
                 color="textPrimary"
               >
                 Sandra Adams
@@ -90,5 +82,7 @@ export default function SimpleList() {
         />
       </ListItem>
     </List>
+    </div>
   );
-}
+})
+export default SimpleList;

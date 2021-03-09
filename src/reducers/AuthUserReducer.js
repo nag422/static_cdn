@@ -27,7 +27,8 @@ const INIT_STATE = {
     //     : null,
     access_token: localStorage.getItem("access_token"),
     loading: false,
-    user: null
+    user: null,
+    thememode:'dark'
 };
 
 

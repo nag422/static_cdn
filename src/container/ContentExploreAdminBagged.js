@@ -5,19 +5,19 @@ import Pagination from '@material-ui/lab/Pagination';
 
 import * as apirequest from './api/api';
 
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 
 
-const ContentExploreAdmin = () => {    
+const ContentExploreAdminBagged = () => {    
     
-    const response = useSelector((state) => state.productSave);
+    // const response = useSelector((state) => state.productSave);
     const [allproducts,setAllproducts] = useState([])    
     const [pageNumber, setPageNumber] = useState(1)
 
     useEffect(() => {
         const setprod = async() =>{
 
-            const allprod = await apirequest.getallproducts({'pageNumber':pageNumber})
+            const allprod = await apirequest.getallbaggedproducts({'pageNumber':pageNumber})
             
             setAllproducts(allprod)
 
@@ -29,9 +29,9 @@ const ContentExploreAdmin = () => {
     }, [pageNumber])
 
 
-    useEffect(() => {
-        setAllproducts(response.products)
-    }, [])
+    // useEffect(() => {
+    //     setAllproducts(response.products)
+    // }, [])
     
 
     return (
@@ -51,4 +51,4 @@ const ContentExploreAdmin = () => {
     )
 }
 
-export default ContentExploreAdmin
+export default ContentExploreAdminBagged

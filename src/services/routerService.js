@@ -6,6 +6,10 @@ import ContentRequest from '../container/ContentRequest'
 import ContentExplore from '../container/ContentExplore'
 import UsersList from '../container/UsersList'
 import ContentExploreAdmin from '../container/ContentExploreAdmin';
+import Profile from '../container/Profile';
+import UserGroups from '../container/UserGroups';
+import ContentExploreFavorite from '../container/ContentExploreFavorite';
+import ContentExploreAdminBagged from '../container/ContentExploreAdminBagged';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
@@ -33,8 +37,18 @@ export default [
         exact: true
     },
     {
+        path: "groups",
+        component: UserGroups,
+        exact: true
+    },
+    {
         path: "reset",
         component: ForgotPassword,
+        exact: true
+    },
+    {
+        path: "profile",
+        component: Profile,
         exact: true
     },
     {
@@ -48,9 +62,19 @@ export default [
         exact: true
     },
     {
+        path: "favorite",
+        component: ContentExploreFavorite,
+        exact: true
+    },
+    {
+        path: "bagged",
+        component: ContentExploreAdminBagged,
+        exact: true
+    },
+    {
         path: "contentrequest",
         component: ContentRequest,
         exact: true
-    },
+    }
     
 ];

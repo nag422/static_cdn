@@ -11,7 +11,32 @@ import AdminHeader from '../components/AdminHeader/AdminHeader'
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import { Grid, Box, Container, Typography } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+import { createMuiTheme, ThemeProvider, withStyles } from '@material-ui/core/styles';
+
+import { amber } from '@material-ui/core/colors';
+
+
+const theme = createMuiTheme({
+    palette: {
+        primary: {
+            light: '#1282a2',
+            main: '#034078',
+            dark: '#0a1128',
+            contrastText: '#fff',
+          },
+          secondary: {
+            light: '#598392',
+            main: amber[500],
+            dark: amber[800],
+            contrastText: '#000',
+          },
+      
+    },
+    typography:{
+        fontFamily: "Lato, sans-serif"
+    }
+  });
+
 
 const styles = {
     root: {
@@ -38,6 +63,8 @@ class AdminLayout extends Component {
     
 
     }
+
+    
     
     sidebardrawer =()=>{
         this.setState({issidebar: !this.state.issidebar});
@@ -52,6 +79,7 @@ class AdminLayout extends Component {
         
         return (
             <>
+            <ThemeProvider theme={theme}>
             <CssBaseline />
             <AdminHeader sidebardrawer={this.sidebardrawer} />
             <Box style={{marginLeft:width,marginRight:15,overflow:'hidden',marginTop:100,flexGrow:1}}>
@@ -72,6 +100,7 @@ class AdminLayout extends Component {
                 </Switch>
 
                 </Box>
+                </ThemeProvider>
             </>
         )
     }

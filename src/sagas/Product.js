@@ -98,16 +98,26 @@ function* addProductwithApi({ payload }) {
     
     
     
-    console.log("consoling here in saga: ", payload.history);
+    console.log("consoling here in product success saga: ", payload.history);
     const saveProductResponse = yield call(
       addProductwithApiRequest,
         payload
       );
      
       if (saveProductResponse === 200){
-      yield put(saveProductSuccess(payload.values));
+      yield put({
+        type:SAVE_PRODUCT_SUCCESS,
+        payload:payload.values
+    });
+
+
+
+      
     }else{
-      yield put(saveProductFail(payload.values));
+      yield put({
+        type:SAVE_PRODUCT_FAIL,
+        payload:payload.values
+    });
     }
 }
 

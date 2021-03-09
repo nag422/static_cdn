@@ -42,7 +42,10 @@ import { Box, Collapse, ListSubheader, Paper } from '@material-ui/core';
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import { Link } from 'react-router-dom';
 import SimpleList from '../ListSimple/SimpleList'
-
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import GroupWorkIcon from '@material-ui/icons/GroupWork';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import LocalMallIcon from '@material-ui/icons/LocalMall';
 // Side Drawer
 
 const drawerWidth = 250;
@@ -251,7 +254,7 @@ const AdminHeader = (props)=> {
 
   const handle = useFullScreenHandle();
   
-
+  const myref = React.useRef()
 //   Side Drawer
 
 const toggleDrawer = (anchor, open) => (event) => {
@@ -286,6 +289,7 @@ const toggleDrawer = (anchor, open) => (event) => {
   );
 
   const renderMenuSimplelist = (
+    <>
     <Menu
       style={{top:40}}
       anchorEl={notifyanchorEl}
@@ -297,11 +301,14 @@ const toggleDrawer = (anchor, open) => (event) => {
       onClose={handleNotifyClose}
       elevation={1}
     >
-      {/* <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Logout</MenuItem> */}
-      <SimpleList />
+      
+      {/* <MenuItem onClick={handleMenuClose}><SimpleList /></MenuItem> */}
+      
+      <SimpleList ref={myref} />
+      
     </Menu>
+    
+    </>
   );
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
@@ -397,6 +404,22 @@ const toggleDrawer = (anchor, open) => (event) => {
         <ListItemText primary="Users" />
       </ListItem>
       </Link>
+      <Link to="/admin/groups" style={{textDecoration:'none',color:'inherit'}}>
+      <ListItem button>
+        <ListItemIcon>
+        <GroupWorkIcon />
+        </ListItemIcon>
+        <ListItemText primary="Groups" />
+      </ListItem>
+      </Link>
+      <Link to="/admin/profile" style={{textDecoration:'none',color:'inherit'}}>
+      <ListItem button>
+        <ListItemIcon>
+        <AccountCircleIcon />
+        </ListItemIcon>
+        <ListItemText primary="Profile" />
+      </ListItem>
+      </Link>
       
       <Link to="/admin/contentadmin" style={{textDecoration:'none',color:'inherit'}}>
       <ListItem button>
@@ -414,6 +437,24 @@ const toggleDrawer = (anchor, open) => (event) => {
         <MenuBookIcon />
         </ListItemIcon>
         <ListItemText primary="Explore Content" />
+      </ListItem>
+      </Link>
+
+      <Link to="/admin/favorite" style={{textDecoration:'none',color:'inherit'}}>
+      <ListItem button>
+        <ListItemIcon>
+        <FavoriteIcon />
+        </ListItemIcon>
+        <ListItemText primary="Favorite Content" />
+      </ListItem>
+      </Link>
+
+      <Link to="/admin/bagged" style={{textDecoration:'none',color:'inherit'}}>
+      <ListItem button>
+        <ListItemIcon>
+        <LocalMallIcon />
+        </ListItemIcon>
+        <ListItemText primary="Bagged Content" />
       </ListItem>
       </Link>
 

@@ -12,12 +12,30 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 
 import { Grid, Box, Container, Typography } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider, withStyles } from '@material-ui/core/styles';
-
+import { connect } from 'react-redux';
 import { amber } from '@material-ui/core/colors';
 
 
-const theme = createMuiTheme({
+
+
+
+const styles = {
+    root: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent:'space-between',
+      marginBottom:10
+
+    },
+    color:{
+        color:'gray'
+    }
+  };
+
+
+  const theme = createMuiTheme({
     palette: {
+        type:'light',
         primary: {
             light: '#1282a2',
             main: '#034078',
@@ -38,18 +56,27 @@ const theme = createMuiTheme({
   });
 
 
-const styles = {
-    root: {
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent:'space-between',
-      marginBottom:10
-
+  const darktheme = createMuiTheme({
+    palette: {
+        type:'dark',
+        primary: {
+            light: '#1282a2',
+            main: '#034078',
+            dark: '#0a1128',
+            contrastText: '#fff',
+          },
+          secondary: {
+            light: '#598392',
+            main: amber[500],
+            dark: amber[800],
+            contrastText: '#000',
+          },
+      
     },
-    color:{
-        color:'gray'
+    typography:{
+        fontFamily: "Lato, sans-serif"
     }
-  };
+  });
 
 class AdminLayout extends Component {
     static propTypes = {
@@ -63,6 +90,11 @@ class AdminLayout extends Component {
     
 
     }
+    
+
+
+    
+   
 
     
     
@@ -72,6 +104,7 @@ class AdminLayout extends Component {
     
     render() {
         const {match, location} = this.props;
+       
         
         const width = this.state.issidebar?`calc(100% - 80%)`:`calc(100% - 93%)`;
         const { classes } = this.props;
@@ -79,7 +112,7 @@ class AdminLayout extends Component {
         
         return (
             <>
-            <ThemeProvider theme={theme}>
+            <ThemeProvider theme={this.props.data?theme:darktheme}>
             <CssBaseline />
             <AdminHeader sidebardrawer={this.sidebardrawer} />
             <Box style={{marginLeft:width,marginRight:15,overflow:'hidden',marginTop:100,flexGrow:1}}>
@@ -105,5 +138,7 @@ class AdminLayout extends Component {
         )
     }
 }
-
-export default withRouter((withStyles(styles)(AdminLayout)));
+const mapStateToProps = state => ({
+    data: state.authUser.thememode
+});
+export default connect(mapStateToProps)(withRouter((withStyles(styles)(AdminLayout))));

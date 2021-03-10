@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ContentExplorecard(props) {
+export default function ContentExplorecardAdmin(props) {
   const classes = useStyles();
 
  
@@ -91,44 +91,44 @@ export default function ContentExplorecard(props) {
             R
           </Avatar>
         }
-        // action={
-        //   <>
-        //     <IconButton aria-label="settings" onClick={handleClick} >
-        //       <MoreVertIcon />
-        //     </IconButton>
-        //     <Menu
-        //       id="long-menu"
-        //       anchorEl={anchorEl}
-        //       keepMounted
-        //       open={open}              
-        //       onClose={handleClose}
-        //       PaperProps={{
-        //         style: {
-        //           maxHeight: 48 * 4.5,
-        //           width: '20ch',
-        //         },
-        //       }}
-        //     >
-        //       {options.map((val,index) => {
-        //         return (
-        //         <MenuItem key={index} onClick={(e)=>handleIsactive(e,props.val.id,val)}>
-        //         {val == "is_active"?props.val[val]?'Deactivate':'Activate':props.val.in_stock?'Private':'Public'}
-        //       </MenuItem>
-        //       // <MenuItem key={index+1} onClick={(e) => handleInstock(e,props.val.id,'stock')}>
-        //       //     {props.val.in_stock?'Private':'Public'}
-        //       // </MenuItem>
+        action={
+          <>
+            <IconButton aria-label="settings" onClick={handleClick} >
+              <MoreVertIcon />
+            </IconButton>
+            <Menu
+              id="long-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={open}              
+              onClose={handleClose}
+              PaperProps={{
+                style: {
+                  maxHeight: 48 * 4.5,
+                  width: '20ch',
+                },
+              }}
+            >
+              {options.map((val,index) => {
+                return (
+                <MenuItem key={index} onClick={(e)=>handleIsactive(e,props.val.id,val)}>
+                {val == "is_active"?props.val[val]?'Deactivate':'Activate':props.val.in_stock?'Private':'Public'}
+              </MenuItem>
+              // <MenuItem key={index+1} onClick={(e) => handleInstock(e,props.val.id,'stock')}>
+              //     {props.val.in_stock?'Private':'Public'}
+              // </MenuItem>
             
             
-        //       )
-        //       })
+              )
+              })
                 
                
               
-        // }
+        }
               
-        //     </Menu>
-        //   </>
-        // }
+            </Menu>
+          </>
+        }
         title={props.val.title}
         subheader={props.val.created.toLocaleString()}
       />

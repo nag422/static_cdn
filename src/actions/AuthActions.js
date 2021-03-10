@@ -20,7 +20,8 @@ import {
   LOGOUT_USER_FAILURE,
   SIGNIN_USER,
   CREATE_TWO_STEP_TOKEN_START,
-  CREATE_TWO_STEP_TOKEN_FINISH
+  CREATE_TWO_STEP_TOKEN_FINISH,
+  THEME_MODE_TOGGLE
 } from "./types";
 
 /**
@@ -53,3 +54,9 @@ export const signinUserFailure = error => ({
   type: LOGIN_USER_FAILURE,
   payload: error
 });
+
+export const themodechanger = () => (
+
+{
+  type:THEME_MODE_TOGGLE
+})

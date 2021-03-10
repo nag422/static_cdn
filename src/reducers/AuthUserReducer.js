@@ -14,7 +14,8 @@ import {
     LOGOUT_USER_FAILURE,
     CREATE_TWO_STEP_TOKEN_START,
     CREATE_TWO_STEP_TOKEN_FINISH,
-    SIGNIN_USER
+    SIGNIN_USER,
+    THEME_MODE_TOGGLE_SUCCESS
 } from "../actions/types";
 
 
@@ -28,7 +29,7 @@ const INIT_STATE = {
     access_token: localStorage.getItem("access_token"),
     loading: false,
     user: null,
-    thememode:'dark'
+    thememode:true
 };
 
 
@@ -71,6 +72,10 @@ export default (state = INIT_STATE, action) => {
 
         case CREATE_TWO_STEP_TOKEN_FINISH:
             return { ...state, twoStepTokenResp: action.data };
+        case THEME_MODE_TOGGLE_SUCCESS:
+            
+            return {...state, thememode:!state.thememode}
+
         default:
             return { ...state };
     }

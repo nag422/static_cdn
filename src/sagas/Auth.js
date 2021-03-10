@@ -13,6 +13,8 @@ import {
     SIGNUP_USER,
     SIGNIN_USER,
     CREATE_TWO_STEP_TOKEN_START,
+    THEME_MODE_TOGGLE,
+    THEME_MODE_TOGGLE_SUCCESS
     
 } from "../actions/types";
 
@@ -53,6 +55,18 @@ export function* signInUser() {
     yield takeEvery(SIGNIN_USER, signInUserwithApi);
 }
 
+// Theme props 
+
+function* themetogglehelper(){
+    
+    yield put({type:THEME_MODE_TOGGLE_SUCCESS});
+
+}
+export function* themetoggle() {
+    
+    yield takeLatest(THEME_MODE_TOGGLE,themetogglehelper);
+}
+
 ///-------------------------------------------------------------
 
 /**
@@ -63,5 +77,6 @@ export default function* rootSaga() {
     yield all([
 
         fork(signInUser),
+        fork(themetoggle),
     ]);
 }

@@ -46,6 +46,10 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import GroupWorkIcon from '@material-ui/icons/GroupWork';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import LocalMallIcon from '@material-ui/icons/LocalMall';
+import Brightness6Icon from '@material-ui/icons/Brightness6';
+import Brightness7Icon from '@material-ui/icons/Brightness7';
+import { useDispatch } from 'react-redux';
+import {themodechanger} from '../../actions/AuthActions'
 // Side Drawer
 
 const drawerWidth = 250;
@@ -199,6 +203,7 @@ modechanger:{
 }));
 
 const AdminHeader = (props)=> {
+  const dispatch = useDispatch()
   const {anchor,sidebardrawer} = props;
   const classes = useStyles();
   const [isdrawer,setIsdrawer] = React.useState(false)
@@ -208,13 +213,11 @@ const AdminHeader = (props)=> {
     bottom: false,
     right: false,
   });
-  const [switchstate, setSwitchstate] = React.useState({
-    checkedA: true,
-    checkedB: true,
-  });
-
+  const [switchstate, setSwitchstate] = React.useState(true);
+  
   const switchhandleChange = (event) => {
-    setSwitchstate({ ...switchstate, [event.target.name]: event.target.checked });
+    setSwitchstate(!switchstate);
+    dispatch(themodechanger())
   };
   const [collapseopen,setCollapseopen] = React.useState(false)
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -498,15 +501,23 @@ const toggleDrawer = (anchor, open) => (event) => {
         </ListItemIcon>
         <ListItemText primary="Drafts" />
       </ListItem> */}
-      <Box className={classes.modechanger} p={2}>
+      {/* <Box className={classes.modechanger} pt={4}>
       <Switch
         checked={switchstate.checkedB}
         onChange={switchhandleChange}
         color="primary"
         name="checkedB"
+        size="small"
         inputProps={{ 'aria-label': 'primary checkbox' }}
       />
-      </Box>
+      </Box> */}
+
+      <ListItem button onClick = {switchhandleChange}>
+        <ListItemIcon>
+        {switchstate?<Brightness6Icon />:<Brightness7Icon />}
+        </ListItemIcon>
+        <ListItemText primary="Theme Mode" />
+      </ListItem>
       
     </div>
   );

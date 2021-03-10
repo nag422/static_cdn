@@ -197,7 +197,7 @@ const UsersList = () => {
         }).catch(err=>{
             
             setUsercreatedmessage("User Creation is Failed")
-            setOpen(false);
+            setOpen(true);
             setAlertseverity('error')
             
         })
@@ -455,7 +455,7 @@ const getCookie = (name) => {
                                     })}
                             </Select>
                             </FormControl>
-                    <TableMaterialuser />
+                    <TableMaterialuser usergroup = {usergroup} />
                 </Grid>
             </Grid>
         </div>

@@ -20,6 +20,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import faker from 'faker';
 import axios from 'axios';
 import ConfirmModel from '../ModelDialogue/ConfirmModel'
@@ -109,6 +110,7 @@ const headCells = [
   { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
   { id: 'email', numeric: false, disablePadding: false, label: 'Email' },
   { id: 'created', numeric: false, disablePadding: false, label: 'Created' },
+  { id: 'group', numeric: false, disablePadding: false, label: 'Group' },
   
 ];
 
@@ -221,6 +223,11 @@ const EnhancedTableToolbar = (props) => {
             <DeleteIcon />            
           </IconButton>
         </Tooltip>
+        <Tooltip title="Assign">
+          <IconButton aria-label="assign" onClick={props.assignuserstogroupclick}>
+            <AssignmentIndIcon />            
+          </IconButton>
+        </Tooltip>
         </>
       ) : (
         <Tooltip title="Filter list">
@@ -261,7 +268,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TableMaterialuser() {
+export default function TableMaterialuser(props) {
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
@@ -340,6 +347,29 @@ export default function TableMaterialuser() {
 
     }
 
+    
+
+    const assignuserstoGroup = async () => {
+
+      const form_data = new FormData();
+      form_data.append('itemlist',selected)
+      form_data.append('groupname',props.usergroup)
+      
+      
+        axios.post(url+'admin/assignedtogroup/',form_data,config).then(res=>{
+          if(!res.data.error){
+              
+            alert('Successfully assigned')
+            
+          }
+      }).catch(err=>{
+          
+          alert(err.message)
+          
+      })
+
+    }
+
 
     // backedn operations
   
@@ -398,7 +428,7 @@ export default function TableMaterialuser() {
     <div className={classes.root}>
       <ConfirmModel setQueryfromodel = {setQueryfromodel} modelopen={modelopen} handleSearchsubmit={handleSearchsubmit} handleClickOpen={handleClickOpen} handleClose={handleClose} />
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar deleteUsersclick={deleteUsers} numSelected={selected.length} handleClickOpen={handleClickOpen} />
+        <EnhancedTableToolbar assignuserstogroupclick={assignuserstoGroup} deleteUsersclick={deleteUsers} numSelected={selected.length} handleClickOpen={handleClickOpen} />
         <TableContainer>
           <Table
             className={classes.table}
@@ -446,6 +476,7 @@ export default function TableMaterialuser() {
                       <TableCell align="left">{row.username}</TableCell>
                       <TableCell align="left">{row.email?row.email:'-----------'}</TableCell>
                       <TableCell align="left">{row.date_joined}</TableCell>
+                      <TableCell align="left">{row.group?row.group:'---------'}</TableCell>
                      
                     </TableRow>
                   );

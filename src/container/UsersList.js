@@ -1,8 +1,5 @@
-import { Box, Button, Card, CardContent, FormControl, Grid, InputLabel, MenuItem, TextField, Typography } from '@material-ui/core'
+import { Box, Button, Card, FormControl, Grid, InputLabel, MenuItem, TextField, Typography } from '@material-ui/core'
 import React from 'react'
-import CustomizedInputs from '../components/ModelDialogue/CustomizedInputs'
-import SelectFieldCustom from '../components/SelectFieldCustom/SelectFieldCustom'
-import ModelDialogue from '../components/ModelDialogue/ModelDialogue'
 
 import TableMaterialuser from '../components/TableMaterial/TableMaterialuser'
 import { fade, makeStyles } from "@material-ui/core/styles";
@@ -15,6 +12,7 @@ import axios from 'axios';
 
 import Select from '@material-ui/core/Select';
 import { grey } from '@material-ui/core/colors'
+
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -216,6 +214,19 @@ const UsersList = () => {
             ...uservalues,
             [e.target.id]:e.target.value
         })
+    }
+
+    const userstatusUpdate = (status) => {
+        if(status=="success"){
+            setUsercreatedmessage("User Changed Successfully")
+                setOpen(true)
+                setAlertseverity('success')
+            
+        }else{
+            setUsercreatedmessage("Something is went wrong")
+                setOpen(true)
+                setAlertseverity('error')
+        }
     }
 
    
@@ -455,7 +466,7 @@ const getCookie = (name) => {
                                     })}
                             </Select>
                             </FormControl>
-                    <TableMaterialuser usergroup = {usergroup} />
+                    <TableMaterialuser usergroup = {usergroup} userstatusupdate={userstatusUpdate} />
                 </Grid>
             </Grid>
         </div>

@@ -16,16 +16,19 @@ import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
-import faker from 'faker';
 import axios from 'axios';
 import ConfirmModel from '../ModelDialogue/ConfirmModel'
-import { Button } from '@material-ui/core';
+import UserEditModel from '../ModelDialogue/UserEditModel'
 import CreateIcon from '@material-ui/icons/Create';
+import * as authapi from '../../container/api/userapi'
+
+
+
+
+
 function createData(id,role, category, name, email, created) {
   return { id,role, category, name, email, created };
 }
@@ -214,7 +217,7 @@ const EnhancedTableToolbar = (props) => {
       {numSelected > 0 ? (
         <>
         <Tooltip title="Edit">
-          <IconButton aria-label="edit">
+          <IconButton aria-label="edit" onClick={props.handleuserClickOpen}>
             <CreateIcon />            
           </IconButton>
         </Tooltip>
@@ -283,6 +286,22 @@ export default function TableMaterialuser(props) {
     const [rows,setRows] = React.useState([])
     
     const [modelopen, setModelopen] = React.useState(false);
+    const [usereditmodelopen, setUsereditmodelopen] = React.useState(false);
+
+    const [userupdateform,setUserupdateform] = React.useState({
+      role:'user',
+      category:'producer'
+    })
+
+    
+
+    const handleChangeeditForm = (e) => {
+      setUserupdateform({
+          ...userupdateform,
+          [e.target.name]:e.target.value
+      })
+  };
+    
 
       const handleClickOpen = () => {
         setModelopen(true);
@@ -290,6 +309,30 @@ export default function TableMaterialuser(props) {
 
       const handleClose = () => {
         setModelopen(false);
+      };
+
+
+      const handleuserClickOpen = (e) => {
+        
+        console.log(selected[0]);
+        if (selected.length > 1){
+           return alert('select one only')
+        }
+        var updated = rows.filter((val) => +val.id === +(selected[0]));
+        setUsereditmodelopen(true);
+        updated.map(val=> {
+          return setUserupdateform({
+            ...userupdateform,
+            role:val.is_staff? val.is_superuser? 'superuser':'admin':'user',
+            category:val.content?val.content:'creator'
+        })
+        })
+       
+
+      };
+
+      const handleuserClose = () => {
+        setUsereditmodelopen(false);
       };
 
     const getallusers = async() => {
@@ -327,6 +370,34 @@ export default function TableMaterialuser(props) {
       
 
     }
+
+    const handleUpdateSubmit = async (e) => {
+
+    //   setModelopen(false)
+    
+    const payload = {
+      id:selected[0],
+      role:userupdateform.role,
+      category:userupdateform.category
+    }
+    var response = await authapi.userupdate(payload)
+    setUsereditmodelopen(false)
+    if(response.status == 200){
+      const updatedusers = rows.filter((val,key) =>{
+        return [...rows, +val.id == +payload.id ? payload.role==="superuser"?(val.is_superuser=true,val.is_staff=true,val.is_active=true,val.content=payload.category):payload.role==="admin"?(val.is_superuser=false,val.is_staff=true,val.is_active=true,val.content=payload.category):(val.is_superuser=false,val.is_staff=false,val.is_active=true,val.content=payload.category):null]
+    })
+    setRows(updatedusers);
+      return props.userstatusupdate('success')
+    }else{
+      return props.userstatusupdate('error')
+    }
+    
+    
+
+  }
+
+
+    
 
     const deleteUsers = async () => {
 
@@ -426,9 +497,30 @@ export default function TableMaterialuser(props) {
 
   return (
     <div className={classes.root}>
-      <ConfirmModel setQueryfromodel = {setQueryfromodel} modelopen={modelopen} handleSearchsubmit={handleSearchsubmit} handleClickOpen={handleClickOpen} handleClose={handleClose} />
+      <ConfirmModel setQueryfromodel = {setQueryfromodel} modelopen={modelopen} 
+        handleSearchsubmit={handleSearchsubmit} handleClickOpen={handleClickOpen} 
+        handleClose={handleClose} 
+      />
+      <UserEditModel 
+        usereditmodelopen={usereditmodelopen} 
+        handleuserClose = {handleuserClose}
+        userupdateform={userupdateform}
+        handleChangeeditForm={handleChangeeditForm}
+        handleUpdateSubmit={handleUpdateSubmit}
+        
+      
+      />
+
+      
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar assignuserstogroupclick={assignuserstoGroup} deleteUsersclick={deleteUsers} numSelected={selected.length} handleClickOpen={handleClickOpen} />
+        <EnhancedTableToolbar 
+        assignuserstogroupclick={assignuserstoGroup} 
+        deleteUsersclick={deleteUsers} 
+        numSelected={selected.length} 
+        handleClickOpen={handleClickOpen}
+        handleuserClickOpen={handleuserClickOpen}
+        
+        />
         <TableContainer>
           <Table
             className={classes.table}

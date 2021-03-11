@@ -12,7 +12,8 @@ import FormikField from "../components/formikcontrol/FormikField";
 import { saveProduct, requestProduct } from '../actions'
 import Fileuploadbutton from '../components/button/Fileuploadbutton'
 import BackupIcon from '@material-ui/icons/Backup';
-
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 
 const creatorSchema = Yup.object().shape({
@@ -55,11 +56,15 @@ const initialcreatorValues = {
 
 };
 const ContentRequest = (props) => {
-    const [fields, setFields] = React.useState([{ label: 'Cost' }])
-    const [selectFields] = React.useState([{ label: 'SuperAdmin', value: 'superuser' }, { label: 'Admin', value: 'Author' }, { label: 'User', value: 'user' }])
-    const selectcategoryFields = [{ label: 'Creator', value: 'creator' }, { label: 'Producer', value: 'Producer' }, { label: 'Hybrid', value: 'hybrid' }, { label: 'None of the above', value: 'none' }]
-    const [requestfields, setRequestfields] = React.useState([{ label: 'Title' }, { label: 'Description' }, { label: 'Thumbnail' }, { label: 'Video File' }, { label: 'Rights Details' }, { label: 'Cast and Crew' }, { label: 'Cost of the project' }, { label: 'Date of Creation' }, { label: 'Cost' }])
-    const [issubmitting, setIssubmitting] = React.useState(false);
+    // const [fields, setFields] = React.useState([{ label: 'Cost' }])
+    // const [selectFields] = React.useState([{ label: 'SuperAdmin', value: 'superuser' }, { label: 'Admin', value: 'Author' }, { label: 'User', value: 'user' }])
+    // const selectcategoryFields = [{ label: 'Creator', value: 'creator' }, { label: 'Producer', value: 'Producer' }, { label: 'Hybrid', value: 'hybrid' }, { label: 'None of the above', value: 'none' }]
+    // const [requestfields, setRequestfields] = React.useState([{ label: 'Title' }, { label: 'Description' }, { label: 'Thumbnail' }, { label: 'Video File' }, { label: 'Rights Details' }, { label: 'Cast and Crew' }, { label: 'Cost of the project' }, { label: 'Date of Creation' }, { label: 'Cost' }])
+    // const [issubmitting, setIssubmitting] = React.useState(false);
+
+    const [open, setOpen] = React.useState(false)
+    const [alertseverity, setAlertseverity] = React.useState('success')
+    const [productmessage, setProductmessage] = React.useState('')
 
     const [selectedDate, setSelectedDate] = React.useState(new Date());
     const [selectedCategory, setSelectedCategory] = React.useState('');
@@ -70,7 +75,9 @@ const ContentRequest = (props) => {
         video: ''
     });
 
-
+    function Alert(props) {
+        return <MuiAlert elevation={6} variant="filled" {...props} />;
+    }
 
 
     const dispatch = useDispatch();
@@ -86,7 +93,7 @@ const ContentRequest = (props) => {
 
         }
 
-        return dispatch(
+        return await dispatch(
             requestProduct(
                 finvalues,
                 history
@@ -96,7 +103,7 @@ const ContentRequest = (props) => {
     };
 
     const onCreatorrequestProducerSave = async (values) => {
-        console.log('submitting');
+        
         const history = props.history
 
         const finvalues = {
@@ -126,7 +133,7 @@ const ContentRequest = (props) => {
             createdat: selectedDate
         }
 
-        return dispatch(
+        return await dispatch(
             saveProduct(
                 finvalues,
                 history
@@ -142,9 +149,15 @@ const ContentRequest = (props) => {
 
     React.useEffect(() => {
         if (response.isproductsaved) {
-            alert('Saved')
+            
+            setProductmessage("Successfully Changed")
+            setOpen(true);
+            setAlertseverity('success')
         } else if (response.isproductsaved != null && !response.isproductsaved) {
-            alert('Fail')
+            
+            setProductmessage("Something is went wrong")
+            setOpen(true);
+            setAlertseverity('success')
         }
 
         return () => {
@@ -156,6 +169,16 @@ const ContentRequest = (props) => {
     const handleDateChange = (date) => {
         setSelectedDate(date);
         console.log(date)
+    };
+
+     // SnackBar
+
+     const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
     };
 
     const handlecategoryChange = (e) => {
@@ -174,10 +197,16 @@ const ContentRequest = (props) => {
 
 
 
-
+    const vertical = "top"
+    const horizontal = "right"
 
     return (
         <div>
+            <Snackbar anchorOrigin={{ vertical, horizontal }} open={open} autoHideDuration={4000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity={alertseverity}>
+                    {productmessage}
+                </Alert>
+            </Snackbar>
             {authortype == "creator" ?
                 <Grid container spacing={1}>
 
@@ -204,12 +233,14 @@ const ContentRequest = (props) => {
                                                     required
                                                     textvariant="outlined"
                                                 />
+                                                <Box style={{marginLeft:'-1%'}}>
                                                 <CustomizedSelect
                                                     fieldname={'Type'}
                                                     label="category"
                                                     handlecategoryChange={handlecategoryChange}
                                                     selectedCategory={selectedCategory}
                                                 />
+                                                </Box>
                                                 <Box pl={1} pt={2}>
                                                     <Button
                                                         disabled={!dirty || !isValid}
@@ -240,21 +271,23 @@ const ContentRequest = (props) => {
                                 >
                                     {({ dirty, isValid }) => {
                                         return (
+                                            
                                             <Form>
+                                                <Grid item md={12} sm={12} lg={12} spacing={2}>
                                                 <FormikField
                                                     name="title"
                                                     label="title"
                                                     type="text"
                                                     required
                                                     textvariant="outlined"
-                                                />
+                                                /><br></br>
                                                 <FormikField
                                                     name="description"
                                                     label="description"
                                                     type="text"
                                                     required
                                                     textvariant="outlined"
-                                                />
+                                                /><br></br>
                                                 <FormikField
                                                     name="rights"
                                                     label="rights"
@@ -264,21 +297,21 @@ const ContentRequest = (props) => {
                                                     style={{ backgroundColor: "#fff" }}
 
 
-                                                />
+                                                /><br></br>
                                                 <FormikField
                                                     name="castncrew"
                                                     label="castncrew"
                                                     type="text"
                                                     required
                                                     textvariant="outlined"
-                                                />
+                                                /><br></br>
                                                 <FormikField
                                                     name="price"
                                                     label="price"
                                                     type="text"
                                                     required
                                                     textvariant="outlined"
-                                                />
+                                                /><br></br>
                                                 {/* <Input type="file" id="thumbnail" name="thumbnail" onChange={handlefileChange}></Input>
                                                  <Input type="file" id="video" name="video" onChange={handlefileChange}></Input> */}
 
@@ -299,6 +332,7 @@ const ContentRequest = (props) => {
                                                     </label>
                                                     {JSON.stringify(selectedfile.thumbnail.name)}
                                                 </div>
+
                                                 <br></br>
                                                 <div>
                                                     <Input
@@ -316,13 +350,14 @@ const ContentRequest = (props) => {
                                                     </label>
                                                     {JSON.stringify(selectedfile.video.name)}
                                                 </div>
-
+                                                 <Box style={{marginLeft:'-1%'}}>
                                                 <CustomizedSelect
                                                     fieldname={'Type'}
                                                     label="category"
                                                     handlecategoryChange={handlecategoryChange}
                                                     selectedCategory={selectedCategory}
                                                 />
+                                                </Box>
 
                                                 {/* <CustomizedDate
                                                 label="createdat"
@@ -337,7 +372,7 @@ const ContentRequest = (props) => {
                                                 </Box>
 
 
-
+                                                </Grid>
                                             </Form>
                                         );
                                     }}

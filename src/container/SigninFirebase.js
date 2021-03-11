@@ -25,7 +25,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { signinUser } from "../actions";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  root:{
+    position:'relative'
+  },
+  root2: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -70,13 +73,13 @@ const useStyles = makeStyles((theme) => ({
     // alignItems:'center',
     // left:'44vw',
     // top:"26%",
-    height: "1vh",
+    // height: "1vh",
     // padding:10
     [theme.breakpoints.down("sm")]: {
-      position: "absolute",
-      top: "10%",
+      position: "static",
+     
       // left:"30%",
-      left: "0",
+      left: 0,
       right: 0,
       marginLeft: "auto",
       marginRight: "auto",
@@ -153,13 +156,15 @@ const SigninFirebase = (props) => {
 
       {response ? response.email : "no waste"}
 
-      <Box className={classes.pageTitle}>
-        <Typography component="h4" variant="h4">
-          MoviePlex
-        </Typography>
-      </Box>
-
+      
       <Box component="section" className={classes.root}>
+         {/* <Box className={classes.pageTitle}>
+         
+          <Typography component="h4" variant="h4">
+            MoviePlex
+          </Typography>
+      </Box> */}
+      <Box className={classes.root2}>
         <Grid
           item
           xs={12}
@@ -271,6 +276,7 @@ const SigninFirebase = (props) => {
             </Button>
           </Box>
         </Grid>
+      </Box>
       </Box>
     </>
   );

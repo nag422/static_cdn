@@ -54,7 +54,7 @@ const getCookie = (name) => {
     form_data.append('category', productData.category)
     form_data.append('description', productData.description)
     form_data.append('price', productData.price)
-    form_data.append('rights', 'productData.right')
+    form_data.append('rights', productData.rights)
     form_data.append('thumbnail', productData.thumbnail)
     form_data.append('videofile', productData.video)
 

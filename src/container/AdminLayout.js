@@ -61,7 +61,7 @@ const styles = {
         type:'dark',
         primary: {
             light: '#1282a2',
-            main: '#034078',
+            main: '#303030;',
             dark: '#0a1128',
             contrastText: '#fff',
           },

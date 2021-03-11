@@ -50,6 +50,7 @@ import Brightness6Icon from '@material-ui/icons/Brightness6';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import { useDispatch } from 'react-redux';
 import {themodechanger} from '../../actions/AuthActions'
+import { Scrollbars } from 'react-custom-scrollbars';
 // Side Drawer
 
 const drawerWidth = 250;
@@ -177,11 +178,26 @@ list: {
     }
   },
   logo:{
+    
     padding: theme.spacing(2,0),
     backgroundColor: theme.palette.primary.main,
     color:theme.palette.primary.contrastText,
     
     [theme.breakpoints.down('md')]: {
+     
+      padding: theme.spacing(1.6,0),
+    },
+  },
+  logod:{
+    position:'fixed',
+    width:'20%',
+    padding: theme.spacing(2,0),
+    backgroundColor: theme.palette.primary.main,
+    color:theme.palette.primary.contrastText,
+    
+    [theme.breakpoints.down('md')]: {
+      position:'relative',
+      width:'100%',
       padding: theme.spacing(1.6,0),
     },
   },
@@ -360,6 +376,7 @@ const toggleDrawer = (anchor, open) => (event) => {
 
 
   const list = (anchor) => (
+
     <div
       className={clsx(classes.list, {
         [classes.fullList]: anchor === 'top' || anchor === 'bottom',
@@ -368,7 +385,7 @@ const toggleDrawer = (anchor, open) => (event) => {
       // onClick={toggleDrawer(anchor, false)}
       // onKeyDown={toggleDrawer(anchor, false)}
     >
-      <Box display="flex" alignItems="center" justifyContent="space-around" className={classes.logo}>
+      <Box display="flex" alignItems="center" justifyContent="space-around" className={classes.logod}>
       <Typography className={classes.title} variant="h6" noWrap>
             MoviePlex
           </Typography>
@@ -379,7 +396,7 @@ const toggleDrawer = (anchor, open) => (event) => {
 
           </Box>
       <List
-
+      style={{paddingTop:'25%'}}
       component="nav"
           aria-labelledby="available-content"
           subheader={
@@ -514,12 +531,13 @@ const toggleDrawer = (anchor, open) => (event) => {
 
       <ListItem button onClick = {switchhandleChange}>
         <ListItemIcon>
-        {switchstate?<Brightness6Icon />:<Brightness7Icon />}
+        {switchstate?<Brightness7Icon />:<Brightness6Icon />}
         </ListItemIcon>
         <ListItemText primary="Theme Mode" />
       </ListItem>
       
     </div>
+    
   );
 
   return (
@@ -540,8 +558,12 @@ const toggleDrawer = (anchor, open) => (event) => {
         }),
       }}
       anchor={anchor} open={state[anchor]} onClose={toggleDrawer(anchor, false)}>
+        
       {list(anchor)}
+      
           </Drawer>
+
+
     <div className={classes.grow}>
       <AppBar position="fixed" className={clsx(classes.appBar, {
           [classes.appBarShift]: isdrawer,

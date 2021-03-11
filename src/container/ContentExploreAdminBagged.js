@@ -1,6 +1,6 @@
 import { Box, Grid } from '@material-ui/core'
-import React,{useState,useEffect, useCallback} from 'react'
-import ContentExplorecard from '../components/explorecard/ContentExplorecard'
+import React,{useState,useEffect} from 'react'
+import ContentExplorecard from '../components/explorecard/ContentExplorecardBagged'
 import Pagination from '@material-ui/lab/Pagination';
 
 import * as apirequest from './api/api';

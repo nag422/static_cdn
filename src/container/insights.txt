@@ -1,0 +1,8 @@
+insights
+  activity of users  --interested or favs
+                     --login and every acts.
+
+
+acts tabs
+
+that particular acttivities

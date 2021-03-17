@@ -25,6 +25,7 @@ const ContentExploreAdmin = () => {
             const allprod = await apirequest.getallproducts({'pageNumber':pageNumber})
             
             setAllproducts(allprod)
+            console.log(allprod)
 
         }
         setprod()

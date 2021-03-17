@@ -72,6 +72,9 @@ const ContentRequest = (props) => {
     const [authortype, setAuthortype] = React.useState('creator')
     const [selectedfile, setSelectedfile] = React.useState({
         thumbnail: '',
+        thumbnail1: '',
+        thumbnail2: '',
+        thumbnail3: '',
         video: ''
     });
 
@@ -192,6 +195,7 @@ const ContentRequest = (props) => {
             ...selectedfile,
             [e.target.id]: e.target.files[0]
         })
+        console.log(e.target.files[0])
 
     }
 
@@ -350,6 +354,62 @@ const ContentRequest = (props) => {
                                                     </label>
                                                     {JSON.stringify(selectedfile.video.name)}
                                                 </div>
+<br></br>
+                                                <div>
+                                                    <input
+                                                        accept="image/*"
+                                                        style={{ display: 'none' }}
+                                                        id="thumbnail1"
+                                                        name="thumbnail1"
+                                                        type="file"
+                                                        onChange={handlefileChange}
+                                                    />
+                                                    <label htmlFor="thumbnail1">
+                                                        <Button variant="contained" color="primary" component="span">
+                                                            Upload Banner1 &nbsp;<BackupIcon />
+                                                        </Button>
+                                                    </label>
+                                                    {JSON.stringify(selectedfile.thumbnail1.name)}
+                                                </div>
+
+                                                <br></br>
+
+                                                <div>
+                                                    <input
+                                                        accept="image/*"
+                                                        style={{ display: 'none' }}
+                                                        id="thumbnail2"
+                                                        name="thumbnail2"
+                                                        type="file"
+                                                        onChange={handlefileChange}
+                                                    />
+                                                    <label htmlFor="thumbnail2">
+                                                        <Button variant="contained" color="primary" component="span">
+                                                        Upload Banner2 &nbsp;<BackupIcon />
+                                                        </Button>
+                                                    </label>
+                                                    {JSON.stringify(selectedfile.thumbnail2.name)}
+                                                </div>
+
+                                                <br></br>
+                                                <div>
+                                                    <input
+                                                        accept="image/*"
+                                                        style={{ display: 'none' }}
+                                                        id="thumbnail3"
+                                                        name="thumbnail3"
+                                                        type="file"
+                                                        onChange={handlefileChange}
+                                                    />
+                                                    <label htmlFor="thumbnail3">
+                                                        <Button variant="contained" color="primary" component="span">
+                                                        Upload Banner3 &nbsp;<BackupIcon />
+                                                        </Button>
+                                                    </label>
+                                                    {JSON.stringify(selectedfile.thumbnail3.name)}
+                                                </div>
+
+                                                <br></br>
                                                  <Box style={{marginLeft:'-1%'}}>
                                                 <CustomizedSelect
                                                     fieldname={'Type'}

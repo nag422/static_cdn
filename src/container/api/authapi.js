@@ -17,7 +17,7 @@ const getCookie = (name) => {
     return cookieValue;
   }
 
-  export const isactive = async (payload) =>{
+export const RegisterAccount = async (payload) =>{
          
     let statuscode = ''
     const config = {
@@ -28,39 +28,49 @@ const getCookie = (name) => {
     }
   
     const form_data = new FormData();
-    form_data.append('id', payload)
+
+    Object.entries(payload).forEach(([key, value]) =>  form_data.append(key, value));
+
     form_data.append('action', 'isactive')
+    
     
  
     await axios
-      .post(url+"auth/admin/userupdate/", form_data,config)
+      .post(url+"auth/registeruser/", form_data,config)
       .then(resp => {statuscode=resp.data})
       .catch(error => error);
         
       return statuscode
       }
 
-    export const userupdate = async (payload) =>{
-        
+export const validatingUsername = async (payload) =>{
+         
     let statuscode = ''
+    let cancel
+    // cancelToken.source()
     const config = {
-        headers: {
-            'content-type': 'multipart/form-data',          
-            'X-CSRFToken': getCookie('csrftoken')
-        }
+      headers: {
+          'content-type': 'multipart/form-data',          
+          'X-CSRFToken': getCookie('csrftoken')
+      },
+      cancelToken: new axios.CancelToken(c => cancel = c)
     }
-    
+  
     const form_data = new FormData();
-    form_data.append('id', payload.id)
-    form_data.append('role', payload.role)
-    form_data.append('category', payload.category)
-    form_data.append('action', 'userupdate')
-    
-    await axios
-        .post(url+"auth/admin/userupdate/", form_data,config)
-        .then(resp => {statuscode=resp.data})
-        .catch(error => error);
-        
-        return statuscode
-        }
 
+    Object.entries(payload).forEach(([key, value]) =>  form_data.append(key, value));
+
+    
+    
+    
+ 
+    await axios
+      .post(url+"auth/registervalidation/", form_data,config)
+      .then(resp => {statuscode=resp.data})
+      .catch(e => {
+      if (axios.isCancel(e)) return
+      
+        })
+        
+      return statuscode
+      }

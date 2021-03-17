@@ -120,8 +120,10 @@ const SigninFirebase = (props) => {
   const handleSubmit = async (values) => {
     console.log(values);
     setIssubmitting(true);
+    setIserror(false)
     await setTimeout(() => {
       setIssubmitting(false);
+      setIserror(true)
     }, 2000);
   };
   const onUserLogin = useCallback(() => {
@@ -212,7 +214,7 @@ const SigninFirebase = (props) => {
                     <FormikField
                       name="password"
                       label="Password"
-                      type="text"
+                      type="password"
                       required
                       textvariant="standard"
                     />

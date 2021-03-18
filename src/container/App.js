@@ -3,7 +3,7 @@
  */
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {BrowserRouter, Switch ,Redirect, Route} from 'react-router-dom';
+import {BrowserRouter, Switch ,Redirect, Route, withRouter} from 'react-router-dom';
 
 
 import BrandButton from '../BrandButton'
@@ -13,9 +13,25 @@ import AuthLayout from './AuthLayout';
 
 
 
-
+const ProtectedRoute = ({component: Component,authUser, ...rest}) => {
+  return (
+      <Route{...rest}
+            render={props =>
+                !authUser
+                    ? <Component {...props} />
+                    : <Redirect
+                        to={{
+                            pathname: '/auth/signin',
+                            state: {from: props.location}
+                        }}
+                    />}
+      />
+  )
+}
 
 class App extends Component {
+
+  
 
 render(){
     return(
@@ -26,6 +42,9 @@ render(){
           <Switch>
             <Route exact path="/" render={props => "welcome"} />
             <Route path="/auth" render={props => <AuthLayout {...props} />} />
+
+            {/* <ProtectedRoute path="/admin" authUser={this.props.data} component={AdminLayout}/> */}
+
             <Route path="/admin" render={props => <AdminLayout {...props} />} />
             
     </Switch>
@@ -39,5 +58,8 @@ render(){
 
 }
 
-
-export default App
+const mapStateToProps = state => ({
+  data: state.authUser.user
+  
+});
+export default connect(mapStateToProps)(App);

@@ -109,9 +109,9 @@ const SigninFirebase = (props) => {
 
   const dispatch = useDispatch();
   const response = useSelector((state) => state.authUser);
-
+  if (response.user) props.history.push('/admin/dashboard')
   useEffect(() => {
-      if (response.user) props.history.push('/auth/signup')
+      if (response.user) props.history.push('/admin/dashboard')
       return () => {
           
       }
@@ -121,11 +121,21 @@ const SigninFirebase = (props) => {
     console.log(values);
     setIssubmitting(true);
     setIserror(false)
-    await setTimeout(() => {
-      setIssubmitting(false);
-      setIserror(true)
-    }, 2000);
+    const data = {
+      email: values.email,
+      password: values.password,
+    }
+    const history = props.history
+    
+  await dispatch(
+    signinUser(
+        data,
+      history
+    )
+  );
+  return setIssubmitting(false);
   };
+
   const onUserLogin = useCallback(() => {
       const data = {
         email: "nagendrakumar422@gmail.com",
@@ -133,7 +143,7 @@ const SigninFirebase = (props) => {
       }
       const history = props.history
       
-    dispatch(
+    return dispatch(
       signinUser(
           data,
         history

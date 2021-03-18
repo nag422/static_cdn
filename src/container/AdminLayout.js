@@ -90,6 +90,16 @@ class AdminLayout extends Component {
     
 
     }
+
+
+
+
+    componentDidMount(){
+        if(!this.props.data.isAuthenticated){
+            return window.location.replace('/auth/signin')
+        } 
+
+    }
     
 
 
@@ -112,7 +122,7 @@ class AdminLayout extends Component {
         
         return (
             <>
-            <ThemeProvider theme={this.props.data?theme:darktheme}>
+            <ThemeProvider theme={this.props.data.thememode?theme:darktheme}>
             <CssBaseline />
             <AdminHeader sidebardrawer={this.sidebardrawer} />
             <Box style={{marginLeft:width,marginRight:15,overflow:'hidden',marginTop:100,flexGrow:1}}>
@@ -139,6 +149,6 @@ class AdminLayout extends Component {
     }
 }
 const mapStateToProps = state => ({
-    data: state.authUser.thememode
+    data: state.authUser
 });
 export default connect(mapStateToProps)(withRouter((withStyles(styles)(AdminLayout))));

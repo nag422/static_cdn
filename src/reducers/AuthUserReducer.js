@@ -15,7 +15,8 @@ import {
     CREATE_TWO_STEP_TOKEN_START,
     CREATE_TWO_STEP_TOKEN_FINISH,
     SIGNIN_USER,
-    THEME_MODE_TOGGLE_SUCCESS
+    THEME_MODE_TOGGLE_SUCCESS,
+    GET_USER_PROFILE_DATA_SUCCESS
 } from "../actions/types";
 
 
@@ -29,6 +30,8 @@ const INIT_STATE = {
     access_token: localStorage.getItem("access_token"),
     loading: false,
     user: null,
+    profile:{},
+    isAuthenticated:false,
     thememode:true
 };
 
@@ -41,17 +44,20 @@ export default (state = INIT_STATE, action) => {
             return { ...state, loading: true };
 
         case LOGIN_USER_SUCCESS:
-            return { ...state, loading: false, user: action.payload };
+            return { ...state, loading: false, user: action.payload, isAuthenticated:true };
 
         case LOGIN_USER_FAILURE:
             // NotificationManager.error(action.payload);
             return { ...state, loading: false };
 
+        case GET_USER_PROFILE_DATA_SUCCESS:
+            return {...state, profile:action.payload}
+
         case LOGOUT_USER:
             return { ...state };
 
         case LOGOUT_USER_SUCCESS:
-            return { ...state, user: null };
+            return { ...state, user: null, isAuthenticated:false };
 
         case LOGOUT_USER_FAILURE:
             return { ...state };

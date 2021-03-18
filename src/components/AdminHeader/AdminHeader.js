@@ -49,7 +49,7 @@ import LocalMallIcon from '@material-ui/icons/LocalMall';
 import Brightness6Icon from '@material-ui/icons/Brightness6';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import { useDispatch } from 'react-redux';
-import {themodechanger} from '../../actions/AuthActions'
+import {signoutUser, themodechanger} from '../../actions/AuthActions'
 import { Scrollbars } from 'react-custom-scrollbars';
 // Side Drawer
 
@@ -271,6 +271,15 @@ const AdminHeader = (props)=> {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  // Logout auth
+
+  const handleLogout = async (event) => {
+    await dispatch(signoutUser())
+    await handleMenuClose()
+    return;
+
+  }
+
   const handle = useFullScreenHandle();
   
   const myref = React.useRef()
@@ -303,7 +312,7 @@ const toggleDrawer = (anchor, open) => (event) => {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+      <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
   );
 

@@ -9,7 +9,7 @@ import InsertChartIcon from '@material-ui/icons/InsertChartOutlined';
 import MoneyIcon from '@material-ui/icons/Money';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { amber, green, red, pink } from '@material-ui/core/colors';
-import { Doughnut,Bar } from 'react-chartjs-2';
+import { Doughnut, Bar } from 'react-chartjs-2';
 import Apexchartdemo from './Apexchartdemo'
 import TrafficByDevice from './TrafficByDevice';
 const useStyles = makeStyles((theme) => ({
@@ -18,13 +18,13 @@ const useStyles = makeStyles((theme) => ({
     },
     paper: {
         display: 'flex',
-        padding: theme.spacing(5,3),
+        padding: theme.spacing(5, 3),
         textAlign: 'center',
         color: theme.palette.text.secondary,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        height:'100%'
-       
+        height: '100%'
+
     },
     avatarcolor: {
         backgroundColor: theme.palette.primary.main
@@ -62,7 +62,7 @@ const Dashboardadmin = () => {
     const classes = useStyles();
     return (
         <div className={classes.root}>
-            <Grid container spacing={3}>
+            {/* <Grid container spacing={3}>
 
                 <Grid item xs={12} sm={3}>
                     <Paper className={classes.paper}>
@@ -71,7 +71,7 @@ const Dashboardadmin = () => {
                                 TODAYS MONEY
                         </Typography>
                             <Typography component='p' className={classes.pricetext}>
-                                $24,000   <Box component="span"
+                                $24,000   <Box component="p"
                                     className={classes.chipnumber}
                                     style={{
                                         color: green[800],
@@ -91,10 +91,10 @@ const Dashboardadmin = () => {
                     <Paper className={classes.paper}>
                         <Box display="flex" alignItems="flex-start" flexDirection="column">
                             <Typography component='p' className={classes.headingtext}>
-                            TOTAL CUSTOMERS
+                                TOTAL CUSTOMERS
                         </Typography>
                             <Typography component='p' className={classes.pricetext}>
-                                1,600   <Box component="span"
+                                1,600   <Box component="p"
                                     className={classes.chipnumber}
                                     style={{
                                         color: red[800],
@@ -111,31 +111,31 @@ const Dashboardadmin = () => {
                     </Paper>
                 </Grid>
                 <Grid item xs={12} sm={3}>
-                
+
                     <Paper className={classes.paper}>
-                    
-                        <Box display="flex" alignItems="flex-start" flexDirection="column">
+
+                        <Box display="flex" component="div" alignItems="flex-start" flexDirection="column">
                             <Typography component='p' className={classes.headingtext}>
-                            TASKS PROGRESS 
-                            <LinearProgress variant="determinate" value={30.5}  />
-                            <Typography variant="body2" color="textSecondary"
-                            style={{
-                                color: red[800],
-                                
-                            }}
-                            >30.5% </Typography>
-                             
-                        </Typography>
-                        
-                            
-                                
-                                
-                            
+                                TASKS PROGRESS
+                            <LinearProgress variant="determinate" value={30.5} />
+                                <Typography variant="body2" color="textSecondary"
+                                    style={{
+                                        color: red[800],
+
+                                    }}
+                                >30.5% </Typography>
+
+                            </Typography>
+
+
+
+
+
                         </Box>
-                        
+
                         <Avatar className={classes.avatarcolor}>
                             <InsertChartIcon />
-                            
+
                         </Avatar>
 
                     </Paper>
@@ -144,10 +144,10 @@ const Dashboardadmin = () => {
                     <Paper className={classes.paper}>
                         <Box display="flex" alignItems="flex-start" flexDirection="column">
                             <Typography component='p' className={classes.headingtext}>
-                            BUDGET
+                                BUDGET
                         </Typography>
                             <Typography component='p' className={classes.pricetext}>
-                                $23,200  <Box component="span"
+                                $23,200  <Box component="div"
                                     className={classes.chipnumber}
                                     style={{
                                         color: pink[800],
@@ -166,17 +166,17 @@ const Dashboardadmin = () => {
             </Grid>
 
             <Grid container spacing={3}>
-                    
-                    <Grid item xs={12} sm={8}>
-                    <Apexchartdemo />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                    
-                        <TrafficByDevice />
 
-                    </Grid>
-                    
-      </Grid>
+                <Grid item xs={12} sm={8}>
+                    <Apexchartdemo />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+
+                    <TrafficByDevice />
+
+                </Grid>
+
+            </Grid> */}
         </div>
     )
 }

@@ -30,7 +30,7 @@ export const getUserProfilewithApiRequest = async (payload) => {
     }
 
 
-    const body = JSON.stringify({ user: payload.user })
+    const body = JSON.stringify({ user: payload.user, action: 'get' })
 
     await axios
         .post(url + "auth/aboutme/", body, config)
@@ -41,4 +41,34 @@ export const getUserProfilewithApiRequest = async (payload) => {
         })
 
     return statuscode
+}
+
+export const updateUserProfilewithApiRequest = async (payload) => {
+    
+    console.log("UpdateProfile api step saga called..");
+    let statuscode = ''
+    let cancel
+    // cancelToken.source()
+
+    const config = {
+        headers: {
+            'content-type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        cancelToken: new axios.CancelToken(c => cancel = c)
+    }
+
+
+    const body = JSON.stringify({ user: payload.data, action: 'update' })
+
+    await axios
+        .post(url + "auth/aboutme/", body, config)
+        .then(resp => { statuscode = resp.data })
+        .catch(e => {
+            if (axios.isCancel(e)) return
+
+        })
+
+    return statuscode
+
 }

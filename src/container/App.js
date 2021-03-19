@@ -10,6 +10,7 @@ import BrandButton from '../BrandButton'
 import TextField from '@material-ui/core/TextField';
 import AdminLayout from './AdminLayout'
 import AuthLayout from './AuthLayout';
+import { Profile } from './Profile';
 
 
 
@@ -42,6 +43,7 @@ render(){
           <Switch>
             <Route exact path="/" render={props => "welcome"} />
             <Route path="/auth" render={props => <AuthLayout {...props} />} />
+            <Route path="/profile" component={Profile} />
 
             {/* <ProtectedRoute path="/admin" authUser={this.props.data} component={AdminLayout}/> */}
 

@@ -16,7 +16,9 @@ import {
     CREATE_TWO_STEP_TOKEN_FINISH,
     SIGNIN_USER,
     THEME_MODE_TOGGLE_SUCCESS,
-    GET_USER_PROFILE_DATA_SUCCESS
+    GET_USER_PROFILE_DATA_SUCCESS,
+    UPDATE_PROFILE_PRIMARY_SUCCESS,
+    UPDATE_PROFILE_PRIMARY_FAILURE
 } from "../actions/types";
 
 
@@ -52,7 +54,7 @@ export default (state = INIT_STATE, action) => {
 
         case GET_USER_PROFILE_DATA_SUCCESS:
             return {...state, profile:action.payload}
-
+       
         case LOGOUT_USER:
             return { ...state };
 

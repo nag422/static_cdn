@@ -15,7 +15,10 @@ import { createMuiTheme, ThemeProvider, withStyles } from '@material-ui/core/sty
 import { connect } from 'react-redux';
 import { amber } from '@material-ui/core/colors';
 
-
+import {getProfileData} from '../actions/AuthActions'
+import { bindActionCreators } from 'redux';
+import { ProfileUpdatePrimary } from 'actions';
+import { ProfileUpdateSecondary } from 'actions';
 
 
 
@@ -95,9 +98,16 @@ class AdminLayout extends Component {
 
 
     componentDidMount(){
-        if(!this.props.data.isAuthenticated){
-            return window.location.replace('/auth/signin')
-        } 
+        // if(!this.props.data.isAuthenticated){
+        //     return window.location.replace('/auth/signin')
+        // } 
+        console.log('started component')
+        // const data ={
+        //     user:51,
+        //     history:this.props.history
+        //   }
+        //   console.log('trigging component did mount')
+        //   return this.props.getProfileData(data);
 
     }
     
@@ -151,4 +161,19 @@ class AdminLayout extends Component {
 const mapStateToProps = state => ({
     data: state.authUser
 });
-export default connect(mapStateToProps)(withRouter((withStyles(styles)(AdminLayout))));
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({      
+        getProfileData
+        
+    }, dispatch);
+  }
+
+// const mapDispatchToProps = (dispatch) => {
+//     return bindActionCreators({      
+        
+//         primaryprofileupdate:ProfileUpdatePrimary,
+//         secondaryprofileupdate:ProfileUpdateSecondary
+//     }, dispatch);
+//   }
+export default connect(mapStateToProps,mapDispatchToProps)(withRouter((withStyles(styles)(AdminLayout))));

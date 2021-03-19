@@ -65,18 +65,7 @@ export const getProfileData = (data) => (
     payload:data
   }
 );
-export const ProfileUpdatePrimary = () => (
- 
-  {
-    type: UPDATE_PROFILE_PRIMARY
-  }
-);
-export const ProfileUpdateSecondary = () => (
- 
-  {
-    type: UPDATE_PROFILE_SECONDARY
-  }
-);
+
 
 // End Profile Operations
 export const themodechanger = () => (

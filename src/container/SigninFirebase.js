@@ -217,7 +217,7 @@ const SigninFirebase = (props) => {
                       name="email"
                       label="Username"
                       type="text"
-                      required
+                      required                      
                       textvariant="standard"
                     />
 
@@ -225,7 +225,7 @@ const SigninFirebase = (props) => {
                       name="password"
                       label="Password"
                       type="password"
-                      required
+                      required                      
                       textvariant="standard"
                     />
                     {/* <TextField id="standard-basic" label="Username" style={{marginBottom:"5%"}} required />

@@ -2,18 +2,68 @@ import { Box, Button, Card, CardContent, CardHeader, Divider, Grid, TextField, T
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import {getProfileData,ProfileUpdatePrimary,ProfileUpdateSecondary} from '../actions/AuthActions'
+import {ProfileUpdatePrimary,ProfileUpdateSecondary} from '../actions/ProfileActions'
 import { bindActionCreators } from 'redux';
-
+import Alert from '@material-ui/lab/Alert';
 export class Profile extends Component {
 
-  componentDidMount(){
-    const data ={
-      user:51,
-      history:this.props.history
-    }
-    this.props.getProfileData(data)
+  constructor(props){
+    super(props);
     
+    this.state = {
+      first_name:"",
+      last_name:"",
+      email:"",
+      address:"",
+      postalcode:"",
+      phone:"",
+      city:"",
+      country:"",
+      content: ""
+    }
+  }
+
+  
+
+  componentDidMount(){
+    console.log(this.props.data)
+    
+       
+    //    let dataprops = this.props.data?.profile.user_ptr || {}
+    //   let profileprops = this.props.data?.profile || {}
+  
+    // return this.setState((state) => ({
+     
+    //   first_name:dataprops.first_name,
+    //   last_name:dataprops.last_name,
+    //   email:dataprops.email,
+    //   address:profileprops.address,
+    //   postalcode:profileprops.postalcode,
+    //   phone:profileprops.phone,
+    //   city:profileprops.city,
+    //   country:profileprops.country,
+    //   content: profileprops.content
+    // })
+    // )
+    
+  }
+
+
+
+ 
+  handleChange = (e) => {
+    this.setState((state,props)=>({
+      [e.target.name] : e.target.value
+    }));
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    
+    return this.props.primaryprofileupdate({
+      data:this.state,
+      payload:this.props.history
+    })
   }
 
 
@@ -26,19 +76,25 @@ export class Profile extends Component {
         <Grid item md={8}>
 
           <Card>
+            {this.props.data.updatestatus &&
+          <Alert severity="success">Successfully Updated!</Alert>
+            }
+             {this.props.data.updaterror &&
+          <Alert severity="error">Update is Failed!</Alert>
+            }
             <CardHeader title="Profile">
 
             </CardHeader>
             <CardContent>
 
 
-              <form noValidate autoComplete="off">
+              <form noValidate autoComplete="off" method="post" onSubmit={this.handleSubmit}>
                 <Box display="flex" p={2} pl={4} flexDirection="row" justifyContent="space-between" alignItems="center">
-                  <TextField style={{ margin: 3 }} id="filled-basic" label="FirstName" variant="outlined" fullWidth />
-                  <TextField style={{ margin: 3 }} id="filled-basic" label="LastName" variant="outlined" fullWidth />
+                  <TextField onChange={this.handleChange} name="first_name" style={{ margin: 3 }} id="filled-basic" label="FirstName" variant="outlined" fullWidth value={this.state.first_name} />
+                  <TextField onChange={this.handleChange} name="last_name" style={{ margin: 3 }} id="filled-basic" label="LastName" variant="outlined" fullWidth value={this.state.last_name} />
                 </Box>
                 <Box p={2} pl={4} display="flex" flexDirection="row" justifyContent="space-between" alignItems="center">
-                  <TextField style={{ margin: 3 }} id="filled-basic" label="Email" variant="outlined" fullWidth />                  
+                  <TextField onChange={this.handleChange} style={{ margin: 3 }} name="email" id="filled-basic" label="Email" variant="outlined" fullWidth value={this.state.email} />                  
                 </Box>
                 <Box p={2} pl={4} display="flex" flexDirection="row" justifyContent="space-between" alignItems="center">
                   <Button color="primary" variant="contained" type="submit">Update</Button>
@@ -50,6 +106,12 @@ export class Profile extends Component {
               </Box>
 
               <Box pt={2}>
+              {this.props.data.updatestatus &&
+          <Alert severity="success">Successfully Updated!</Alert>
+            }
+              {this.props.data.updaterror &&
+          <Alert severity="error">Update is Failed!</Alert>
+            }
                 <Typography component='h3' variant='body2'>
                   Contact Information
                                 </Typography>
@@ -57,14 +119,14 @@ export class Profile extends Component {
               <Box>
                 <form noValidate autoComplete="off">
                   <Box p={4} alignItems="center">
-                    <TextField id="filled-basic" label="Address" variant="outlined" fullWidth />
-                    <TextField id="filled-basic" label="PostalCode" variant="outlined" fullWidth style={{ marginTop: 40 }} />
-                    <TextField style={{margin:3,marginTop: 40}} id="filled-basic" label="Phone" variant="outlined" fullWidth />
+                    <TextField id="filled-basic" name="address" label="Address" variant="outlined" fullWidth value={this.state.address} />
+                    <TextField id="filled-basic" name="postalcode" label="PostalCode" variant="outlined" fullWidth style={{ marginTop: 40 }} value={this.state.postalcode} />
+                    <TextField style={{margin:3,marginTop: 40}} name="phone" id="filled-basic" label="Phone" variant="outlined" fullWidth value={this.state.phone} />
                   </Box>
                   
                   <Box p={4} pt={1} display="flex" flexDirection="row" justifyContent="space-between" alignItems="flex-start">
-                    <TextField style={{ margin: 3 }} id="filled-basic" label="City" variant="outlined" fullWidth />
-                    <TextField style={{ margin: 3 }} id="filled-basic" label="Country" variant="outlined" fullWidth />
+                    <TextField style={{ margin: 3 }} name="city" id="filled-basic" label="City" variant="outlined" fullWidth value={this.state.city} />
+                    <TextField style={{ margin: 3 }} name="country" id="filled-basic" label="Country" variant="outlined" fullWidth value={this.state.country} />
                   </Box>
 
                   <Box pl={4}>
@@ -108,7 +170,7 @@ export class Profile extends Component {
               </Box>
               <Box display="flex" flexDirection="row" justifyContent="space-between" p={3}>
                 <Typography component='p' variant='body2' >Joined On:  <br></br>{JSON.stringify(Date())}</Typography>
-                <Typography component='p' variant='body2' >Category:  Producer</Typography>
+                <Typography component='p' variant='body2' >Category:  {this.state.content}</Typography>
 
               </Box>
 
@@ -125,12 +187,12 @@ export class Profile extends Component {
 }
 
 const mapStateToProps = state => ({
-  data: state.authUser
+  data: state.profileops
 });
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({      
-      getProfileData,
+      
       primaryprofileupdate:ProfileUpdatePrimary,
       secondaryprofileupdate:ProfileUpdateSecondary
   }, dispatch);

@@ -12,7 +12,7 @@ import {
 import { fade, makeStyles } from "@material-ui/core/styles";
 import { grey } from "@material-ui/core/colors";
 import HttpsOutlinedIcon from "@material-ui/icons/HttpsOutlined";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import Alert from "@material-ui/lab/Alert";
 
 import { Formik, Form } from "formik";
@@ -109,17 +109,19 @@ const SigninFirebase = (props) => {
 
   const dispatch = useDispatch();
   const response = useSelector((state) => state.authUser);
-  if (response.user) props.history.push('/admin/dashboard')
+  
   useEffect(() => {
-      if (response.user) props.history.push('/admin/dashboard')
+    
+      if (response.isAuthenticated) props.history.push('/admin/dashboard');
       return () => {
           
       }
-  }, [response,props.history])
+  }, [props.history])
 
   const handleSubmit = async (values) => {
+    
     console.log(values);
-    setIssubmitting(true);
+    // setIssubmitting(true);
     setIserror(false)
     const data = {
       email: values.email,
@@ -133,17 +135,17 @@ const SigninFirebase = (props) => {
       history
     )
   );
-  return setIssubmitting(false);
+  // return setIssubmitting(false);
   };
 
   const onUserLogin = useCallback(() => {
       const data = {
-        email: "nagendrakumar422@gmail.com",
-        password: "12345",
+        email: "trisha",
+        password: "Google@123",
       }
       const history = props.history
       
-    return dispatch(
+    dispatch(
       signinUser(
           data,
         history
@@ -283,7 +285,7 @@ const SigninFirebase = (props) => {
             </Box>
           </Box>
           <Box display="flex" justifyContent="center" mb={2}>
-            <Button color="primary" variant="contained" onClick={onUserLogin}>
+            <Button color="primary" variant="contained" onClick={(e)=>onUserLogin(e)}>
               google login
             </Button>
           </Box>

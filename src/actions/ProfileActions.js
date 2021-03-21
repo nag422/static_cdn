@@ -1,6 +1,7 @@
 import {
 
     
+    GET_USER_PROFILE_DATA,
     UPDATE_PROFILE_PRIMARY,
     UPDATE_PROFILE_SECONDARY
 } from "./types";
@@ -21,3 +22,11 @@ export const ProfileUpdateSecondary = () => (
     }
 );
 
+// Profile Operations
+export const getProfileData = (data) => (
+ 
+    {
+      type: GET_USER_PROFILE_DATA,
+      payload:data
+    }
+  );

@@ -11,13 +11,29 @@ import AdminHeader from '../components/AdminHeader/AdminHeader'
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import { Container } from '@material-ui/core';
+import { connect } from 'react-redux';
 class AuthLayout extends Component {
     static propTypes = {
 
     }
 
+    componentDidMount(){
+        if(this.props.data.isAuthenticated){
+            return <Redirect to="/admin/dashboard" />
+            
+        } 
+        console.log('ended component')
+        // const data ={
+        //     user:51,
+        //     history:this.props.history
+        //   }
+        //   console.log('trigging component did mount')
+        //   return this.props.getProfileData(data);
+
+    }
+    
     render() {
-        const {match, location} = this.props;
+        
         
         
         return (
@@ -32,11 +48,13 @@ class AuthLayout extends Component {
                 
                 
                 <Redirect from="*" to="/auth/signin" />
-                
+                 
                 </Switch>
             </>
         )
     }
 }
-
-export default withRouter(AuthLayout);
+const mapStateToProps = state => ({
+    data: state.authUser
+});
+export default connect(mapStateToProps,null)(withRouter(AuthLayout));

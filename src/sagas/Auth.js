@@ -124,13 +124,13 @@ function* signInUserwithApi({ payload }) {
       type: LOGIN_USER_SUCCESS,
       payload: userData.email
     })
-    payload.history.push('/admin/dashboard')
+    return payload.history.push('/admin/dashboard')
   } else {
     yield put({
       type: LOGIN_USER_FAILURE,
       payload: signInResponse.message
     })
-    payload.history.push('/auth/signin')
+    return payload.history.push('/auth/signin')
 
   }
   //   yield put();
@@ -159,27 +159,7 @@ function* signoutUserwithApi() {
   // console.log(signOutResponse)
 }
 
-function* getUserProfilewithApi({ payload }) {
 
-  const ProfileResponse = yield call(
-    apinstance.getUserProfilewithApiRequest,
-    payload
-
-  );
-
-  if (ProfileResponse.status == 200) {
-    yield put({
-      type: GET_USER_PROFILE_DATA_SUCCESS,
-      payload: ProfileResponse.response
-
-    })
-
-  } else {
-    return
-  }
-  //   yield put();
-  // console.log(signOutResponse)
-}
 
 
 
@@ -199,16 +179,7 @@ export function* signOutUser() {
   yield takeEvery(LOGOUT_USER, signoutUserwithApi);
 }
 
-// Profile Operations
 
-export function* getuserProfile() {
-  console.log("GetProfile saga called..");
-  yield takeLatest(GET_USER_PROFILE_DATA, getUserProfilewithApi);
-}
-
-
-
-// End Profile Operations
 
 // Theme props 
 
@@ -234,6 +205,6 @@ export default function* rootSaga() {
     fork(signInUser),
     fork(signOutUser),
     fork(themetoggle),
-    fork(getuserProfile)
+    
   ]);
 }

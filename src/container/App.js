@@ -47,7 +47,8 @@ render(){
 
             {/* <ProtectedRoute path="/admin" authUser={this.props.data} component={AdminLayout}/> */}
 
-            <Route path="/admin" render={props => <AdminLayout {...props} />} />
+            {/* <Route path="/admin" render={props => <AdminLayout {...props} />} /> */}
+            <Route path="/admin" component={AdminLayout} />
             
     </Switch>
     

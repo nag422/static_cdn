@@ -8,10 +8,12 @@ import {
 
     UPDATE_PROFILE_PRIMARY,
     UPDATE_PROFILE_PRIMARY_SUCCESS,
-    UPDATE_PROFILE_PRIMARY_FAILURE
+    UPDATE_PROFILE_PRIMARY_FAILURE,
+    GET_USER_PROFILE_DATA,
+    GET_USER_PROFILE_DATA_SUCCESS
 
 } from "../actions/types";
-import {updateUserProfilewithApiRequest} from './api/api'
+import {updateUserProfilewithApiRequest,getUserProfilewithApiRequest} from './api/api'
 
 
 function* updateUserProfilewithApi({ payload }) {
@@ -53,6 +55,27 @@ function* updateUserProfilewithApi({ payload }) {
 }
 
 
+function* getUserProfilewithApi({ payload }) {
+
+    const ProfileResponse = yield call(
+      getUserProfilewithApiRequest,
+      payload
+  
+    );
+  
+    if (ProfileResponse.status == 200) {
+      yield put({
+        type: GET_USER_PROFILE_DATA_SUCCESS,
+        payload: ProfileResponse.response
+  
+      })
+  
+    } else {
+      return
+    }
+    //   yield put();
+    // console.log(signOutResponse)
+  }
 
 export function* profileUpdateSage() {
     console.log("UpdateProfile saga called..");
@@ -62,7 +85,16 @@ export function* profileUpdateSage() {
 
 
 
+// Profile Operations
 
+export function* getuserProfile() {
+    console.log("GetProfile saga called..");
+    yield takeLatest(GET_USER_PROFILE_DATA, getUserProfilewithApi);
+  }
+  
+  
+  
+  // End Profile Operations
 
 /**
  * Profile Root Saga
@@ -71,6 +103,7 @@ export default function* rootSaga() {
     console.log("Profile Saga Completed");
     yield all([
 
-        fork(profileUpdateSage)
+        fork(profileUpdateSage),
+        fork(getuserProfile)
     ]);
 }

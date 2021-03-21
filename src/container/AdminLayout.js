@@ -15,7 +15,7 @@ import { createMuiTheme, ThemeProvider, withStyles } from '@material-ui/core/sty
 import { connect } from 'react-redux';
 import { amber } from '@material-ui/core/colors';
 
-import {getProfileData} from '../actions/AuthActions'
+import {getProfileData} from '../actions/ProfileActions'
 import { bindActionCreators } from 'redux';
 import { ProfileUpdatePrimary } from 'actions';
 import { ProfileUpdateSecondary } from 'actions';
@@ -98,16 +98,17 @@ class AdminLayout extends Component {
 
 
     componentDidMount(){
-        // if(!this.props.data.isAuthenticated){
-        //     return window.location.replace('/auth/signin')
-        // } 
+        if(!this.props.data.isAuthenticated){
+            return window.location.replace('/auth/signin')
+        } 
+        
         console.log('started component')
-        // const data ={
-        //     user:51,
-        //     history:this.props.history
-        //   }
-        //   console.log('trigging component did mount')
-        //   return this.props.getProfileData(data);
+        const data ={
+            user:51,
+            history:this.props.history
+          }
+          console.log('trigging component did mount')
+          return this.props.getProfileData(data);
 
     }
     
@@ -123,11 +124,11 @@ class AdminLayout extends Component {
     }
     
     render() {
-        const {match, location} = this.props;
+        const {match, location, classes} = this.props;
        
         
         const width = this.state.issidebar?`calc(100% - 80%)`:`calc(100% - 93%)`;
-        const { classes } = this.props;
+        
     
         
         return (
@@ -148,7 +149,7 @@ class AdminLayout extends Component {
 				)}
                 
                 
-                <Redirect from="*" to="/admin/signin" />
+                <Redirect from="*" to="/admin/profile" />
                 
                 </Switch>
 
@@ -176,4 +177,5 @@ const mapDispatchToProps = (dispatch) => {
 //         secondaryprofileupdate:ProfileUpdateSecondary
 //     }, dispatch);
 //   }
-export default connect(mapStateToProps,mapDispatchToProps)(withRouter((withStyles(styles)(AdminLayout))));
+// export default connect(mapStateToProps,mapDispatchToProps)(withRouter((withStyles(styles)(AdminLayout))));
+export default withStyles(styles)(connect(mapStateToProps,mapDispatchToProps)(withRouter(AdminLayout)));

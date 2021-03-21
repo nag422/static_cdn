@@ -62,3 +62,36 @@ const getCookie = (name) => {
     
           return statuscode
           }
+
+
+  export const getProductChips = async (payload) =>{
+
+    let statuscode = ''
+    let cancel
+    // cancelToken.source()
+    const config = {
+      headers: {
+          'content-type': 'multipart/form-data',          
+          'X-CSRFToken': getCookie('csrftoken')
+      },
+      cancelToken: new axios.CancelToken(c => cancel = c)
+    }
+  
+    const form_data = new FormData();
+  
+    Object.entries(payload).forEach(([key, value]) =>  form_data.append(key, value));
+  
+    
+    
+    
+  
+    await axios
+      .post(url+"admin/getproductchip/", form_data,config)
+      .then(resp => {statuscode=resp.data})
+      .catch(e => {
+      if (axios.isCancel(e)) return
+      
+        })
+        
+      return statuscode
+      }

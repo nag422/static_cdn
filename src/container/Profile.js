@@ -2,7 +2,7 @@ import { Box, Button, Card, CardContent, CardHeader, Divider, Grid, TextField, T
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import {ProfileUpdatePrimary,ProfileUpdateSecondary} from '../actions/ProfileActions'
+import {ProfileUpdatePrimary,ProfileUpdateSecondary,getProfileData} from '../actions/ProfileActions'
 import { bindActionCreators } from 'redux';
 import Alert from '@material-ui/lab/Alert';
 export class Profile extends Component {
@@ -29,22 +29,22 @@ export class Profile extends Component {
     console.log(this.props.data)
     
        
-    //    let dataprops = this.props.data?.profile.user_ptr || {}
-    //   let profileprops = this.props.data?.profile || {}
+       let dataprops = this.props.data?.profile.user_ptr || {}
+      let profileprops = this.props.data?.profile || {}
   
-    // return this.setState((state) => ({
+    return this.setState((state) => ({
      
-    //   first_name:dataprops.first_name,
-    //   last_name:dataprops.last_name,
-    //   email:dataprops.email,
-    //   address:profileprops.address,
-    //   postalcode:profileprops.postalcode,
-    //   phone:profileprops.phone,
-    //   city:profileprops.city,
-    //   country:profileprops.country,
-    //   content: profileprops.content
-    // })
-    // )
+      first_name:dataprops.first_name,
+      last_name:dataprops.last_name,
+      email:dataprops.email,
+      address:profileprops.address,
+      postalcode:profileprops.postalcode,
+      phone:profileprops.phone,
+      city:profileprops.city,
+      country:profileprops.country,
+      content: profileprops.content
+    })
+    )
     
   }
 
@@ -192,7 +192,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({      
-      
+      getProfileData,
       primaryprofileupdate:ProfileUpdatePrimary,
       secondaryprofileupdate:ProfileUpdateSecondary
   }, dispatch);

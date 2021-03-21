@@ -32,7 +32,6 @@ const INIT_STATE = {
     access_token: localStorage.getItem("access_token"),
     loading: false,
     user: null,
-    profile:{},
     isAuthenticated:false,
     thememode:true
 };
@@ -50,10 +49,7 @@ export default (state = INIT_STATE, action) => {
 
         case LOGIN_USER_FAILURE:
             // NotificationManager.error(action.payload);
-            return { ...state, loading: false };
-
-        case GET_USER_PROFILE_DATA_SUCCESS:
-            return {...state, profile:action.payload}
+            return { ...state, loading: false };        
        
         case LOGOUT_USER:
             return { ...state };

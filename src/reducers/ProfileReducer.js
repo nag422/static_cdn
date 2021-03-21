@@ -36,6 +36,8 @@ export default (state = INIT_STATE, action) => {
         case UPDATE_PROFILE_PRIMARY_SUCCESS:
             console.log('profile updating reducer')
             return {...state,updatestatus:true,updaterror:false};
+        case GET_USER_PROFILE_DATA_SUCCESS:
+            return {...state, profile:action.payload}
         case UPDATE_PROFILE_PRIMARY_FAILURE:
             console.log('profile updating reducer fail')
             return {...state,updaterror:true,updatestatus:false};

@@ -57,14 +57,7 @@ export const signoutUser = () => (
 // });
 
 
-// Profile Operations
-export const getProfileData = (data) => (
- 
-  {
-    type: GET_USER_PROFILE_DATA,
-    payload:data
-  }
-);
+
 
 
 // End Profile Operations

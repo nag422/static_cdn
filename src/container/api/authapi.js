@@ -106,3 +106,36 @@ export const getUsernameChips = async (payload) =>{
       
     return statuscode
     }
+
+export const passwordReset =async (payload) => {
+  let statuscode = ''
+  let cancel
+  // cancelToken.source()
+  console.log(payload)
+  const config = {
+    headers: {
+        'content-type': 'application/json',          
+        'X-CSRFToken': getCookie('csrftoken')
+    },
+    cancelToken: new axios.CancelToken(c => cancel = c)
+  }
+
+  const form_data = new FormData();
+
+  Object.entries(payload).forEach(([key, value]) =>  form_data.append(key, value));
+
+  
+  
+  
+
+  await axios
+    .post(url+"auth/password_reset/", form_data,config)
+    .then(resp => {statuscode=resp.data})
+    .catch(e => {
+    if (axios.isCancel(e)) return
+    
+      })
+      
+    return statuscode
+    }
+

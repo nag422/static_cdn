@@ -48,7 +48,8 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import LocalMallIcon from '@material-ui/icons/LocalMall';
 import Brightness6Icon from '@material-ui/icons/Brightness6';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
-import { useDispatch } from 'react-redux';
+import DynamicFeedIcon from '@material-ui/icons/DynamicFeed';
+import { useDispatch,useSelector } from 'react-redux';
 import {signoutUser, themodechanger} from '../../actions/AuthActions'
 import { Scrollbars } from 'react-custom-scrollbars';
 // Side Drawer
@@ -131,6 +132,7 @@ const useStyles = makeStyles((theme) => ({
     }),
   },
   appBarShift: {
+    zIndex: theme.zIndex.drawer + 1,
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(['width', 'margin'], {
@@ -192,6 +194,7 @@ list: {
     position:'fixed',
     width:'20%',
     padding: theme.spacing(2,0),
+    zIndex: theme.zIndex.drawer + 1,
     backgroundColor: theme.palette.primary.main,
     color:theme.palette.primary.contrastText,
     
@@ -220,6 +223,8 @@ modechanger:{
 
 const AdminHeader = (props)=> {
   const dispatch = useDispatch()
+  const response = useSelector(state => state.profileops.profile)
+  
   const {anchor,sidebardrawer} = props;
   const classes = useStyles();
   const [isdrawer,setIsdrawer] = React.useState(false)
@@ -279,6 +284,7 @@ const AdminHeader = (props)=> {
     return;
 
   }
+ 
 
   const handle = useFullScreenHandle();
   
@@ -310,7 +316,7 @@ const toggleDrawer = (anchor, open) => (event) => {
       onClose={handleMenuClose}
       elevation={1}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <Link to="admin/profile" style={{textDecoration:"none",color:"inherit"}}><MenuItem onClick={handleMenuClose}>Profile</MenuItem></Link>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
       <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
@@ -396,7 +402,7 @@ const toggleDrawer = (anchor, open) => (event) => {
     >
       <Box display="flex" alignItems="center" justifyContent="space-around" className={classes.logod}>
       <Typography className={classes.title} variant="h6" noWrap>
-            MoviePlex
+            MoviePlex2
           </Typography>
           <Hidden smUp>
          <IconButton onClick={()=>setIsdrawer(!isdrawer)} size="small">
@@ -417,6 +423,8 @@ const toggleDrawer = (anchor, open) => (event) => {
       
       
       >
+        {response.is_superuser ?
+        <>
     <Link to="/admin/dashboard" style={{textDecoration:'none',color:'inherit'}}>
       <ListItem button>
         <ListItemIcon>
@@ -441,6 +449,10 @@ const toggleDrawer = (anchor, open) => (event) => {
         <ListItemText primary="Groups" />
       </ListItem>
       </Link>
+</>
+      :null}
+
+
       <Link to="/admin/profile" style={{textDecoration:'none',color:'inherit'}}>
       <ListItem button>
         <ListItemIcon>
@@ -449,7 +461,7 @@ const toggleDrawer = (anchor, open) => (event) => {
         <ListItemText primary="Profile" />
       </ListItem>
       </Link>
-      
+      {response.is_superuser &&
       <Link to="/admin/contentadmin" style={{textDecoration:'none',color:'inherit'}}>
       <ListItem button>
         <ListItemIcon>
@@ -458,7 +470,7 @@ const toggleDrawer = (anchor, open) => (event) => {
         <ListItemText primary="Explore Content (Admin) " />
       </ListItem>
       </Link>
-
+}
 
       <Link to="/admin/content" style={{textDecoration:'none',color:'inherit'}}>
       <ListItem button>
@@ -483,9 +495,20 @@ const toggleDrawer = (anchor, open) => (event) => {
         <ListItemIcon>
         <LocalMallIcon />
         </ListItemIcon>
-        <ListItemText primary="Bagged Content" />
+        <ListItemText primary="Interested Content" />
       </ListItem>
       </Link>
+
+      <Link to="/admin/recommended" style={{textDecoration:'none',color:'inherit'}}>
+      <ListItem button>
+        <ListItemIcon>
+        <DynamicFeedIcon />
+        </ListItemIcon>
+        <ListItemText primary="Recommended" />
+      </ListItem>
+      </Link>
+
+      
 
       <Link to="/admin/contentrequest" style={{textDecoration:'none',color:'inherit'}}>
       <ListItem button>

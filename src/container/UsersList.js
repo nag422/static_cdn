@@ -17,7 +17,7 @@ import { grey } from '@material-ui/core/colors'
 
 import ChipInput from 'material-ui-chip-input'
 import {getUsernameChips} from './api/authapi';
-import {getProductChips} from './api/cardactionsapi'
+import {getProductChips,ProductUserSave,ProductGroupSave} from './api/cardactionsapi'
 import UserlistIcon from '../components/IconList/UserlistIcon';
 import Producticonlist from 'components/IconList/Producticonlist';
 
@@ -81,6 +81,7 @@ const UsersList = () => {
     const [uservalues, setUservalues] = React.useState({
         username: '',
         password: '',
+        phone:''
 
     })
 
@@ -224,6 +225,7 @@ const UsersList = () => {
         let form_data = new FormData()
         form_data.append('username', uservalues.username)
         form_data.append('password', uservalues.password)
+        form_data.append('phone', uservalues.phone)
         form_data.append('usertype', usertype)
         form_data.append('usercategory', usercategory)
         await axios.post(url + 'auth/admin/saveuser/', form_data, config).then(res => {
@@ -247,10 +249,23 @@ const UsersList = () => {
 
     // Products
 
-    const AssignhandleSubmit =() => {
-        console.log(chipData,chipDataProduct)
-       const v =  chipproduct.filter((val,index) => chipDataProduct.includes(val.title))
-       console.log(v)
+    const AssignhandleSubmit = async () => {
+        
+        const u =  await chipuser.filter((val,index) => chipData.includes(val.username))
+       const p =  await chipproduct.filter((val,index) => chipDataProduct.includes(val.title))
+       console.log(p.map(val=>val.id))
+       console.log(u.map(val=>val.id))
+       var response = await ProductUserSave({userdata:u.map(val=>val.id),productdata:p.map(val=>val.id),action:'saveuserproducts'})
+
+    }
+
+    const AssignhandleGroupSubmit = async () => {
+        
+        
+       const p =  await chipproduct.filter((val,index) => chipDataProduct.includes(val.title))
+   
+       var response = await ProductGroupSave({groupdata:usergroup,productdata:p.map(val=>val.id),action:'savegroupproducts'})
+
     }
 
     // End Products
@@ -377,6 +392,18 @@ const UsersList = () => {
                             />
 
 
+                            <br></br>
+
+                            <TextField id="phone" label="phone" variant="outlined"
+                                InputLabelProps={{
+                                    shrink: uservalues.phone ? true : false
+                                }}
+
+                                value={uservalues.phone}
+                                onChange={onhandleChange}
+                                fullWidth
+                                style={{ marginTop: '30px' }}
+                            />
                             <br></br>
 
 
@@ -548,7 +575,7 @@ const UsersList = () => {
                                     type="button" onClick={AssignhandleSubmit} color="primary" variant="contained">Assign Poroducts</Button>
                                     &nbsp; <Button
 
-type="button" onClick={AssignhandleSubmit} color="primary" variant="contained">Group Assign Poroducts</Button>
+type="button" onClick={AssignhandleGroupSubmit} color="primary" variant="contained">Group Assign Poroducts</Button>
                             </Box>
                             
                             <br></br>

@@ -10,6 +10,9 @@ import Profile from '../container/Profile';
 import UserGroups from '../container/UserGroups';
 import ContentExploreFavorite from '../container/ContentExploreFavorite';
 import ContentExploreAdminBagged from '../container/ContentExploreAdminBagged';
+import Recommended from 'container/Recommended';
+import ConfirmPassword from 'container/ConfirmPassword';
+import ChatMessenger from 'container/ChatMessenger';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
@@ -47,6 +50,13 @@ export default [
         exact: true
     },
     {
+        path: "newpassword",
+        component: ConfirmPassword,
+        exact: true
+    },
+
+    
+    {
         path: "profile",
         component: Profile,
         exact: true
@@ -70,10 +80,19 @@ export default [
         path: "bagged",
         component: ContentExploreAdminBagged,
         exact: true
+    },{
+        path: "recommended",
+        component: Recommended,
+        exact: true
     },
     {
         path: "contentrequest",
         component: ContentRequest,
+        exact: true
+    },
+    {
+        path: "messages",
+        component: ChatMessenger,
         exact: true
     }
     

@@ -21,7 +21,7 @@ import {
  */
 
 export const signinUser = (user,history) => (
-  console.log("skfdsdfjndf", user),
+  // console.log("skfdsdfjndf", user),
   {
     type: SIGNIN_USER,
     payload: { user,history }

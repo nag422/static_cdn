@@ -4,6 +4,7 @@
 import { all, call, fork, put, takeEvery, takeLatest } from "redux-saga/effects";
 
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import {
   LOGIN_USER,
   LOGIN_FACEBOOK_USER,
@@ -38,13 +39,17 @@ import * as apinstance from './api/api'
 
 // } from "../actions";
 
+import {getProfileData} from '../actions/ProfileActions'
 const url = 'http://127.0.0.1:8000/'
 const getCookie = (name) => {
+  
+  
   let cookieValue = null;
   if (document.cookie && document.cookie !== '') {
-    const cookies = document.cookie.split(';');
+    const cookies = document.cookie.split(';');    
     for (let i = 0; i < cookies.length; i++) {
       const cookie = cookies[i].trim();
+      
       // Does this cookie string begin with the name we want?
       if (cookie.substring(0, name.length + 1) === (name + '=')) {
         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
@@ -54,29 +59,63 @@ const getCookie = (name) => {
   }
   return cookieValue;
 }
-const signInUserwithApiRequest = async (email, password) => {
+const signInUserwithApiRequest = async (username, password,csrftoken) => {
 
   let statuscode = ''
   let cancel
   // cancelToken.source()
-  const config = {
+
+  const app = axios.create({
+    url,
     headers: {
-      'content-type': 'application/json',
-      'X-CSRFToken': getCookie('csrftoken')
+      
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'X-CSRFToken': csrftoken,
+   
     },
-    cancelToken: new axios.CancelToken(c => cancel = c)
-  }
+  
+    
+})
+  
 
 
-  const body = JSON.stringify({ username: email, password: password })
+  const body = JSON.stringify({ username,password })
 
-  await axios
-    .post(url + "auth/signinsave/", body, config)
+  await app
+    .post(url + "auth/signinsave/", body)
     .then(resp => { statuscode = resp.data })
     .catch(e => {
       if (axios.isCancel(e)) return
 
     })
+
+
+  // fetch("http://localhost:8000/auth/signinsave/", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       "X-CSRFToken": csrftoken,
+  //     },
+  //     credentials: "include",
+  //     body: JSON.stringify({username: username, password: password}),
+  //   })
+  //   .then(response => {
+  //     if (!response.ok) {
+  //       throw new Error('Connecting problem');
+  //     }
+  //   })
+  //   .then((data) => {
+  //     console.log(data);
+      
+  //     // Router.push('/dashboard');
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+      
+  //   });
+
+  
 
   return statuscode
 }
@@ -88,7 +127,7 @@ const signOutUserwithApiRequest = async (email, password) => {
   // cancelToken.source()
   const config = {
     headers: {
-      'content-type': 'application/json',
+      'Content-Type': 'application/json',
       'X-CSRFToken': getCookie('csrftoken')
     },
     cancelToken: new axios.CancelToken(c => cancel = c)
@@ -111,20 +150,28 @@ const signOutUserwithApiRequest = async (email, password) => {
 
 function* signInUserwithApi({ payload }) {
   let userData = payload.user;
-  console.log("consoling here: ", payload);
-  console.log("consoling here: ", payload.history);
+  // console.log("consoling here: ", payload);
+  // console.log("consoling here: ", payload.history);
   const signInResponse = yield call(
     signInUserwithApiRequest,
     userData.email,
-    userData.password
+    userData.password,
+    userData.csrftoken
   );
   if (signInResponse.status == 200) {
+    
+    yield put(getProfileData({
+      user:51,
+      history:payload.history
+    }))
 
     yield put({
       type: LOGIN_USER_SUCCESS,
       payload: userData.email
     })
-    return payload.history.push('/admin/dashboard')
+    
+    
+    return payload.history.push('/admin/profile')
   } else {
     yield put({
       type: LOGIN_USER_FAILURE,

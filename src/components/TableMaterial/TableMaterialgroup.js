@@ -442,7 +442,7 @@ export default function TableMaterialgroup() {
                       </TableCell>
                       {/* <TableCell align="left">{row.role}</TableCell> */}
                       <TableCell align="left">{row.rule?row.rule:'-------'}</TableCell>
-                      <TableCell align="left">{row.users?row.users:"--------"}</TableCell>
+                      <TableCell align="right">{row.users?row.users:"--------"}</TableCell>
                       
                      
                     </TableRow>

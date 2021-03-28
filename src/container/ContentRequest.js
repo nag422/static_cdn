@@ -14,7 +14,7 @@ import Fileuploadbutton from '../components/button/Fileuploadbutton'
 import BackupIcon from '@material-ui/icons/Backup';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-
+import { AlertTitle } from '@material-ui/lab';
 
 const creatorSchema = Yup.object().shape({
     title: Yup.string()
@@ -61,7 +61,7 @@ const ContentRequest = (props) => {
     // const selectcategoryFields = [{ label: 'Creator', value: 'creator' }, { label: 'Producer', value: 'Producer' }, { label: 'Hybrid', value: 'hybrid' }, { label: 'None of the above', value: 'none' }]
     // const [requestfields, setRequestfields] = React.useState([{ label: 'Title' }, { label: 'Description' }, { label: 'Thumbnail' }, { label: 'Video File' }, { label: 'Rights Details' }, { label: 'Cast and Crew' }, { label: 'Cost of the project' }, { label: 'Date of Creation' }, { label: 'Cost' }])
     // const [issubmitting, setIssubmitting] = React.useState(false);
-
+    
     const [open, setOpen] = React.useState(false)
     const [alertseverity, setAlertseverity] = React.useState('success')
     const [productmessage, setProductmessage] = React.useState('')
@@ -85,6 +85,7 @@ const ContentRequest = (props) => {
 
     const dispatch = useDispatch();
     const response = useSelector((state) => state.productSave);
+    const userresponse = useSelector((state) => state.profileops);
 
     const onCreatorrequestSave = async (values) => {
         const history = props.history
@@ -211,7 +212,7 @@ const ContentRequest = (props) => {
                     {productmessage}
                 </Alert>
             </Snackbar>
-            {authortype == "creator" ?
+            {userresponse.category == "creator" && !userresponse.is_superuser ?
                 <Grid container spacing={1}>
 
                     <Grid item md={6} sm={12} xs={12}>
@@ -444,7 +445,7 @@ const ContentRequest = (props) => {
 
                 </Grid>
 
-                :
+                :userresponse.category == "producer" && !userresponse.is_superuser ?
                 <Grid container spacing={1}>
 
                     <Grid item md={6} sm={12} xs={12}>
@@ -493,8 +494,11 @@ const ContentRequest = (props) => {
 
                 </Grid>
 
-
-            }
+    
+            :<Alert severity="info">
+            <AlertTitle>Denied!</AlertTitle>
+            User should either creator or producer — <strong>Login with producer or creator!</strong>
+          </Alert>}
 
             <br></br>
 

@@ -5,14 +5,12 @@ import {
   Box,
   Grid,
   Typography,
-  TextField,
-  LinearProgress,
 } from "@material-ui/core";
-
-import { fade, makeStyles } from "@material-ui/core/styles";
+import Cookies from 'js-cookie';
+import { makeStyles } from "@material-ui/core/styles";
 import { grey } from "@material-ui/core/colors";
 import HttpsOutlinedIcon from "@material-ui/icons/HttpsOutlined";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Alert from "@material-ui/lab/Alert";
 
 import { Formik, Form } from "formik";
@@ -103,8 +101,9 @@ const initialValues = {
   password: "",
 };
 const SigninFirebase = (props) => {
-  const [iserror, setIserror] = React.useState(true);
+  const [iserror, setIserror] = React.useState(false);
   const [issubmitting, setIssubmitting] = React.useState(false);
+  const [csrf,setCsrf] = React.useState("")
   const classes = useStyles();
 
   const dispatch = useDispatch();
@@ -112,31 +111,44 @@ const SigninFirebase = (props) => {
   
   useEffect(() => {
     
-      if (response.isAuthenticated) props.history.push('/admin/dashboard');
-      return () => {
-          
-      }
-  }, [props.history])
+      if (response.isAuthenticated) return props.history.push('/admin/dashboard');
+      fetch("http://localhost:8000/getcsrf/default/",{
+        credentials: "include",
+      }).then((res) => {
+        let csrfToken = res.headers.get("X-CSRFToken")
+        
+        setCsrf(csrfToken)
+      }).catch((err) => {
+        console.log(err)
+      })
+    
+  }, [])
 
   const handleSubmit = async (values) => {
     
-    console.log(values);
-    // setIssubmitting(true);
+   
+    setIssubmitting(true);
     setIserror(false)
     const data = {
       email: values.email,
       password: values.password,
+      csrftoken:csrf
     }
     const history = props.history
     
-  await dispatch(
-    signinUser(
-        data,
-      history
-    )
-  );
-  // return setIssubmitting(false);
+    dispatch(
+      signinUser(
+          data,
+        history
+      )
+    );
+    
+    
+  
+
   };
+
+ 
 
   const onUserLogin = useCallback(() => {
       const data = {
@@ -157,16 +169,16 @@ const SigninFirebase = (props) => {
 
   return (
     <>
-      {iserror && (
+      {response.authenticateerror && !iserror? (
         <Alert
           severity="error"
           onClose={() => {
-            setIserror(false);
+            setIserror(true);
           }}
         >
           Login attempt is failed. check credentials !
         </Alert>
-      )}
+      ):null}
 
       {response ? response.email : "no waste"}
 
@@ -245,7 +257,7 @@ const SigninFirebase = (props) => {
                       }}
                       style={{ marginTop: "5%" }}
                     >
-                      {issubmitting && (
+                      {response.loading && (
                         <CircularProgress
                           color="secondary"
                           size={20}

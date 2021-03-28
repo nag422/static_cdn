@@ -33,6 +33,7 @@ const INIT_STATE = {
     loading: false,
     user: null,
     isAuthenticated:false,
+    authenticateerror:false,
     thememode:true
 };
 
@@ -45,11 +46,11 @@ export default (state = INIT_STATE, action) => {
             return { ...state, loading: true };
 
         case LOGIN_USER_SUCCESS:
-            return { ...state, loading: false, user: action.payload, isAuthenticated:true };
+            return { ...state, loading: false, user: action.payload, authenticateerror:false,isAuthenticated:true };
 
         case LOGIN_USER_FAILURE:
             // NotificationManager.error(action.payload);
-            return { ...state, loading: false };        
+            return { ...state, authenticateerror:true,loading: false };        
        
         case LOGOUT_USER:
             return { ...state };

@@ -124,3 +124,23 @@ export const getalllikedproducts = async (payload) =>{
 
     
     }
+
+    export const getallrecommendedproducts = async (payload) =>{
+
+      let statuscode = ''
+      const config = {
+          headers: {
+              'content-type': 'application/json',          
+              'X-CSRFToken': getCookie('csrftoken')
+          }
+      }
+
+
+      console.log('pagenumber',payload.pageNumber)
+      return await axios
+          .get(`${url}admin/getproductsallbyusers/?page=${payload.pageNumber}`,config)
+          .then(resp => resp.data.obs)
+          .catch(error => error);
+
+  
+  }

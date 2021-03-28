@@ -16,7 +16,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import LocalMallIcon from '@material-ui/icons/LocalMall';
-import { Box, Menu, MenuItem } from '@material-ui/core';
+import { Menu, MenuItem } from '@material-ui/core';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -40,13 +40,9 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     backgroundColor: red[500],
   },
-  small:{
-    width: theme.spacing(3),
-    height: theme.spacing(3)
-  }
 }));
 
-export default function ContentExplorecardAdmin(props) {
+export default function RecommendExplorecard(props) {
   const classes = useStyles();
 
  
@@ -91,71 +87,59 @@ export default function ContentExplorecardAdmin(props) {
     <Card className={classes.root}>
       <CardHeader
         avatar={
-          <Avatar aria-label="recipe" className={classes.avatar} src={`http://localhost:8000/media/${props.val.thumbnail}`}>
+          <Avatar aria-label="recipe" className={classes.avatar} src={`http://localhost:8000${props.val.thumbnail}`}>
             R
           </Avatar>
         }
-        action={
-          <>
-            <IconButton aria-label="settings" onClick={handleClick} >
-              <MoreVertIcon />
-            </IconButton>
-            <Menu
-              id="long-menu"
-              anchorEl={anchorEl}
-              keepMounted
-              open={open}              
-              onClose={handleClose}
-              PaperProps={{
-                style: {
-                  maxHeight: 48 * 4.5,
-                  width: '20ch',
-                },
-              }}
-            >
-              {options.map((val,index) => {
-                return (
-                <MenuItem key={index} onClick={(e)=>handleIsactive(e,props.val.id,val)}>
-                {val == "is_active"?props.val[val]?'Deactivate':'Activate':props.val.in_stock?'Private':'Public'}
-              </MenuItem>
-              // <MenuItem key={index+1} onClick={(e) => handleInstock(e,props.val.id,'stock')}>
-              //     {props.val.in_stock?'Private':'Public'}
-              // </MenuItem>
+        // action={
+        //   <>
+        //     <IconButton aria-label="settings" onClick={handleClick} >
+        //       <MoreVertIcon />
+        //     </IconButton>
+        //     <Menu
+        //       id="long-menu"
+        //       anchorEl={anchorEl}
+        //       keepMounted
+        //       open={open}              
+        //       onClose={handleClose}
+        //       PaperProps={{
+        //         style: {
+        //           maxHeight: 48 * 4.5,
+        //           width: '20ch',
+        //         },
+        //       }}
+        //     >
+        //       {options.map((val,index) => {
+        //         return (
+        //         <MenuItem key={index} onClick={(e)=>handleIsactive(e,props.val.id,val)}>
+        //         {val == "is_active"?props.val[val]?'Deactivate':'Activate':props.val.in_stock?'Private':'Public'}
+        //       </MenuItem>
+        //       // <MenuItem key={index+1} onClick={(e) => handleInstock(e,props.val.id,'stock')}>
+        //       //     {props.val.in_stock?'Private':'Public'}
+        //       // </MenuItem>
             
             
-              )
-              })
+        //       )
+        //       })
                 
                
               
-        }
+        // }
               
-            </Menu>
-          </>
-        }
+        //     </Menu>
+        //   </>
+        // }
         title={props.val.title}
         subheader={props.val.created.toLocaleString()}
       />
       <CardMedia
         className={classes.media}
-        image={`http://localhost:8000/media/${props.val.thumbnail}`}
+        image={`http://localhost:8000${props.val.thumbnail}`}
         title={props.val.title}
       />
       <CardContent>
-        <Box display="flex" justifyContent="flex-start">
-        <Avatar aria-label="recipe" className={classes.small} src={`http://localhost:8000/media/${props.val.thumbnail}`}>
-            U
-          </Avatar>
-          <Typography variant="body2" color="textSecondary" component="p">
-        
-        {props.val.customauthor}
-
-      </Typography>
-        </Box>
         <Typography variant="body2" color="textSecondary" component="p">
-        
           {props.val.title}
-
         </Typography>
       </CardContent>
       <CardActions disableSpacing>

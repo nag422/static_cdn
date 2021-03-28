@@ -1,68 +1,72 @@
-import { Box, Button, Card, CardContent, CardHeader, Divider, Grid, TextField, Typography } from '@material-ui/core'
+import { Box, Button, Card, CardContent, CardHeader, Divider, Grid, ListItem, ListItemIcon, ListItemText, TextField, Typography } from '@material-ui/core'
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import {ProfileUpdatePrimary,ProfileUpdateSecondary,getProfileData} from '../actions/ProfileActions'
+import { ProfileUpdatePrimary, ProfileUpdateSecondary, getProfileData } from '../actions/ProfileActions'
 import { bindActionCreators } from 'redux';
 import Alert from '@material-ui/lab/Alert';
+import { Link } from 'react-router-dom';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import LocalMallIcon from '@material-ui/icons/LocalMall';
+import DynamicFeedIcon from '@material-ui/icons/DynamicFeed';
 export class Profile extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
-    
+
     this.state = {
-      first_name:"",
-      last_name:"",
-      email:"",
-      address:"",
-      postalcode:"",
-      phone:"",
-      city:"",
-      country:"",
+      first_name: "",
+      last_name: "",
+      email: "",
+      address: "",
+      postalcode: "",
+      phone: "",
+      city: "",
+      country: "",
       content: ""
     }
   }
 
-  
 
-  componentDidMount(){
+
+  componentDidMount() {
     console.log(this.props.data)
-    
-       
-       let dataprops = this.props.data?.profile.user_ptr || {}
-      let profileprops = this.props.data?.profile || {}
-  
+
+
+    let dataprops = this.props.data?.profile.user_ptr || {}
+    let profileprops = this.props.data?.profile || {}
+    console.log(profileprops.username)
     return this.setState((state) => ({
-     
-      first_name:dataprops.first_name,
-      last_name:dataprops.last_name,
-      email:dataprops.email,
-      address:profileprops.address,
-      postalcode:profileprops.postalcode,
-      phone:profileprops.phone,
-      city:profileprops.city,
-      country:profileprops.country,
+
+      first_name: dataprops.first_name,
+      last_name: dataprops.last_name,
+      email: dataprops.email,
+      address: profileprops.address,
+      postalcode: profileprops.postalcode,
+      phone: profileprops.phone,
+      city: profileprops.city,
+      country: profileprops.country,
       content: profileprops.content
     })
     )
-    
+
   }
 
 
 
- 
+
   handleChange = (e) => {
-    this.setState((state,props)=>({
-      [e.target.name] : e.target.value
+    this.setState((state, props) => ({
+      [e.target.name]: e.target.value
     }));
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
-    
+
     return this.props.primaryprofileupdate({
-      data:this.state,
-      payload:this.props.history
+      data: this.state,
+      payload: this.props.history
     })
   }
 
@@ -77,10 +81,10 @@ export class Profile extends Component {
 
           <Card>
             {this.props.data.updatestatus &&
-          <Alert severity="success">Successfully Updated!</Alert>
+              <Alert severity="success">Successfully Updated!</Alert>
             }
-             {this.props.data.updaterror &&
-          <Alert severity="error">Update is Failed!</Alert>
+            {this.props.data.updaterror &&
+              <Alert severity="error">Update is Failed!</Alert>
             }
             <CardHeader title="Profile">
 
@@ -94,7 +98,7 @@ export class Profile extends Component {
                   <TextField onChange={this.handleChange} name="last_name" style={{ margin: 3 }} id="filled-basic" label="LastName" variant="outlined" fullWidth value={this.state.last_name} />
                 </Box>
                 <Box p={2} pl={4} display="flex" flexDirection="row" justifyContent="space-between" alignItems="center">
-                  <TextField onChange={this.handleChange} style={{ margin: 3 }} name="email" id="filled-basic" label="Email" variant="outlined" fullWidth value={this.state.email} />                  
+                  <TextField onChange={this.handleChange} style={{ margin: 3 }} name="email" id="filled-basic" label="Email" variant="outlined" fullWidth value={this.state.email} />
                 </Box>
                 <Box p={2} pl={4} display="flex" flexDirection="row" justifyContent="space-between" alignItems="center">
                   <Button color="primary" variant="contained" type="submit">Update</Button>
@@ -106,12 +110,12 @@ export class Profile extends Component {
               </Box>
 
               <Box pt={2}>
-              {this.props.data.updatestatus &&
-          <Alert severity="success">Successfully Updated!</Alert>
-            }
-              {this.props.data.updaterror &&
-          <Alert severity="error">Update is Failed!</Alert>
-            }
+                {this.props.data.updatestatus &&
+                  <Alert severity="success">Successfully Updated!</Alert>
+                }
+                {this.props.data.updaterror &&
+                  <Alert severity="error">Update is Failed!</Alert>
+                }
                 <Typography component='h3' variant='body2'>
                   Contact Information
                                 </Typography>
@@ -121,9 +125,9 @@ export class Profile extends Component {
                   <Box p={4} alignItems="center">
                     <TextField id="filled-basic" name="address" label="Address" variant="outlined" fullWidth value={this.state.address} />
                     <TextField id="filled-basic" name="postalcode" label="PostalCode" variant="outlined" fullWidth style={{ marginTop: 40 }} value={this.state.postalcode} />
-                    <TextField style={{margin:3,marginTop: 40}} name="phone" id="filled-basic" label="Phone" variant="outlined" fullWidth value={this.state.phone} />
+                    <TextField style={{ margin: 3, marginTop: 40 }} name="phone" id="filled-basic" label="Phone" variant="outlined" fullWidth value={this.state.phone} />
                   </Box>
-                  
+
                   <Box p={4} pt={1} display="flex" flexDirection="row" justifyContent="space-between" alignItems="flex-start">
                     <TextField style={{ margin: 3 }} name="city" id="filled-basic" label="City" variant="outlined" fullWidth value={this.state.city} />
                     <TextField style={{ margin: 3 }} name="country" id="filled-basic" label="Country" variant="outlined" fullWidth value={this.state.country} />
@@ -137,6 +141,44 @@ export class Profile extends Component {
 
             </CardContent>
 
+          </Card>
+
+          <Card>
+            <CardHeader title="Collections"></CardHeader>
+            <CardContent>
+              <Box display="flex" flexDirection="row" justifyContent="space-between">
+                <Link to="/admin/favorite">
+                  <ListItem button>
+                    <ListItemIcon>
+                      <FavoriteIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Favorites" />
+                  </ListItem>
+                </Link>
+                <Link to="/admin/bagged">
+
+
+
+                  <ListItem button>
+                    <ListItemIcon>
+                      <LocalMallIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Interests" />
+                  </ListItem>
+                </Link>
+                <Link to="/admin/recommended">
+
+
+                  <ListItem button>
+                    <ListItemIcon>
+                      <DynamicFeedIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Assigned" />
+                  </ListItem>
+
+                </Link>
+              </Box>
+            </CardContent>
           </Card>
         </Grid>
         <Grid item md={4} xs={12} sm={12}>
@@ -179,6 +221,7 @@ export class Profile extends Component {
           </Card>
         </Grid>
 
+
       </Grid>
 
 
@@ -191,11 +234,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({      
-      getProfileData,
-      primaryprofileupdate:ProfileUpdatePrimary,
-      secondaryprofileupdate:ProfileUpdateSecondary
+  return bindActionCreators({
+    getProfileData,
+    primaryprofileupdate: ProfileUpdatePrimary,
+    secondaryprofileupdate: ProfileUpdateSecondary
   }, dispatch);
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

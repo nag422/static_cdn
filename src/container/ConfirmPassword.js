@@ -5,17 +5,14 @@ import {
   Box,
   Grid,
   Typography,
-  TextField
+  TextField,
+  LinearProgress,
 } from "@material-ui/core";
 
-import { makeStyles } from "@material-ui/core/styles";
+import { fade, makeStyles } from "@material-ui/core/styles";
 import { grey } from "@material-ui/core/colors";
 import HttpsOutlinedIcon from "@material-ui/icons/HttpsOutlined";
 import { Link } from "react-router-dom";
-
-import {passwordReset} from './api/authapi';
-
-
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -55,22 +52,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ForgotPassword = () => {
+const ConfirmPassword = () => {
   const classes = useStyles();
-  const [email,setEmail] = React.useState();
-
-  const passwordResetform =async(e) => {
-    e.preventDefault();
-    await passwordReset({email:email,actions:"forgotpassword"})
-    console.log(e)
-  }
   return (
     <>
-      {/* <Box className={classes.pageTitle}>
-        <Typography component="h4" variant="h4">
+      <Box className={classes.pageTitle}>
+        {/* <Typography component="h4" variant="h4">
           MoviePlex
-        </Typography>
-      </Box> */}
+        </Typography> */}
+      </Box>
       <Box component="section" className={classes.root}>
         <Grid
           item
@@ -95,33 +85,28 @@ const ForgotPassword = () => {
                 variant="h5"
                 style={{ marginBottom: "5%" }}
               >
-                Reset Your Password
+                Change New Password
               </Typography>
               <HttpsOutlinedIcon style={{ marginBottom: "5%" }} />
             </Box>
-<form method="post" onSubmit={passwordResetform}>
-  <Box display="flex" flexDirection="column">
+
             <TextField
               id="standard-basic"
-              label="Email"
-              type="email"
-              vaue={email}
-              onChange= {(e) => setEmail(e.target.value)}
+              label="New Passowrd"
+              type="password"
               style={{ marginBottom: "5%" }}
               required
             />
+             
 
             <Button
               color="primary"
               variant="contained"
               classes={{ label: classes.root.label }}
               style={{ marginTop: "3%" }}
-              type="submit"
             >
               Reset
             </Button>
-            </Box>
-            </form>
             <Box
               display="flex"
               alignContent="center"
@@ -153,4 +138,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default ConfirmPassword;

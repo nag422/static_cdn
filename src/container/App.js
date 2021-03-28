@@ -14,7 +14,7 @@ import { Profile } from './Profile';
 
 
 
-const ProtectedRoute = ({component: Component,authUser, ...rest}) => {
+const ProtectedRoute = ({component,authUser, ...rest}) => {
   return (
       <Route{...rest}
             render={props =>

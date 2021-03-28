@@ -102,13 +102,13 @@ class AdminLayout extends Component {
             return window.location.replace('/auth/signin')
         } 
         
-        console.log('started component')
-        const data ={
-            user:51,
-            history:this.props.history
-          }
-          console.log('trigging component did mount')
-          return this.props.getProfileData(data);
+        // console.log('started component')
+        // const data ={
+        //     user:51,
+        //     history:this.props.history
+        //   }
+        //   console.log('trigging component did mount')
+        //   return this.props.getProfileData(data);
 
     }
     

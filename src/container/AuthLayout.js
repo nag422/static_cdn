@@ -19,7 +19,7 @@ class AuthLayout extends Component {
 
     componentDidMount(){
         if(this.props.data.isAuthenticated){
-            return <Redirect to="/admin/dashboard" />
+            return <Redirect to="/admin/profile" />
             
         } 
         console.log('ended component')

@@ -89,7 +89,7 @@ export function* profileUpdateSage() {
 
 export function* getuserProfile() {
     console.log("GetProfile saga called..");
-    yield takeLatest(GET_USER_PROFILE_DATA, getUserProfilewithApi);
+    yield takeEvery(GET_USER_PROFILE_DATA, getUserProfilewithApi);
   }
   
   

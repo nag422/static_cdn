@@ -28,7 +28,8 @@ import CreateIcon from '@material-ui/icons/Create';
 function createData(id,groupname, rule, users) {
   return { id,groupname, rule, users };
 }
-const url = "http://127.0.0.1:8000/"
+// const url = "http://127.0.0.1:8000/"
+const url = 'https://app.contentbond.com/'
 
 const getCookie = (name) => {
   let cookieValue = null;

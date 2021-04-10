@@ -33,20 +33,7 @@ export const requestProduct = (values,history) => (
    }
 )
 
-// export const saveProductSuccess = (productData) => (
-//     console.log('save_product_success_triggered',productData),
-//    {
-//        type:SAVE_PRODUCT_SUCCESS,
-//        payload:{productData}
-//    }
-// )
-// export const saveProductFail = (productData) => (
-    
-//    {
-//        type:SAVE_PRODUCT_FAIL,
-//        payload:{productData}
-//    }
-// )
+
 
 // Retrieving data
 

@@ -24,13 +24,13 @@ export function configureStore(initialState){
 
     sagaMiddleware.run(RootSaga);
 
-    if(module.hot){
-        // Enable Webpack hot module replacement for reducers
+    // if(module.hot){
+    //     // Enable Webpack hot module replacement for reducers
 
-        module.hot.accept('../reducers/index',()=> {
-            const nextRootReducer = require('../reducers/index');
-            store.replaceReducer(nextRootReducer);
-        });
-    }
+    //     module.hot.accept('../reducers/index',()=> {
+    //         const nextRootReducer = require('../reducers/index');
+    //         store.replaceReducer(nextRootReducer);
+    //     });
+    // }
     return store;
 }

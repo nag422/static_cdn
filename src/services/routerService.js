@@ -32,68 +32,81 @@ export default [
     {
         path: "dashboard",
         component: Dashboardadmin,
-        exact: true
+        exact: true,
+        layout:'admin'
     },
     {
         path: "users",
         component: UsersList,
-        exact: true
+        exact: true,
+        layout:'admin'
     },
     {
         path: "groups",
         component: UserGroups,
-        exact: true
+        exact: true,
+        layout:'admin'
     },
     {
         path: "reset",
         component: ForgotPassword,
-        exact: true
+        exact: true,
+        layout:'admin'
     },
     {
         path: "newpassword",
         component: ConfirmPassword,
-        exact: true
+        exact: true,
+        layout:'admin'
     },
 
     
     {
         path: "profile",
         component: Profile,
-        exact: true
+        exact: true,
+        layout:'admin'
     },
     {
         path: "content",
         component: ContentExplore,
-        exact: true
+        exact: true,
+        layout:'admin'
     },
     {
         path: "contentadmin",
         component: ContentExploreAdmin,
-        exact: true
+        exact: true,
+        layout:'admin'
     },
     {
         path: "favorite",
         component: ContentExploreFavorite,
-        exact: true
+        exact: true,
+        layout:'admin'
     },
     {
         path: "bagged",
         component: ContentExploreAdminBagged,
-        exact: true
+        exact: true,
+        layout:'admin'
     },{
         path: "recommended",
         component: Recommended,
-        exact: true
+        exact: true,
+        layout:'admin'
     },
     {
         path: "contentrequest",
         component: ContentRequest,
-        exact: true
+        exact: true,
+        layout:'admin'
     },
     {
         path: "messages",
         component: ChatMessenger,
-        exact: true
+        exact: true,
+        layout:'admin'
     }
     
 ];

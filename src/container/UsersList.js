@@ -120,7 +120,8 @@ const UsersList = () => {
     };
 
 
-    const url = "http://127.0.0.1:8000/"
+    // const url = "http://127.0.0.1:8000/"
+    const url = 'https://app.contentbond.com/'
 
 
     // Users
@@ -141,7 +142,7 @@ const UsersList = () => {
             }
         }).catch(err => {
 
-            alert(err.message)
+            alert('myalert',err.message)
 
         })
     }

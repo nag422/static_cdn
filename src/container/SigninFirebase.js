@@ -108,19 +108,19 @@ const SigninFirebase = (props) => {
 
   const dispatch = useDispatch();
   const response = useSelector((state) => state.authUser);
-  
+  const url = 'https://app.contentbond.com/'
   useEffect(() => {
     
-      if (response.isAuthenticated) return props.history.push('/admin/dashboard');
-      fetch("http://localhost:8000/getcsrf/default/",{
-        credentials: "include",
-      }).then((res) => {
-        let csrfToken = res.headers.get("X-CSRFToken")
+      if (response.isAuthenticated) return props.history.push('/admin/profile');
+      // fetch(url+"getcsrf/default/",{
+      //   credentials: "include",
+      // }).then((res) => {
+      //   let csrfToken = res.headers.get("X-CSRFToken")
         
-        setCsrf(csrfToken)
-      }).catch((err) => {
-        console.log(err)
-      })
+      //   setCsrf(csrfToken)
+      // }).catch((err) => {
+      //   console.log(err)
+      // })
     
   }, [])
 
@@ -131,8 +131,8 @@ const SigninFirebase = (props) => {
     setIserror(false)
     const data = {
       email: values.email,
-      password: values.password,
-      csrftoken:csrf
+      password: values.password
+     
     }
     const history = props.history
     

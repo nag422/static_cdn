@@ -40,7 +40,9 @@ import * as apinstance from './api/api'
 // } from "../actions";
 
 import {getProfileData} from '../actions/ProfileActions'
-const url = 'http://127.0.0.1:8000/'
+// const url = 'http://127.0.0.1:8000/'
+const url = 'https://app.contentbond.com/'
+
 const getCookie = (name) => {
   
   
@@ -59,31 +61,26 @@ const getCookie = (name) => {
   }
   return cookieValue;
 }
-const signInUserwithApiRequest = async (username, password,csrftoken) => {
+const signInUserwithApiRequest = async (username, password) => {
 
   let statuscode = ''
   let cancel
   // cancelToken.source()
 
-  const app = axios.create({
-    url,
+  const config = {
     headers: {
-      
-      'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'X-CSRFToken': csrftoken,
-   
+      'X-CSRFToken': getCookie('csrftoken')
     },
-  
-    
-})
+    cancelToken: new axios.CancelToken(c => cancel = c)
+  }
   
 
 
   const body = JSON.stringify({ username,password })
 
-  await app
-    .post(url + "auth/signinsave/", body)
+  await axios
+    .post(url + "auth/signinsave/", body, config)
     .then(resp => { statuscode = resp.data })
     .catch(e => {
       if (axios.isCancel(e)) return
@@ -155,19 +152,19 @@ function* signInUserwithApi({ payload }) {
   const signInResponse = yield call(
     signInUserwithApiRequest,
     userData.email,
-    userData.password,
-    userData.csrftoken
+    userData.password
+    
   );
   if (signInResponse.status == 200) {
     
-    yield put(getProfileData({
-      user:51,
-      history:payload.history
-    }))
+    // yield put(getProfileData({
+    //   user:51,
+    //   history:payload.history
+    // }))
 
     yield put({
       type: LOGIN_USER_SUCCESS,
-      payload: userData.email
+      payload: signInResponse.response
     })
     
     

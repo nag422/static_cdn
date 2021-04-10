@@ -9,6 +9,9 @@ import { Link } from 'react-router-dom';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import LocalMallIcon from '@material-ui/icons/LocalMall';
 import DynamicFeedIcon from '@material-ui/icons/DynamicFeed';
+import { adminProfileState } from 'reducers/selectors/ProfileSelector';
+import { adminProfileUpdateState } from 'reducers/selectors/ProfileSelector';
+import CircularProgress from '@material-ui/core/CircularProgress';
 export class Profile extends Component {
 
   constructor(props) {
@@ -30,27 +33,50 @@ export class Profile extends Component {
 
 
   componentDidMount() {
-    console.log(this.props.data)
+    console.log('didmount',this.props.data)
+    // getProfileData({user:'nagendra',history:this.props.history})
+    alert('stoppedn in component did mount')
+    let dataprops = this.props.data
+    
+    
+    return this.setState(() => ({
 
-
-    let dataprops = this.props.data?.profile.user_ptr || {}
-    let profileprops = this.props.data?.profile || {}
-    console.log(profileprops.username)
-    return this.setState((state) => ({
-
-      first_name: dataprops.first_name,
-      last_name: dataprops.last_name,
-      email: dataprops.email,
-      address: profileprops.address,
-      postalcode: profileprops.postalcode,
-      phone: profileprops.phone,
-      city: profileprops.city,
-      country: profileprops.country,
-      content: profileprops.content
+      first_name: dataprops.user_ptr.first_name,
+      last_name: dataprops.user_ptr.last_name,
+      email: dataprops.user_ptr.email,
+      address: dataprops.address,
+      postalcode: dataprops.postalcode,
+      phone: dataprops.phone,
+      city: dataprops.city,
+      country: dataprops.country,
+      content: dataprops.content
     })
     )
-
+    
+    
   }
+
+  // shouldComponentUpdate(nextProps,nextState) {
+  //   // Rendering the component only if 
+  //   // passed props value is changed
+  
+  //   // if (nextProps.profileloading !== this.props.profileloading) {
+  //   //   return true;
+  //   // } else {
+  //   //   return false;
+  //   // }
+  //   console.log('should update')
+  //   return true
+  // }
+
+  // componentDidUpdate(){
+  //   console.log('did update')
+  //   // getProfileData({user:'nagendra',history:this.props.history})
+   
+    
+    
+    
+  // }
 
 
 
@@ -77,13 +103,15 @@ export class Profile extends Component {
     return (
 
       <Grid container spacing={2}>
+        {this.props.profileloading? <CircularProgress />: <>
         <Grid item md={8}>
 
           <Card>
-            {this.props.data.updatestatus &&
+            
+            {this.props.updateprops.updatestatus &&
               <Alert severity="success">Successfully Updated!</Alert>
             }
-            {this.props.data.updaterror &&
+            {this.props.updateprops.updaterror &&
               <Alert severity="error">Update is Failed!</Alert>
             }
             <CardHeader title="Profile">
@@ -110,15 +138,15 @@ export class Profile extends Component {
               </Box>
 
               <Box pt={2}>
-                {this.props.data.updatestatus &&
+                {this.props.updateprops.updatestatus &&
                   <Alert severity="success">Successfully Updated!</Alert>
                 }
-                {this.props.data.updaterror &&
+                {this.props.updateprops.updaterror &&
                   <Alert severity="error">Update is Failed!</Alert>
                 }
                 <Typography component='h3' variant='body2'>
                   Contact Information
-                                </Typography>
+                </Typography>
               </Box>
               <Box>
                 <form noValidate autoComplete="off">
@@ -194,6 +222,7 @@ export class Profile extends Component {
                 >
                   Connect
                     </Button>
+                    <Link to="/admin/messages">
                 <Button
                   variant="contained"
                   size="small"
@@ -202,6 +231,7 @@ export class Profile extends Component {
                 >
                   Message
                     </Button>
+                    </Link>
               </Box>
             }>
 
@@ -220,7 +250,8 @@ export class Profile extends Component {
 
           </Card>
         </Grid>
-
+        </>
+  }
 
       </Grid>
 
@@ -230,7 +261,10 @@ export class Profile extends Component {
 }
 
 const mapStateToProps = state => ({
-  data: state.profileops
+  // data: adminProfileState(state),
+  data: state.profileops.profile,
+  updateprops : adminProfileUpdateState(state),
+  profileloading:state.profileops.profileloading
 });
 
 const mapDispatchToProps = (dispatch) => {

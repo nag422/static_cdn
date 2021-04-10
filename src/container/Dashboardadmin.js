@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     },
     paper: {
         display: 'flex',
-        padding: theme.spacing(5, 3),
+        padding: theme.spacing(2, 3),
         textAlign: 'center',
         color: theme.palette.text.secondary,
         flexDirection: 'row',
@@ -62,7 +62,7 @@ const Dashboardadmin = () => {
     const classes = useStyles();
     return (
         <div className={classes.root}>
-            {/* <Grid container spacing={3}>
+            <Grid container spacing={3}>
 
                 <Grid item xs={12} sm={3}>
                     <Paper className={classes.paper}>
@@ -70,7 +70,7 @@ const Dashboardadmin = () => {
                             <Typography component='p' className={classes.headingtext}>
                                 TODAYS MONEY
                         </Typography>
-                            <Typography component='p' className={classes.pricetext}>
+                            <Box component='div' className={classes.pricetext}>
                                 $24,000   <Box component="p"
                                     className={classes.chipnumber}
                                     style={{
@@ -79,7 +79,7 @@ const Dashboardadmin = () => {
                                     }}>
                                     +4%
                                       </Box>
-                            </Typography>
+                            </Box>
                         </Box>
                         <Avatar className={classes.avatarcolor}>
                             <AttachMoneyOutlinedIcon />
@@ -93,7 +93,7 @@ const Dashboardadmin = () => {
                             <Typography component='p' className={classes.headingtext}>
                                 TOTAL CUSTOMERS
                         </Typography>
-                            <Typography component='p' className={classes.pricetext}>
+                            <Box component='div' className={classes.pricetext}>
                                 1,600   <Box component="p"
                                     className={classes.chipnumber}
                                     style={{
@@ -102,7 +102,7 @@ const Dashboardadmin = () => {
                                     }}>
                                     +4%
                                       </Box>
-                            </Typography>
+                            </Box>
                         </Box>
                         <Avatar className={classes.avatarcolor}>
                             <PeopleIcon />
@@ -146,7 +146,7 @@ const Dashboardadmin = () => {
                             <Typography component='p' className={classes.headingtext}>
                                 BUDGET
                         </Typography>
-                            <Typography component='p' className={classes.pricetext}>
+                            <Box component='div' className={classes.pricetext}>
                                 $23,200  <Box component="div"
                                     className={classes.chipnumber}
                                     style={{
@@ -155,7 +155,7 @@ const Dashboardadmin = () => {
                                     }}>
                                     +4%
                                       </Box>
-                            </Typography>
+                            </Box>
                         </Box>
                         <Avatar className={classes.avatarcolor}>
                             <MoneyIcon />
@@ -176,7 +176,7 @@ const Dashboardadmin = () => {
 
                 </Grid>
 
-            </Grid> */}
+            </Grid>
         </div>
     )
 }

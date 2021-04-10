@@ -7,9 +7,6 @@ import {
   SAVE_PRODUCT,
   SAVE_PRODUCT_SUCCESS,
   SAVE_PRODUCT_FAIL,
-  UPDATE_PRODUCT,
-  UPDATE_PRODUCT_SUCCESS,
-  UPDATE_PRODUCT_FAIL,
   CREATOR_SAVE_PRODUCT,
   GET_REQUEST_DATA,
   GET_PRODUCT_FAIL,
@@ -17,11 +14,8 @@ import {
 
 } from '../actions/types'
 
-import {
-  saveProductSuccess,
-  saveProductFail
-} from '../actions'
-const url = 'http://127.0.0.1:8000/'
+// const url = 'http://127.0.0.1:8000/'
+const url = 'https://app.contentbond.com/'
 const getCookie = (name) => {
   let cookieValue = null;
   if (document.cookie && document.cookie !== '') {
@@ -56,6 +50,9 @@ const addProductwithApiRequest = async (payload) => {
   form_data.append('price', productData.price)
   form_data.append('rights', productData.rights)
   form_data.append('thumbnail', productData.thumbnail)
+  form_data.append('thumbnail1', productData.thumbnail1)
+  form_data.append('thumbnail2', productData.thumbnail2)
+  form_data.append('thumbnail3', productData.thumbnail3)
   form_data.append('videofile', productData.video)
 
   await axios
@@ -99,6 +96,7 @@ function* addProductwithApi({ payload }) {
 
 
   console.log("consoling here in product success saga: ", payload.history);
+  
   const saveProductResponse = yield call(
     addProductwithApiRequest,
     payload
@@ -109,8 +107,6 @@ function* addProductwithApi({ payload }) {
       type: SAVE_PRODUCT_SUCCESS,
       payload: payload.values
     });
-
-
 
 
   } else {

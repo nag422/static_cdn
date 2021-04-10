@@ -13,7 +13,7 @@ import App from './container/App';
 import './lib/reactifyCss';
 
 import { configureStore } from './store';
-import {ThemeProvider} from '@material-ui/core'
+import { ThemeProvider } from '@material-ui/core'
 import theme from './theme'
 
 
@@ -21,16 +21,16 @@ import theme from './theme'
 function MainApp() {
   return (
     <Provider store={configureStore()}>
-<ThemeProvider theme={theme}>
-          <Router>
-            <Switch>
-               <Route path="/" component={App} />
-            </Switch>
-         </Router>
+      <ThemeProvider theme={theme}>
+        <Router>
+          <Switch>
+            <Route path="/" component={App} />
+          </Switch>
+        </Router>
 
 
-    
-         </ThemeProvider>
+
+      </ThemeProvider>
 
     </Provider>
   );

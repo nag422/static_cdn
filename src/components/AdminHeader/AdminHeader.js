@@ -223,7 +223,7 @@ modechanger:{
 
 const AdminHeader = (props)=> {
   const dispatch = useDispatch()
-  const response = useSelector(state => state.profileops.profile)
+  const response = useSelector(state => state.profileops.profile.user_ptr)
   
   const {anchor,sidebardrawer} = props;
   const classes = useStyles();

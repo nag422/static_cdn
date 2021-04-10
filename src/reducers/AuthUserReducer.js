@@ -46,7 +46,9 @@ export default (state = INIT_STATE, action) => {
             return { ...state, loading: true };
 
         case LOGIN_USER_SUCCESS:
-            return { ...state, loading: false, user: action.payload, authenticateerror:false,isAuthenticated:true };
+            var datenow = new Date()
+            localStorage.setItem('access_token',JSON.stringify({access_token:action.payload.access_token,expired:datenow.setHours(2)}))
+            return { ...state, loading: false, user: action.payload, authenticateerror:false, isAuthenticated:true };
 
         case LOGIN_USER_FAILURE:
             // NotificationManager.error(action.payload);

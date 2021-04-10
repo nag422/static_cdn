@@ -19,6 +19,8 @@ import {getProfileData} from '../actions/ProfileActions'
 import { bindActionCreators } from 'redux';
 import { ProfileUpdatePrimary } from 'actions';
 import { ProfileUpdateSecondary } from 'actions';
+import { authUserState } from 'reducers/selectors/AuthSelector';
+import { authisAuthenticated } from 'reducers/selectors/AuthSelector';
 
 
 
@@ -98,17 +100,23 @@ class AdminLayout extends Component {
 
 
     componentDidMount(){
-        if(!this.props.data.isAuthenticated){
-            return window.location.replace('/auth/signin')
+        alert('stoppedn in component did mount Admin layout')
+        if(!this.props.isAuthenticated){
+            return this.props.history.push('/auth/signin')
         } 
+
+        alert('checking auth',this.props.isAuthenticated)
         
         // console.log('started component')
-        // const data ={
-        //     user:51,
-        //     history:this.props.history
-        //   }
-        //   console.log('trigging component did mount')
-        //   return this.props.getProfileData(data);
+        const data ={
+            user:51,
+            history:this.props.history
+          }
+          console.log('trigging component did mount')
+          if(this.props.isProfile == ''){
+            return this.props.getProfileData(data);
+          }
+          
 
     }
     
@@ -124,7 +132,7 @@ class AdminLayout extends Component {
     }
     
     render() {
-        const {match, location, classes} = this.props;
+        const {location, classes} = this.props;
        
         
         const width = this.state.issidebar?`calc(100% - 80%)`:`calc(100% - 93%)`;
@@ -133,7 +141,7 @@ class AdminLayout extends Component {
         
         return (
             <>
-            <ThemeProvider theme={this.props.data.thememode?theme:darktheme}>
+            <ThemeProvider theme={this.props.thememode?theme:darktheme}>
             <CssBaseline />
             <AdminHeader sidebardrawer={this.sidebardrawer} />
             <Box style={{marginLeft:width,marginRight:15,overflow:'hidden',marginTop:100,flexGrow:1}}>
@@ -145,7 +153,8 @@ class AdminLayout extends Component {
                 </Box>
             <Switch>
             {routerService && routerService.map((route,key)=>
-					<Route key={key} path={`/admin/${route.path}`} component={route.component} />
+					route.layout === "admin" && <Route key={key} path={`/admin/${route.path}`} component={route.component} />
+                    
 				)}
                 
                 
@@ -160,7 +169,9 @@ class AdminLayout extends Component {
     }
 }
 const mapStateToProps = state => ({
-    data: state.authUser
+    isAuthenticated: state.authUser.isAuthenticated,
+    thememode: state.authUser.thememode,
+    isProfile:state.profileops.profile.user_ptr.first_name
 });
 
 const mapDispatchToProps = (dispatch) => {

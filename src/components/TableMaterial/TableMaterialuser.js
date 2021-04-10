@@ -32,7 +32,8 @@ import * as authapi from '../../container/api/userapi'
 function createData(id,role, category, name, email, created) {
   return { id,role, category, name, email, created };
 }
-const url = "http://127.0.0.1:8000/"
+// const url = "http://127.0.0.1:8000/"
+const url = 'https://app.contentbond.com/'
 
 const getCookie = (name) => {
   let cookieValue = null;

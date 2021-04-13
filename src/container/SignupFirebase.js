@@ -356,12 +356,12 @@ const SignupFirebase = (props) => {
                   <FormControlLabel
                     value="creator"
                     control={<Radio />}
-                    label="Creator"
+                    label="Seller"
                   />
                   <FormControlLabel
                     value="producer"
                     control={<Radio />}
-                    label="Producer"
+                    label="Buyer"
                   />
                 </RadioGroup>
               </FormControl>

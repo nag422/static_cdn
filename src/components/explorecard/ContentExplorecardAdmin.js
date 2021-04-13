@@ -91,7 +91,7 @@ export default function ContentExplorecardAdmin(props) {
     <Card className={classes.root}>
       <CardHeader
         avatar={
-          <Avatar aria-label="recipe" className={classes.avatar} src={`http://localhost:8000/media/${props.val.thumbnail}`}>
+          <Avatar aria-label="recipe" className={classes.avatar} src={`https://app.contentbond.com/media/${props.val.thumbnail}`}>
             R
           </Avatar>
         }
@@ -138,12 +138,12 @@ export default function ContentExplorecardAdmin(props) {
       />
       <CardMedia
         className={classes.media}
-        image={`http://localhost:8000/media/${props.val.thumbnail}`}
+        image={`https://app.contentbond.com/media/${props.val.thumbnail}`}
         title={props.val.title}
       />
       <CardContent>
         <Box display="flex" justifyContent="flex-start">
-        <Avatar aria-label="recipe" className={classes.small} src={`http://localhost:8000/media/${props.val.thumbnail}`}>
+        <Avatar aria-label="recipe" className={classes.small} src={`https://app.contentbond.com/media/${props.val.thumbnail}`}>
             U
           </Avatar>
           <Typography variant="body2" color="textSecondary" component="p">

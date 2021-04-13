@@ -12,6 +12,7 @@ import DynamicFeedIcon from '@material-ui/icons/DynamicFeed';
 import { adminProfileState } from 'reducers/selectors/ProfileSelector';
 import { adminProfileUpdateState } from 'reducers/selectors/ProfileSelector';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import {updateSecondaryProfile} from './api/userapi'
 export class Profile extends Component {
 
   constructor(props) {
@@ -33,9 +34,9 @@ export class Profile extends Component {
 
 
   componentDidMount() {
-    console.log('didmount',this.props.data)
+    // console.log('didmount',this.props.data)
     // getProfileData({user:'nagendra',history:this.props.history})
-    alert('stoppedn in component did mount')
+    // alert('stoppedn in component did mount')
     let dataprops = this.props.data
     
     
@@ -96,6 +97,12 @@ export class Profile extends Component {
     })
   }
 
+  handleSubmit2 = (event) => {
+    event.preventDefault();
+    updateSecondaryProfile(this.state)
+   
+  }
+
 
 
 
@@ -103,7 +110,7 @@ export class Profile extends Component {
     return (
 
       <Grid container spacing={2}>
-        {this.props.profileloading? <CircularProgress />: <>
+        {this.props.profileloading === true? <CircularProgress />: <>
         <Grid item md={8}>
 
           <Card>
@@ -149,20 +156,20 @@ export class Profile extends Component {
                 </Typography>
               </Box>
               <Box>
-                <form noValidate autoComplete="off">
+                <form noValidate autoComplete="off" method="post" onSubmit={this.handleSubmit2}>
                   <Box p={4} alignItems="center">
-                    <TextField id="filled-basic" name="address" label="Address" variant="outlined" fullWidth value={this.state.address} />
-                    <TextField id="filled-basic" name="postalcode" label="PostalCode" variant="outlined" fullWidth style={{ marginTop: 40 }} value={this.state.postalcode} />
-                    <TextField style={{ margin: 3, marginTop: 40 }} name="phone" id="filled-basic" label="Phone" variant="outlined" fullWidth value={this.state.phone} />
+                    <TextField id="filled-basic" onChange={this.handleChange} name="address" label="Address" variant="outlined" fullWidth value={this.state.address} />
+                    <TextField id="filled-basic" onChange={this.handleChange} name="postalcode" label="PostalCode" variant="outlined" fullWidth style={{ marginTop: 40 }} value={this.state.postalcode} />
+                    <TextField style={{ margin: 3, marginTop: 40 }} onChange={this.handleChange} name="phone" id="filled-basic" label="Phone" variant="outlined" fullWidth value={this.state.phone} />
                   </Box>
 
                   <Box p={4} pt={1} display="flex" flexDirection="row" justifyContent="space-between" alignItems="flex-start">
-                    <TextField style={{ margin: 3 }} name="city" id="filled-basic" label="City" variant="outlined" fullWidth value={this.state.city} />
-                    <TextField style={{ margin: 3 }} name="country" id="filled-basic" label="Country" variant="outlined" fullWidth value={this.state.country} />
+                    <TextField style={{ margin: 3 }} onChange={this.handleChange} name="city" id="filled-basic" label="City" variant="outlined" fullWidth value={this.state.city} />
+                    <TextField style={{ margin: 3 }} onChange={this.handleChange} name="country" id="filled-basic" label="Country" variant="outlined" fullWidth value={this.state.country} />
                   </Box>
 
                   <Box pl={4}>
-                    <Button color="primary" variant="contained">Update</Button>
+                    <Button type="submit" color="primary" variant="contained">Update</Button>
                   </Box>
                 </form>
               </Box>

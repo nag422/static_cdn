@@ -111,7 +111,7 @@ const SigninFirebase = (props) => {
   const url = 'https://app.contentbond.com/'
   useEffect(() => {
     
-      if (response.isAuthenticated) return props.history.push('/admin/profile');
+      if (response.isAuthenticated) return props.history.push('/admin/dashboard');
       // fetch(url+"getcsrf/default/",{
       //   credentials: "include",
       // }).then((res) => {

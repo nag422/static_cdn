@@ -17,6 +17,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import LocalMallIcon from '@material-ui/icons/LocalMall';
 import { Menu, MenuItem } from '@material-ui/core';
+import { useHistory } from 'react-router';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -44,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ContentExplorecard(props) {
   const classes = useStyles();
+  const history = useHistory();
 
  
 
@@ -73,6 +75,10 @@ export default function ContentExplorecard(props) {
 
   };
 
+  const detailPagenavigator = async(id) => {
+    history.push('/admin/section/'+id)
+  }
+
   // const handleInstock = (e,id) => {
   //   setAnchorEl(null);
   //   const response = cardapi.instock(id)
@@ -87,7 +93,7 @@ export default function ContentExplorecard(props) {
     <Card className={classes.root}>
       <CardHeader
         avatar={
-          <Avatar aria-label="recipe" className={classes.avatar} src={`http://localhost:8000/media/${props.val.thumbnail}`}>
+          <Avatar aria-label="recipe" className={classes.avatar} src={`https://app.contentbond.com/media/${props.val.thumbnail}`}>
             R
           </Avatar>
         }
@@ -134,8 +140,9 @@ export default function ContentExplorecard(props) {
       />
       <CardMedia
         className={classes.media}
-        image={`http://localhost:8000/media/${props.val.thumbnail}`}
+        image={`https://app.contentbond.com/media/${props.val.thumbnail}`}
         title={props.val.title}
+        onClick={(e)=>detailPagenavigator(props.val.id)}
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">

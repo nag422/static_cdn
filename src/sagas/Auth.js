@@ -168,7 +168,7 @@ function* signInUserwithApi({ payload }) {
     })
     
     
-    return payload.history.push('/admin/profile')
+    return payload.history.push('/admin/dashboard')
   } else {
     yield put({
       type: LOGIN_USER_FAILURE,

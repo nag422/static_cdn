@@ -66,3 +66,24 @@ const getCookie = (name) => {
         return statuscode
         }
 
+
+export const updateSecondaryProfile = async (payload) =>{
+
+    let statuscode = ''
+    const config = {
+        headers: {
+            'content-type': 'application/json',          
+            'X-CSRFToken': getCookie('csrftoken')
+        }
+    }
+    
+ 
+    const body = JSON.stringify({ user: payload, action: 'profileupdate' })
+    
+    await axios
+        .post(url+"auth/aboutme/", body,config)
+        .then(resp => {statuscode=resp.data})
+        .catch(error => error);
+        
+        return statuscode
+      }

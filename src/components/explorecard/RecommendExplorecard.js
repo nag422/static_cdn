@@ -87,7 +87,7 @@ export default function RecommendExplorecard(props) {
     <Card className={classes.root}>
       <CardHeader
         avatar={
-          <Avatar aria-label="recipe" className={classes.avatar} src={`http://localhost:8000${props.val.thumbnail}`}>
+          <Avatar aria-label="recipe" className={classes.avatar} src={`https://app.contentbond.com${props.val.thumbnail}`}>
             R
           </Avatar>
         }
@@ -134,7 +134,7 @@ export default function RecommendExplorecard(props) {
       />
       <CardMedia
         className={classes.media}
-        image={`http://localhost:8000${props.val.thumbnail}`}
+        image={`https://app.contentbond.com${props.val.thumbnail}`}
         title={props.val.title}
       />
       <CardContent>

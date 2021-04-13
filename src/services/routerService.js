@@ -13,7 +13,7 @@ import ContentExploreAdminBagged from '../container/ContentExploreAdminBagged';
 import Recommended from 'container/Recommended';
 import ConfirmPassword from 'container/ConfirmPassword';
 import ChatMessenger from 'container/ChatMessenger';
-
+import Detailcard from '../components/Detailcard/Detailcard'
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
     //Auth url
@@ -105,6 +105,12 @@ export default [
     {
         path: "messages",
         component: ChatMessenger,
+        exact: true,
+        layout:'admin'
+    },
+    {
+        path: ":section/:id",
+        component: Detailcard,
         exact: true,
         layout:'admin'
     }

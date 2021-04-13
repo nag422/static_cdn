@@ -228,7 +228,7 @@ const ContentRequest = (props) => {
                         <Card>
                             <Box p={1}>
                                 <Typography>
-                                    Requirements (Creator)
+                                    Requirements (Seller)
                    </Typography>
                             </Box>
                             <Box p={2}>
@@ -274,7 +274,7 @@ const ContentRequest = (props) => {
                         <Card>
                             <Box p={1}>
                                 <Typography>
-                                    Submit Content (Creator)
+                                    Submit Content (Seller)
                    </Typography>
                             </Box>
                             <Box p={2}>
@@ -454,14 +454,14 @@ const ContentRequest = (props) => {
 
                 </Grid>
 
-                : userresponse.category == "content" && !userresponse.user_ptr.is_superuser ?
+                : userresponse.category == "producer" && !userresponse.user_ptr.is_superuser ?
                     <Grid container spacing={1}>
 
                         <Grid item md={6} sm={12} xs={12}>
                             <Card>
                                 <Box p={1}>
                                     <Typography>
-                                        Requirements (Producer)
+                                        Requirements (Buyer)
                    </Typography>
                                 </Box>
                                 <Box p={2}>
@@ -506,7 +506,7 @@ const ContentRequest = (props) => {
 
                     : <Alert severity="info">
                         <AlertTitle>Denied!</AlertTitle>
-                            User should either creator or producer — <strong>Login with producer or creator!</strong>
+                            User should either creator or producer — <strong>Login with Buyer or Seller!</strong>
                     </Alert>}
 
             <br></br>

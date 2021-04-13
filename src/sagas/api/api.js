@@ -26,6 +26,7 @@ export const getUserProfilewithApiRequest = async (payload) => {
         headers: {
             'content-type': 'application/json',
             'X-CSRFToken': getCookie('csrftoken')
+            
         },
         cancelToken: new axios.CancelToken(c => cancel = c)
     }
@@ -64,6 +65,37 @@ export const updateUserProfilewithApiRequest = async (payload) => {
 
     await axios
         .post(url + "auth/aboutme/", body, config)
+        .then(resp => { statuscode = resp.data })
+        .catch(e => {
+            if (axios.isCancel(e)) return
+
+        })
+
+    return statuscode
+
+}
+
+export const getProductById = async (payload) => {
+    
+    
+    let statuscode = ''
+    let cancel
+    // cancelToken.source()
+
+    const config = {
+        headers: {
+            'content-type': 'application/json',
+            // 'X-CSRFToken': getCookie('csrftoken'),
+            'Authorization':'Token ae2e376c0781973c42fc3e261d854ea6b9532cb3'
+        },
+        cancelToken: new axios.CancelToken(c => cancel = c)
+    }
+
+
+    const body = JSON.stringify({ productid: payload, action: 'all' })
+
+    await axios
+        .post(url + "admin/getproductbyid/", body, config)
         .then(resp => { statuscode = resp.data })
         .catch(e => {
             if (axios.isCancel(e)) return

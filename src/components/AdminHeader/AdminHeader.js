@@ -402,7 +402,7 @@ const toggleDrawer = (anchor, open) => (event) => {
     >
       <Box display="flex" alignItems="center" justifyContent="space-around" className={classes.logod}>
       <Typography className={classes.title} variant="h6" noWrap>
-            MoviePlex2
+            MoviePlex
           </Typography>
           <Hidden smUp>
          <IconButton onClick={()=>setIsdrawer(!isdrawer)} size="small">
@@ -423,9 +423,7 @@ const toggleDrawer = (anchor, open) => (event) => {
       
       
       >
-        {response.is_superuser ?
-        <>
-    <Link to="/admin/dashboard" style={{textDecoration:'none',color:'inherit'}}>
+        <Link to="/admin/dashboard" style={{textDecoration:'none',color:'inherit'}}>
       <ListItem button>
         <ListItemIcon>
         <DashboardIcon />
@@ -433,6 +431,10 @@ const toggleDrawer = (anchor, open) => (event) => {
         <ListItemText primary="Dashboard" />
       </ListItem>
       </Link>
+
+        {response.is_superuser ?
+        <>
+    
       <Link to="/admin/users" style={{textDecoration:'none',color:'inherit'}}>
       <ListItem button>
         <ListItemIcon>

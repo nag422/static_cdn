@@ -100,12 +100,12 @@ class AdminLayout extends Component {
 
 
     componentDidMount(){
-        alert('stoppedn in component did mount Admin layout')
-        if(!this.props.isAuthenticated){
-            return this.props.history.push('/auth/signin')
-        } 
+        // alert('stoppedn in component did mount Admin layout')
+        // if(!this.props.isAuthenticated){
+        //     return this.props.history.push('/auth/signin')
+        // } 
 
-        alert('checking auth',this.props.isAuthenticated)
+        // alert('checking auth',this.props.isAuthenticated)
         
         // console.log('started component')
         const data ={

@@ -10,7 +10,8 @@ import {
     UPDATE_PROFILE_PRIMARY_SUCCESS,
     UPDATE_PROFILE_PRIMARY_FAILURE,
     GET_USER_PROFILE_DATA,
-    GET_USER_PROFILE_DATA_SUCCESS
+    GET_USER_PROFILE_DATA_SUCCESS,
+    GET_USER_PROFILE_DATA_FAIL
 
 } from "../actions/types";
 import {updateUserProfilewithApiRequest,getUserProfilewithApiRequest} from './api/api'
@@ -71,7 +72,11 @@ function* getUserProfilewithApi({ payload }) {
       })
   
     } else {
-      return
+        yield put({
+            type: GET_USER_PROFILE_DATA_FAIL,
+            payload: ProfileResponse.response
+      
+          })
     }
     //   yield put();
     // console.log(signOutResponse)

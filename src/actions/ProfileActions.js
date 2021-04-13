@@ -1,6 +1,4 @@
-import {
-
-    
+import {    
     GET_USER_PROFILE_DATA,
     UPDATE_PROFILE_PRIMARY,
     UPDATE_PROFILE_SECONDARY

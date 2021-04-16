@@ -86,11 +86,11 @@ export default function ContentExplorecard(props) {
   return (
     <Card className={classes.root}>
       <CardHeader
-        avatar={
-          <Avatar aria-label="recipe" className={classes.avatar} src={`https://app.contentbond.com/media/${props.val.thumbnail}`}>
-            R
-          </Avatar>
-        }
+        // avatar={
+        //   <Avatar aria-label="recipe" className={classes.avatar} src={`https://app.contentbond.com/media/${props.val.thumbnail}`}>
+        //     R
+        //   </Avatar>
+        // }
         // action={
         //   <>
         //     <IconButton aria-label="settings" onClick={handleClick} >
@@ -137,20 +137,22 @@ export default function ContentExplorecard(props) {
         image={`https://app.contentbond.com/media/${props.val.thumbnail}`}
         title={props.val.title}
       />
+      
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
           {props.val.title}
         </Typography>
       </CardContent>
-      {/* <CardActions disableSpacing>
+
+      <CardActions disableSpacing>
         <IconButton color={props.val.isliked?'primary':'secondary'} aria-label="add to favorites" onClick={(e) => props.likefun(e,props.val.id)}>
           <FavoriteIcon />
         </IconButton>
-        <IconButton aria-label="share" color={props.val.isfavored?'primary':'secondary'} onClick={(e) => props.interestfun(e,props.val.id)}>
+        {/* <IconButton aria-label="share" color={props.val.isfavored?'primary':'secondary'} onClick={(e) => props.interestfun(e,props.val.id)}>
           <LocalMallIcon />
-        </IconButton>
+        </IconButton> */}
 
-      </CardActions> */}
+      </CardActions>
 
     </Card>
   );

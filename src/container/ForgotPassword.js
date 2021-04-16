@@ -13,7 +13,7 @@ import { grey } from "@material-ui/core/colors";
 import HttpsOutlinedIcon from "@material-ui/icons/HttpsOutlined";
 import { Link } from "react-router-dom";
 
-import {passwordReset} from './api/authapi';
+import { passwordReset } from './api/authapi';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -57,11 +57,11 @@ const useStyles = makeStyles((theme) => ({
 
 const ForgotPassword = () => {
   const classes = useStyles();
-  const [email,setEmail] = React.useState();
+  const [email, setEmail] = React.useState();
 
-  const passwordResetform =async(e) => {
+  const passwordResetform = async (e) => {
     e.preventDefault();
-    await passwordReset({email:email,actions:"forgotpassword"})
+    await passwordReset({ email: email, actions: "forgotpassword" })
     console.log(e)
   }
   return (
@@ -99,28 +99,28 @@ const ForgotPassword = () => {
               </Typography>
               <HttpsOutlinedIcon style={{ marginBottom: "5%" }} />
             </Box>
-<form method="post" onSubmit={passwordResetform}>
-  <Box display="flex" flexDirection="column">
-            <TextField
-              id="standard-basic"
-              label="Email"
-              type="email"
-              vaue={email}
-              onChange= {(e) => setEmail(e.target.value)}
-              style={{ marginBottom: "5%" }}
-              required
-            />
+            <form method="post" onSubmit={passwordResetform}>
+              <Box display="flex" flexDirection="column">
+                <TextField
+                  id="standard-basic"
+                  label="Email"
+                  type="email"
+                  vaue={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  style={{ marginBottom: "5%" }}
+                  required
+                />
 
-            <Button
-              color="primary"
-              variant="contained"
-              classes={{ label: classes.root.label }}
-              style={{ marginTop: "3%" }}
-              type="submit"
-            >
-              Reset
+                <Button
+                  color="primary"
+                  variant="contained"
+                  classes={{ label: classes.root.label }}
+                  style={{ marginTop: "3%" }}
+                  type="submit"
+                >
+                  Reset
             </Button>
-            </Box>
+              </Box>
             </form>
             <Box
               display="flex"

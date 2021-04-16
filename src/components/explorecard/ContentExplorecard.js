@@ -16,9 +16,11 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import LocalMallIcon from '@material-ui/icons/LocalMall';
-import { Menu, MenuItem } from '@material-ui/core';
+import { Box, Menu, MenuItem } from '@material-ui/core';
 import { useHistory } from 'react-router';
-
+import CreateIcon from '@material-ui/icons/Create';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import Moment from 'react-moment';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -92,11 +94,11 @@ export default function ContentExplorecard(props) {
   return (
     <Card className={classes.root}>
       <CardHeader
-        avatar={
-          <Avatar aria-label="recipe" className={classes.avatar} src={`https://app.contentbond.com/media/${props.val.thumbnail}`}>
-            R
-          </Avatar>
-        }
+        // avatar={
+        //   <Avatar aria-label="recipe" className={classes.avatar} src={`https://app.contentbond.com/media/${props.val.thumbnail}`}>
+        //     R
+        //   </Avatar>
+        // }
         // action={
         //   <>
         //     <IconButton aria-label="settings" onClick={handleClick} >
@@ -136,7 +138,7 @@ export default function ContentExplorecard(props) {
         //   </>
         // }
         title={props.val.title}
-        subheader={props.val.created.toLocaleString()}
+        subheader={<Moment>{props.val.created}</Moment>}
       />
       <CardMedia
         className={classes.media}
@@ -149,14 +151,28 @@ export default function ContentExplorecard(props) {
           {props.val.title}
         </Typography>
       </CardContent>
-      <CardActions disableSpacing>
+      <CardActions disableSpacing style={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
+      {props.profilerestrict.content == "producer" && 
+      <>
         <IconButton color={props.val.isliked?'primary':'secondary'} aria-label="add to favorites" onClick={(e) => props.likefun(e,props.val.id)}>
           <FavoriteIcon />
         </IconButton>
         <IconButton aria-label="share" color={props.val.isfavored?'primary':'secondary'} onClick={(e) => props.interestfun(e,props.val.id)}>
           <LocalMallIcon />
         </IconButton>
-
+        </>
+      }
+        {props.profilerestrict.content == "creator" && 
+        <>
+        
+        <CreateIcon onClick={() => props.editProduct(props.val.id)} />
+       
+        <DeleteOutlineIcon />
+       
+        
+        
+        </>
+        }
       </CardActions>
 
     </Card>

@@ -83,3 +83,39 @@ export const addProductwithApiRequest = async (productData) => {
   
     return statuscode
   }
+
+   
+ 
+  export const editProductsave = async (payload) => {
+    let productData = payload;
+    let statuscode = ''
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data',
+        'X-CSRFToken': getCookie('csrftoken'),
+        'Authorization': 'Token b3ca630db1d487224dad3a90251e186b9c699d40'
+      }
+    }
+  
+    const form_data = new FormData();
+    form_data.append('id', productData.id)
+    form_data.append('title', productData.title)
+    form_data.append('castncrew', productData.castncrew)
+    form_data.append('category', productData.category)
+    form_data.append('description', productData.description)
+    form_data.append('price', productData.price)
+    form_data.append('rights', productData.rights)
+    form_data.append('thumbnail', productData.thumbnail)
+    form_data.append('thumbnail1', productData.thumbnail1)
+    form_data.append('thumbnail2', productData.thumbnail2)
+    form_data.append('thumbnail3', productData.thumbnail3)
+    form_data.append('videofile', productData.videofile)
+  
+  
+    await axios
+      .post(url + "admin/editproductsave/", form_data, config)
+      .then(resp => { statuscode = resp.data.status })
+      .catch(error => error);
+  
+    return statuscode
+  }

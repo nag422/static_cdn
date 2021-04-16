@@ -18,7 +18,7 @@ const INIT_STATE = {
 
             id:"",
             last_login:"",
-            is_superuser:null,
+            is_superuser:true,
             username:"",
             first_name:"",
             last_name:"",
@@ -36,7 +36,7 @@ const INIT_STATE = {
         phone: "",
         city: "",
         country: "",
-        content: ""
+        content: "producer"
       },
     profileloading:null,
     updatestatus:null,

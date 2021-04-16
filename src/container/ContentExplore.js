@@ -10,14 +10,17 @@ import * as cardapi from './api/cardactionsapi';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
-const ContentExplore = () => {
+const ContentExplore = (props) => {
 
     const response = useSelector((state) => state.productSave);
+    const profileresponse = useSelector(state => state.profileops.profile)
     const [allproducts, setAllproducts] = useState([])
     const [pageNumber, setPageNumber] = useState(1)
     const [open, setOpen] = React.useState(false)
     const [alertseverity, setAlertseverity] = React.useState('success')
     const [productmessage, setProductmessage] = React.useState('')
+
+    
 
     useEffect(() => {
         const setprod = async () => {
@@ -124,6 +127,17 @@ const ContentExplore = () => {
 
 
     }
+
+    const editProduct = async (id) => {
+        // const response = await apirequest.editCreatorproduct(id);
+        props.history.push('/admin/contentedit/'+id)
+    }
+
+
+
+
+
+
     const vertical = "top"
     const horizontal = "right"
     return (
@@ -135,8 +149,8 @@ const ContentExplore = () => {
             </Snackbar>
             <Grid container spacing={2}>
                 {allproducts.map((val, index) => {
-                    return <Grid item md={4} sm={12} xs={12} lg={4} key={index}><ContentExplorecard val={val} likefun={addlikes} interestfun={addfavorites}
-                        handleIsactivemain={handleIsactivemain}
+                    return <Grid item md={4} sm={12} xs={12} lg={4} key={index}><ContentExplorecard editProduct={editProduct} val={val} likefun={addlikes} interestfun={addfavorites}
+                       profilerestrict={profileresponse}
                     /></Grid>
                 })}
             </Grid>

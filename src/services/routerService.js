@@ -1,6 +1,8 @@
 import SigninFirebase from '../container/SigninFirebase'
 import SignupFirebase from '../container/SignupFirebase'
 import Dashboardadmin from '../container/Dashboardadmin'
+import Dashboardseller from '../container/Dashboardseller'
+import Dashboardbuyer from '../container/Dashboardbuyer'
 import ForgotPassword from '../container/ForgotPassword';
 import ContentRequest from '../container/ContentRequest'
 import ContentExplore from '../container/ContentExplore'
@@ -14,6 +16,8 @@ import Recommended from 'container/Recommended';
 import ConfirmPassword from 'container/ConfirmPassword';
 import ChatMessenger from 'container/ChatMessenger';
 import Detailcard from '../components/Detailcard/Detailcard'
+import ContentEdit from '../container/ContentEdit'
+import ContentExploreAdminRequests from '../container/ContentExploreAdminRequests'
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
     //Auth url
@@ -36,6 +40,18 @@ export default [
         layout:'admin'
     },
     {
+        path: "seller/dashboard",
+        component: Dashboardseller,
+        exact: true,
+        layout:'admin'
+    },
+    {
+        path: "buyer/dashboard",
+        component: Dashboardbuyer,
+        exact: true,
+        layout:'admin'
+    },
+    {
         path: "users",
         component: UsersList,
         exact: true,
@@ -51,7 +67,7 @@ export default [
         path: "reset",
         component: ForgotPassword,
         exact: true,
-        layout:'admin'
+        layout:'auth'
     },
     {
         path: "newpassword",
@@ -86,7 +102,7 @@ export default [
         layout:'admin'
     },
     {
-        path: "bagged",
+        path: "interested",
         component: ContentExploreAdminBagged,
         exact: true,
         layout:'admin'
@@ -97,11 +113,30 @@ export default [
         layout:'admin'
     },
     {
+        path: "upload",
+        component: ContentRequest,
+        exact: true,
+        layout:'admin'
+    },
+    {
         path: "contentrequest",
         component: ContentRequest,
         exact: true,
         layout:'admin'
     },
+    {
+        path: "contentedit/:id",
+        component: ContentEdit,
+        exact: true,
+        layout:'admin'
+    },
+    {
+        path: "requests",
+        component: ContentExploreAdminRequests,
+        exact: true,
+        layout:'admin'
+    },
+
     {
         path: "messages",
         component: ChatMessenger,
@@ -109,7 +144,7 @@ export default [
         layout:'admin'
     },
     {
-        path: ":section/:id",
+        path: "section/:id",
         component: Detailcard,
         exact: true,
         layout:'admin'

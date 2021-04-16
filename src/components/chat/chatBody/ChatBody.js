@@ -10,7 +10,7 @@ export default class ChatBody extends Component {
       <div className="main__chatbody">
         <ChatList />
         <ChatContent />
-        <UserProfile />
+        {/* <UserProfile /> */}
       </div>
     );
   }

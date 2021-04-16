@@ -153,7 +153,7 @@ class AdminLayout extends Component {
                 </Box>
             <Switch>
             {routerService && routerService.map((route,key)=>
-					route.layout === "admin" && <Route key={key} path={`/admin/${route.path}`} component={route.component} />
+					route.layout === "admin" && <Route key={key} exact path={`/admin/${route.path}`} component={route.component} />
                     
 				)}
                 

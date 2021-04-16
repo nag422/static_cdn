@@ -1,6 +1,6 @@
 import { Box, Grid } from '@material-ui/core'
 import React,{useState,useEffect} from 'react'
-import ContentExplorecard from '../components/explorecard/ContentExplorecardBagged'
+import ContentExplorecard from '../components/explorecard/ContentExplorecardAdminRequests'
 import Pagination from '@material-ui/lab/Pagination';
 
 import * as apirequest from './api/api';
@@ -9,7 +9,7 @@ import * as cardapi from './api/cardactionsapi';
 // import { useSelector } from 'react-redux';
 
 
-const ContentExploreAdminBagged = () => {    
+const ContentExploreAdminRequests = () => {    
     
     // const response = useSelector((state) => state.productSave);
     const [allproducts,setAllproducts] = useState([])    
@@ -21,7 +21,7 @@ const ContentExploreAdminBagged = () => {
     useEffect(() => {
         const setprod = async() =>{
 
-            const allprod = await apirequest.getallbaggedproducts({'pageNumber':pageNumber})
+            const allprod = await apirequest.getalllikedproducts({ 'pageNumber': pageNumber })
             
             setAllproducts(allprod)
 
@@ -69,4 +69,4 @@ const ContentExploreAdminBagged = () => {
     )
 }
 
-export default ContentExploreAdminBagged
+export default ContentExploreAdminRequests

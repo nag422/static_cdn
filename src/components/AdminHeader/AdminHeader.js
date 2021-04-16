@@ -52,6 +52,7 @@ import DynamicFeedIcon from '@material-ui/icons/DynamicFeed';
 import { useDispatch,useSelector } from 'react-redux';
 import {signoutUser, themodechanger} from '../../actions/AuthActions'
 import { Scrollbars } from 'react-custom-scrollbars';
+import PublishIcon from '@material-ui/icons/Publish';
 // Side Drawer
 
 const drawerWidth = 250;
@@ -224,6 +225,7 @@ modechanger:{
 const AdminHeader = (props)=> {
   const dispatch = useDispatch()
   const response = useSelector(state => state.profileops.profile.user_ptr)
+  const profileresponse = useSelector(state => state.profileops.profile)
   
   const {anchor,sidebardrawer} = props;
   const classes = useStyles();
@@ -316,7 +318,7 @@ const toggleDrawer = (anchor, open) => (event) => {
       onClose={handleMenuClose}
       elevation={1}
     >
-      <Link to="admin/profile" style={{textDecoration:"none",color:"inherit"}}><MenuItem onClick={handleMenuClose}>Profile</MenuItem></Link>
+      <Link to="/admin/profile" style={{textDecoration:"none",color:"inherit"}}><MenuItem onClick={handleMenuClose}>Profile</MenuItem></Link>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
       <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
@@ -402,7 +404,7 @@ const toggleDrawer = (anchor, open) => (event) => {
     >
       <Box display="flex" alignItems="center" justifyContent="space-around" className={classes.logod}>
       <Typography className={classes.title} variant="h6" noWrap>
-            MoviePlex
+            Contentbond
           </Typography>
           <Hidden smUp>
          <IconButton onClick={()=>setIsdrawer(!isdrawer)} size="small">
@@ -424,14 +426,23 @@ const toggleDrawer = (anchor, open) => (event) => {
       
       >
         <Link to="/admin/dashboard" style={{textDecoration:'none',color:'inherit'}}>
-      <ListItem button>
-        <ListItemIcon>
-        <DashboardIcon />
-        </ListItemIcon>
-        <ListItemText primary="Dashboard" />
-      </ListItem>
-      </Link>
-
+          <ListItem button>
+            <ListItemIcon>
+            <DashboardIcon />
+            </ListItemIcon>
+            <ListItemText primary="Dashboard" />
+          </ListItem>
+        </Link>
+          {profileresponse.content == "creator" && 
+        <Link to="/admin/upload" style={{textDecoration:'none',color:'inherit'}}>
+          <ListItem button>
+            <ListItemIcon>
+            <PublishIcon />
+            </ListItemIcon>
+            <ListItemText primary="Upload" />
+          </ListItem>
+        </Link>
+}
         {response.is_superuser ?
         <>
     
@@ -455,71 +466,87 @@ const toggleDrawer = (anchor, open) => (event) => {
       :null}
 
 
-      <Link to="/admin/profile" style={{textDecoration:'none',color:'inherit'}}>
-      <ListItem button>
-        <ListItemIcon>
-        <AccountCircleIcon />
-        </ListItemIcon>
-        <ListItemText primary="Profile" />
-      </ListItem>
-      </Link>
+     
       {response.is_superuser &&
-      <Link to="/admin/contentadmin" style={{textDecoration:'none',color:'inherit'}}>
-      <ListItem button>
-        <ListItemIcon>
-        <MenuBookIcon />
-        </ListItemIcon>
-        <ListItemText primary="Explore Content (Admin) " />
-      </ListItem>
-      </Link>
-}
 
+        <Link to="/admin/contentadmin" style={{textDecoration:'none',color:'inherit'}}>
+        <ListItem button>
+          <ListItemIcon>
+          <MenuBookIcon />
+          </ListItemIcon>
+          <ListItemText primary="Explore (Admin) " />
+        </ListItem>
+        </Link>
+      }
+
+    {!response.is_superuser &&
       <Link to="/admin/content" style={{textDecoration:'none',color:'inherit'}}>
       <ListItem button>
         <ListItemIcon>
         <MenuBookIcon />
         </ListItemIcon>
-        <ListItemText primary="Explore Content" />
+        <ListItemText primary={profileresponse.content == "creator" ?  "Myuploads":"Explore"} />
       </ListItem>
       </Link>
-
+    }
+      {profileresponse.content == "producer" && !response.is_superuser ?
+      <>
       <Link to="/admin/favorite" style={{textDecoration:'none',color:'inherit'}}>
-      <ListItem button>
-        <ListItemIcon>
-        <FavoriteIcon />
-        </ListItemIcon>
-        <ListItemText primary="Favorite Content" />
-      </ListItem>
+        <ListItem button>
+          <ListItemIcon>
+          <FavoriteIcon />
+          </ListItemIcon>
+          <ListItemText primary="Favorite" />
+        </ListItem>
       </Link>
 
-      <Link to="/admin/bagged" style={{textDecoration:'none',color:'inherit'}}>
-      <ListItem button>
-        <ListItemIcon>
-        <LocalMallIcon />
-        </ListItemIcon>
-        <ListItemText primary="Interested Content" />
-      </ListItem>
+      <Link to="/admin/interested" style={{textDecoration:'none',color:'inherit'}}>
+        <ListItem button>
+          <ListItemIcon>
+          <LocalMallIcon />
+          </ListItemIcon>
+          <ListItemText primary="Interested" />
+        </ListItem>
       </Link>
+      </>
+      
+      
+      
+      :null}
 
-      <Link to="/admin/recommended" style={{textDecoration:'none',color:'inherit'}}>
-      <ListItem button>
-        <ListItemIcon>
-        <DynamicFeedIcon />
-        </ListItemIcon>
-        <ListItemText primary="Recommended" />
-      </ListItem>
+      <Link to="/admin/requests" style={{textDecoration:'none',color:'inherit'}}>
+        <ListItem button>
+          <ListItemIcon>
+          <FavoriteIcon />
+          </ListItemIcon>
+          <ListItemText primary="Requests" />
+        </ListItem>
       </Link>
+      
+  {profileresponse.content == "producer" && !response.is_superuser  ? 
+
+    <Link to="/admin/recommended" style={{textDecoration:'none',color:'inherit'}}>
+    <ListItem button>
+      <ListItemIcon>
+      <DynamicFeedIcon />
+      </ListItemIcon>
+      <ListItemText primary="Recommended" />
+    </ListItem>
+    </Link>
+  :null}
+     
 
       
-
+      {!response.is_superuser  ? 
       <Link to="/admin/contentrequest" style={{textDecoration:'none',color:'inherit'}}>
       <ListItem button>
         <ListItemIcon>
           <SendIcon />
         </ListItemIcon>
-        <ListItemText primary="Request Content" />
+        <ListItemText primary="Request" />
       </ListItem>
       </Link>
+      :null}
       {/* <ListItem button>
         <ListItemIcon>
           <DraftsIcon />
@@ -608,7 +635,7 @@ const toggleDrawer = (anchor, open) => (event) => {
         
         <Box display="flex" alignItems="center" justifyContent="center" className={classes.logo}>
           <Typography className={classes.title} variant="h6" noWrap>
-                MoviePlex
+                Contentbond
               </Typography>
           </Box>
         }

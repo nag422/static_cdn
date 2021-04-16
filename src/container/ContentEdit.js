@@ -1,11 +1,10 @@
-import { Box, Button, Card, FormControl, FormControlLabel, Grid, Input, Paper, Typography } from '@material-ui/core'
+import { Box, Button, Card, FormControl, FormControlLabel, Grid, Input, Paper, TextField, Typography } from '@material-ui/core'
 import React from 'react'
 import CustomizedDate from '../components/ModelDialogue/CustomizedDate'
 import CustomizedInputs from '../components/ModelDialogue/CustomizedInputs'
 import CustomizedSelect from '../components/ModelDialogue/CustomizedSelect'
 import SelectFieldCustom from '../components/SelectFieldCustom/SelectFieldCustom'
 import FileUpload from '../components/button/FileUpload'
-import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { useSelector, useDispatch } from 'react-redux';
 import FormikField from "../components/formikcontrol/FormikField";
@@ -14,47 +13,10 @@ import BackupIcon from '@material-ui/icons/Backup';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { AlertTitle } from '@material-ui/lab';
-import { addProductwithApiRequest, saverequestProductwithApiRequest } from './api/productapi.js';
-const creatorSchema = Yup.object().shape({
-    title: Yup.string()
-        .required("Title is should not be empty"),
-    description: Yup.string()
-        .required("Description is should not be empty"),
-    rights: Yup.string()
-        .required("Rights is should not be empty"),
-    castncrew: Yup.string()
-        .required("CastnCrew is should not be empty"),
-    price: Yup.number()
-        .required("Price is should not be empty"),
-    // createdat:Yup.date().required("Date Should not be empty"),
-    // thumbnail:Yup.mixed()
-    // .required("Thumbnail is should not be empty"),
-    // video:Yup.mixed()
-    // .required("Videofile is should not be empty"),
+import { addProductwithApiRequest, saverequestProductwithApiRequest,editProductsave } from './api/productapi.js';
+import { getProductById } from 'sagas/api/api';
 
-    // .matches(
-    //     /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-    //     "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
-    //   )
-});
-
-const creatorequestschema = Yup.object().shape({
-    title: Yup.string()
-        .required("Title is should not be empty")
-})
-
-const initialValues = {
-    title: "",
-    description: "",
-    rights: "",
-    castncrew: "",
-    price: 0
-};
-const initialcreatorValues = {
-    title: ""
-
-};
-const ContentRequest = (props) => {
+const ContentEdit = (props) => {
     // const [fields, setFields] = React.useState([{ label: 'Cost' }])
     // const [selectFields] = React.useState([{ label: 'SuperAdmin', value: 'superuser' }, { label: 'Admin', value: 'Author' }, { label: 'User', value: 'user' }])
     // const selectcategoryFields = [{ label: 'Creator', value: 'creator' }, { label: 'Producer', value: 'Producer' }, { label: 'Hybrid', value: 'hybrid' }, { label: 'None of the above', value: 'none' }]
@@ -69,110 +31,77 @@ const ContentRequest = (props) => {
     const [selectedCategory, setSelectedCategory] = React.useState('');
 
     const [authortype, setAuthortype] = React.useState('creator')
-    const [selectedfile, setSelectedfile] = React.useState({
-        thumbnail: '',
-        thumbnail1: '',
-        thumbnail2: '',
-        thumbnail3: '',
-        video: ''
-    });
+   
+    const [post, setPost] = React.useState({
+        author_id: 0,
+        castncrew: "",
+        created: "",
+        customauthor: "",
+        description: "",
+        id: 0,
+        in_stock: true,
+        is_active: true,
+        isfavored: false,
+        isliked: false,
+        price: 0,
+        rights: "",
+        slug: "",
+        thumbnail: "",
+        thumbnail1: "",
+        thumbnail2: "",
+        thumbnail3: "",
+        title: "",
+        videofile: "",
+    })
 
     function Alert(props) {
         return <MuiAlert elevation={6} variant="filled" {...props} />;
     }
 
 
+
     const dispatch = useDispatch();
     const response = useSelector((state) => state.productSave);
     const userresponse = useSelector((state) => state.profileops.profile);
 
-    const onCreatorrequestSave = async (values) => {
-        const history = props.history
 
-        const finvalues = {
-            ...values,
-            author_type: 'producer',
-            category: selectedCategory
 
-        }
+ 
 
-        // return await dispatch(
-        //     requestProduct(
-        //         finvalues,
-        //         history
-        //     )
-        // );
+    React.useEffect(() => {
+        const getsingleproduct = async () => {
+            const data = await getProductById(props.match.params.id)
+        
+            if(data.obs.length > 0){
+                setPost({
 
-    };
+                    ...post,
+                    id: data.obs[0].id,
+                    thumbnail: data.obs[0].thumbnail,
+                    thumbnail1: data.obs[0].thumbnail1,
+                    thumbnail2:data.obs[0].thumbnail2,
+                    thumbnail3: data.obs[0].thumbnail3,
+                    title: data.obs[0].title,
+                    description:data.obs[0].description,
+                    videofile: data.obs[0].videofile,
+                    rights:data.obs[0].rights,
+                    castncrew:data.obs[0].castncrew,
+                    price:data.obs[0].price
+                    
 
-    const onCreatorrequestProducerSave = async (values) => {
-
-        const history = props.history
-
-        const finvalues = {
-            ...values,
-            author_type: 'producer',
-            category: selectedCategory
-
-        }
-        const saverequestProductResponse = await saverequestProductwithApiRequest(finvalues)
-
-        // return dispatch(
-        //     requestProduct(
-        //         finvalues,
-        //         history
-        //     )
-        // );
-
-        if (saverequestProductResponse === 200) {
-
-            setProductmessage("Successfully request has been sent.")
-            setOpen(true);
-            setAlertseverity('success')
-
-        } else {
-            setProductmessage("Something is went wrong")
-            setOpen(true);
-            setAlertseverity('success')
+                })
+            }
 
         }
+        getsingleproduct()
+        console.log(post)
 
-    };
+        
+    }, [])
 
-    const onProductSave = async (values) => {
+    
 
-
-        console.log('frontend', values)
-
-        const finvalues = {
-            ...values, video: selectedfile.video,
-            thumbnail: selectedfile.thumbnail,
-            thumbnail1: selectedfile.thumbnail1,
-            thumbnail2: selectedfile.thumbnail2,
-            thumbnail3: selectedfile.thumbnail3,
-            category: selectedCategory,
-            createdat: selectedDate
-        };
-
-        const saveProductResponse = await addProductwithApiRequest(finvalues)
-
-        if (saveProductResponse === 200) {
-
-            setProductmessage("Successfully Created")
-            setOpen(true);
-            setAlertseverity('success')
-
-        } else {
-            setProductmessage("Something is went wrong")
-            setOpen(true);
-            setAlertseverity('success')
-
-        }
-
-
-
-
-    };
+    
 
 
 
@@ -200,12 +129,28 @@ const ContentRequest = (props) => {
 
 
     const handlefileChange = (e) => {
-        setSelectedfile({
-            ...selectedfile,
+        setPost({
+            ...post,
             [e.target.id]: e.target.files[0]
         })
-        console.log(e.target.files[0])
+       
 
+    }
+
+ 
+    const handleChnage = (e) => {
+        setPost({
+            ...post,
+            [e.target.name]:e.target.value})
+
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log(post)
+        const resp =  await editProductsave(post)
+        console.log(resp)
+        
     }
 
 
@@ -224,53 +169,10 @@ const ContentRequest = (props) => {
             {userresponse.content == "creator" && !userresponse.user_ptr.is_superuser ?
                 <Grid container spacing={1}>
 
-                    <Grid item md={6} sm={12} xs={12}>
-                        <Card>
-                            <Box p={1}>
-                                <Typography>
-                                    Requirements (Seller)
-                   </Typography>
-                            </Box>
-                            <Box p={2}>
-                                <Formik
-                                    initialValues={initialcreatorValues}
-                                    onSubmit={onCreatorrequestSave}
-                                    validationSchema={creatorequestschema}
-                                >
-                                    {({ dirty, isValid }) => {
-                                        return (
-                                            <Form>
-                                                <FormikField
-                                                    name="title"
-                                                    label="title"
-                                                    type="text"
-                                                    required
-                                                    textvariant="outlined"
-                                                />
-                                                <Box style={{ marginLeft: '-1%' }}>
-                                                    <CustomizedSelect
-                                                        fieldname={'Type'}
-                                                        label="category"
-                                                        handlecategoryChange={handlecategoryChange}
-                                                        selectedCategory={selectedCategory}
-                                                    />
-                                                </Box>
-                                                <Box pl={1} pt={2}>
-                                                    <Button
-                                                        disabled={!dirty || !isValid}
-                                                        type="submit" color="primary" variant="contained">Submit</Button>
-                                                </Box>
-
-                                            </Form>
-                                        );
-                                    }}
-                                </Formik>
-                            </Box>
-                        </Card>
-                    </Grid>
+                    
 
 
-                    <Grid item md={6} sm={12} xs={12}>
+                    <Grid item md={8} sm={12} xs={12}>
                         <Card>
                             <Box p={1}>
                                 <Typography>
@@ -278,58 +180,78 @@ const ContentRequest = (props) => {
                    </Typography>
                             </Box>
                             <Box p={2}>
-                                <Formik
-                                    initialValues={initialValues}
-                                    onSubmit={onProductSave}
-                                    validationSchema={creatorSchema}
-                                >
-                                    {({ dirty, isValid }) => {
-                                        return (
-
-                                            <Form>
-                                                <Grid item md={12} sm={12} lg={12} spacing={2}>
-                                                    <FormikField
+                                
+                                            <form onSubmit={handleSubmit}>
+                                                <Grid item md={12} sm={12} lg={12}>
+                                                    <TextField
+                                                        value= {post.title}
                                                         name="title"
+                                                        onChange={handleChnage}
                                                         label="title"
                                                         type="text"
                                                         required
-                                                        textvariant="outlined"
+                                                        variant="outlined"
+                                                        fullWidth
+                                                        style={{marginBottom:15}}
+                                                        InputLabelProps = {{shrink:true}}
                                                     /><br></br>
-                                                    <FormikField
+                                                    <TextField
+                                                        value= {post.description}
                                                         name="description"
+                                                        onChange={handleChnage}
                                                         label="description"
                                                         type="text"
                                                         required
-                                                        textvariant="outlined"
+                                                        variant="outlined"
+                                                        fullWidth
+                                                        style={{marginBottom:15}}
+                                                        InputLabelProps = {{shrink:true}}
                                                     /><br></br>
-                                                    <FormikField
+                                                    <TextField
+                                                        value= {post.rights}
                                                         name="rights"
+                                                        onChange={handleChnage}
                                                         label="rights"
                                                         type="text"
                                                         required
-                                                        textvariant="outlined"
-                                                        style={{ backgroundColor: "#fff" }}
-
+                                                        variant="outlined"
+                                                        style={{marginBottom:15}}
+                                                        InputLabelProps = {{shrink:true}}
+                                                        fullWidth
 
                                                     /><br></br>
-                                                    <FormikField
+                                                    <TextField
+                                                        value= {post.castncrew}
                                                         name="castncrew"
+                                                        onChange={handleChnage}
                                                         label="castncrew"
                                                         type="text"
                                                         required
-                                                        textvariant="outlined"
+                                                        variant="outlined"
+                                                        style={{marginBottom:15}}
+                                                        InputLabelProps = {{shrink:true}}
+                                                        fullWidth
                                                     /><br></br>
-                                                    <FormikField
+                                                    <TextField
+                                                        value= {post.price}
                                                         name="price"
+                                                        onChange={handleChnage}
                                                         label="price"
                                                         type="text"
                                                         required
-                                                        textvariant="outlined"
+                                                        variant="outlined"
+                                                        style={{marginBottom:15}}
+                                                        InputLabelProps = {{shrink:true}}
+                                                        fullWidth
                                                     /><br></br>
                                                     {/* <Input type="file" id="thumbnail" name="thumbnail" onChange={handlefileChange}></Input>
                                                  <Input type="file" id="video" name="video" onChange={handlefileChange}></Input> */}
 
-
+                                                    <img src={`https://app.contentbond.com/media/${post.thumbnail}`} 
+                                                    alt="tumbnail title"
+                                                    width="320"
+                                                    height="160"                                                    
+                                                    />
                                                     <div>
                                                         <input
                                                             accept="image/*"
@@ -341,30 +263,40 @@ const ContentRequest = (props) => {
                                                         />
                                                         <label htmlFor="thumbnail">
                                                             <Button variant="contained" color="primary" component="span">
-                                                                Upload Thumbnail &nbsp;<BackupIcon />
+                                                                Change Thumbnail &nbsp;<BackupIcon />
                                                             </Button>
                                                         </label>
-                                                        {JSON.stringify(selectedfile.thumbnail.name)}
+                                                        {JSON.stringify(post.thumbnail.name)}
                                                     </div>
 
                                                     <br></br>
+                                                    <img src={`https://app.contentbond.com/media/${post.videofile}`} 
+                                                    alt="tumbnail title"
+                                                    width="320"
+                                                    height="160"                                                    
+                                                    />
                                                     <div>
                                                         <Input
                                                             accept="video/*"
                                                             style={{ display: 'none' }}
-                                                            id="video"
-                                                            name="video"
+                                                            id="videofile"
+                                                            name="videofile"
                                                             type="file"
                                                             onChange={handlefileChange}
                                                         />
-                                                        <label htmlFor="video">
+                                                        <label htmlFor="videofile">
                                                             <Button variant="contained" color="primary" component="span">
-                                                                Upload Video &nbsp;<BackupIcon />
+                                                                Change Video &nbsp;<BackupIcon />
                                                             </Button>
                                                         </label>
-                                                        {JSON.stringify(selectedfile.video.name)}
+                                                        {JSON.stringify(post.videofile.name)}
                                                     </div>
                                                     <br></br>
+                                                    <img src={`https://app.contentbond.com/media/${post.thumbnail1}`} 
+                                                    alt="tumbnail title"
+                                                    width="320"
+                                                    height="160"                                                    
+                                                    />
                                                     <div>
                                                         <input
                                                             accept="image/*"
@@ -376,13 +308,19 @@ const ContentRequest = (props) => {
                                                         />
                                                         <label htmlFor="thumbnail1">
                                                             <Button variant="contained" color="primary" component="span">
-                                                                Upload Banner1 &nbsp;<BackupIcon />
+                                                                Change Banner1 &nbsp;<BackupIcon />
                                                             </Button>
                                                         </label>
-                                                        {JSON.stringify(selectedfile.thumbnail1.name)}
+                                                        {JSON.stringify(post.thumbnail1.name)}
                                                     </div>
 
                                                     <br></br>
+
+                                                    <img src={`https://app.contentbond.com/media/${post.thumbnail2}`} 
+                                                    alt="tumbnail title"
+                                                    width="320"
+                                                    height="160"                                                    
+                                                    />
 
                                                     <div>
                                                         <input
@@ -395,33 +333,39 @@ const ContentRequest = (props) => {
                                                         />
                                                         <label htmlFor="thumbnail2">
                                                             <Button variant="contained" color="primary" component="span">
-                                                                Upload Banner2 &nbsp;<BackupIcon />
+                                                                Change Banner2 &nbsp;<BackupIcon />
                                                             </Button>
                                                         </label>
-                                                        {JSON.stringify(selectedfile.thumbnail2.name)}
+                                                        {JSON.stringify(post.thumbnail2.name)}
                                                     </div>
 
                                                     <br></br>
+                                                    <img src={`https://app.contentbond.com/media/${post.thumbnail3}`} 
+                                                    alt="tumbnail title"
+                                                    width="320"
+                                                    height="160"                                                    
+                                                    />
                                                     <div>
                                                         <input
                                                             accept="image/*"
                                                             style={{ display: 'none' }}
                                                             id="thumbnail3"
                                                             name="thumbnail3"
-                                                            type="file"
+                                                            type="file"                                                            
                                                             onChange={handlefileChange}
                                                         />
                                                         <label htmlFor="thumbnail3">
                                                             <Button variant="contained" color="primary" component="span">
-                                                                Upload Banner3 &nbsp;<BackupIcon />
+                                                                Change Banner3 &nbsp;<BackupIcon />
                                                             </Button>
                                                         </label>
-                                                        {JSON.stringify(selectedfile.thumbnail3.name)}
+                                                        {JSON.stringify(post.thumbnail3.name)}
                                                     </div>
 
                                                     <br></br>
                                                     <Box style={{ marginLeft: '-1%' }}>
                                                         <CustomizedSelect
+                                                            value={post.category}
                                                             fieldname={'Type'}
                                                             label="category"
                                                             handlecategoryChange={handlecategoryChange}
@@ -437,16 +381,14 @@ const ContentRequest = (props) => {
 
                                                     <Box pl={1} pt={2}>
                                                         <Button type="submit" color="primary" variant="contained"
-                                                            disabled={!dirty || !isValid}
+                                                            
                                                         >Submit</Button>
                                                     </Box>
 
 
                                                 </Grid>
-                                            </Form>
-                                        );
-                                    }}
-                                </Formik>
+                                            </form>
+                                       
                             </Box>
                         </Card>
                     </Grid>
@@ -454,60 +396,7 @@ const ContentRequest = (props) => {
 
                 </Grid>
 
-                : userresponse.content == "producer" && !userresponse.user_ptr.is_superuser ?
-                    <Grid container spacing={1}>
-
-                        <Grid item md={6} sm={12} xs={12}>
-                            <Card>
-                                <Box p={1}>
-                                    <Typography>
-                                        Requirements (Buyer)
-                   </Typography>
-                                </Box>
-                                <Box p={2}>
-                                    <Formik
-                                        initialValues={initialcreatorValues}
-                                        onSubmit={onCreatorrequestProducerSave}
-                                        validationSchema={creatorequestschema}
-                                    >
-                                        {({ dirty, isValid }) => {
-                                            return (
-                                                <Form>
-                                                    <FormikField
-                                                        name="title"
-                                                        label="title"
-                                                        type="text"
-                                                        required
-                                                        textvariant="outlined"
-                                                    />
-                                                    <CustomizedSelect
-                                                        fieldname={'Type'}
-                                                        label="category"
-                                                        handlecategoryChange={handlecategoryChange}
-                                                        selectedCategory={selectedCategory}
-                                                    />
-                                                    <Box pl={1} pt={2}>
-                                                        <Button
-                                                            disabled={!dirty || !isValid}
-                                                            type="submit" color="primary" variant="contained">Submit</Button>
-                                                    </Box>
-
-                                                </Form>
-                                            );
-                                        }}
-                                    </Formik>
-                                </Box>
-                            </Card>
-                        </Grid>
-
-
-                    </Grid>
-
-
-                    : <Alert severity="info">
-                        <AlertTitle>Denied!</AlertTitle>
-                            User should either creator or producer — <strong>Login with Buyer or Seller!</strong>
-                    </Alert>}
+                : null}
 
             <br></br>
 
@@ -515,4 +404,4 @@ const ContentRequest = (props) => {
     )
 }
 
-export default ContentRequest
+export default ContentEdit

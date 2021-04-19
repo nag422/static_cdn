@@ -12,8 +12,11 @@ import DynamicFeedIcon from '@material-ui/icons/DynamicFeed';
 import { adminProfileState } from 'reducers/selectors/ProfileSelector';
 import { adminProfileUpdateState } from 'reducers/selectors/ProfileSelector';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { updateSecondaryProfile } from './api/userapi'
-export class Profile extends Component {
+import { updateSecondaryProfile,getdynoProfile,primaryprofileupdate,updateSecondaryProfilebyadmin } from './api/userapi'
+
+
+
+export class Profiledynamic extends Component {
 
   constructor(props) {
     super(props);
@@ -37,22 +40,32 @@ export class Profile extends Component {
     // console.log('didmount',this.props.data)
     // getProfileData({user:'nagendra',history:this.props.history})
     // alert('stoppedn in component did mount')
-    let dataprops = this.props.data
 
+    const getUserProfile = async () => {
+        const dataprops = await getdynoProfile(this.props.match.params.id);
 
-    return this.setState(() => ({
+        return this.setState(() => ({
 
-      first_name: dataprops.user_ptr.first_name,
-      last_name: dataprops.user_ptr.last_name,
-      email: dataprops.user_ptr.email,
-      address: dataprops.address,
-      postalcode: dataprops.postalcode,
-      phone: dataprops.phone,
-      city: dataprops.city,
-      country: dataprops.country,
-      content: dataprops.content
-    })
-    )
+          first_name: dataprops.response.user_ptr.first_name,
+          last_name: dataprops.response.user_ptr.last_name,
+          email: dataprops.response.user_ptr.email,
+          address: dataprops.response.address,
+          postalcode: dataprops.response.postalcode,
+          phone: dataprops.response.phone,
+          city: dataprops.response.city,
+          country: dataprops.response.country,
+          content: dataprops.response.content
+        })
+        )
+        
+
+    }
+
+    getUserProfile()
+    
+
+   
+
 
 
   }
@@ -91,15 +104,14 @@ export class Profile extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    return this.props.primaryprofileupdate({
-      data: this.state,
-      payload: this.props.history
+    return primaryprofileupdate({
+      data: this.state      
     })
   }
 
   handleSubmit2 = (event) => {
     event.preventDefault();
-    updateSecondaryProfile(this.state)
+    updateSecondaryProfilebyadmin(this.state)
 
   }
 
@@ -282,4 +294,4 @@ const mapDispatchToProps = (dispatch) => {
   }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(Profiledynamic);

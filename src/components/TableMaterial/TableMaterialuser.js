@@ -23,6 +23,10 @@ import axios from 'axios';
 import ConfirmModel from '../ModelDialogue/ConfirmModel'
 import UserEditModel from '../ModelDialogue/UserEditModel'
 import CreateIcon from '@material-ui/icons/Create';
+
+import Brightness3Icon from '@material-ui/icons/Brightness3';
+import Brightness1Icon from '@material-ui/icons/Brightness1';
+
 import * as authapi from '../../container/api/userapi'
 
 
@@ -53,7 +57,8 @@ const getCookie = (name) => {
 const config = {
   headers: {
       'content-type': 'multipart/form-data',          
-      'X-CSRFToken': getCookie('csrftoken')
+      'X-CSRFToken': getCookie('csrftoken'),
+      'Authorization': 'Token 22cab19ad1b1ed66a1d69bcb849ceb9af0f6ac54'
   }
 }
 
@@ -113,6 +118,7 @@ const headCells = [
   { id: 'category', numeric: false, disablePadding: false, label: 'Category' },
   { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
   { id: 'email', numeric: false, disablePadding: false, label: 'Email' },
+  { id: 'is_active', numeric: false, disablePadding: false, label: 'Status' },
   { id: 'created', numeric: false, disablePadding: false, label: 'Created' },
   { id: 'group', numeric: false, disablePadding: false, label: 'Group' },
   
@@ -217,6 +223,19 @@ const EnhancedTableToolbar = (props) => {
 
       {numSelected > 0 ? (
         <>
+ 
+        <Tooltip title="Activate">
+          <IconButton aria-label="activate" onClick={() =>props.handleuserClickActivateStatus('activate')}>
+            <Brightness1Icon />            
+          </IconButton>
+        </Tooltip>
+
+        <Tooltip title="Deactivate">
+          <IconButton aria-label="delete" onClick={() =>props.handleuserClickActivateStatus('deactivate')}>
+            <Brightness3Icon />            
+          </IconButton>
+        </Tooltip>
+
         <Tooltip title="Edit">
           <IconButton aria-label="edit" onClick={props.handleuserClickOpen}>
             <CreateIcon />            
@@ -331,6 +350,38 @@ export default function TableMaterialuser(props) {
        
 
       };
+
+      const handleuserClickActivateStatus = (status) => {
+        alert('Activate status : '+status)
+        const form_data = new FormData();
+        form_data.append('itemlist',selected)
+        form_data.append('status',status)
+        const statusbool = false
+        if(status == "activate"){
+          statusbool = true
+        }
+        
+        axios.post(url+'auth/useractiveordeactivate/',form_data,config).then(res=>{
+
+          var rowsupdateuser = rows.filter((val,key) =>{
+            return [...rows, selected.includes(val.id) ? val.is_active=statusbool:val]
+           
+           });
+           setRows(rowsupdateuser)
+          // if(!res.data.error){
+              
+          //   setRows(res.data.GETmethodData)
+            
+          // }
+          alert('Success')
+      }).catch(err=>{
+          
+          alert(err.message)
+          
+      })
+
+
+      }
 
       const handleuserClose = () => {
         setUsereditmodelopen(false);
@@ -520,6 +571,7 @@ export default function TableMaterialuser(props) {
         numSelected={selected.length} 
         handleClickOpen={handleClickOpen}
         handleuserClickOpen={handleuserClickOpen}
+        handleuserClickActivateStatus = {handleuserClickActivateStatus}
         
         />
         <TableContainer>
@@ -568,6 +620,7 @@ export default function TableMaterialuser(props) {
                       <TableCell align="left">{row.content?row.content:'-------'}</TableCell>
                       <TableCell align="left">{row.username}</TableCell>
                       <TableCell align="left">{row.email?row.email:'-----------'}</TableCell>
+                      <TableCell align="left">{row.is_active?'active':'deactivte'}</TableCell>
                       <TableCell align="left">{row.date_joined}</TableCell>
                       <TableCell align="left">{row.group?row.group:'---------'}</TableCell>
                      

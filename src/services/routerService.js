@@ -18,6 +18,8 @@ import ChatMessenger from 'container/ChatMessenger';
 import Detailcard from '../components/Detailcard/Detailcard'
 import ContentEdit from '../container/ContentEdit'
 import ContentExploreAdminRequests from '../container/ContentExploreAdminRequests'
+import Profiledynamic from '../container/Profiledynamic'
+import MessageForm from '../container/MessageForm'
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
     //Auth url
@@ -84,6 +86,12 @@ export default [
         layout:'admin'
     },
     {
+        path: "profile/:id",
+        component: Profiledynamic,
+        exact: true,
+        layout:'admin'
+    },
+    {
         path: "content",
         component: ContentExplore,
         exact: true,
@@ -143,6 +151,16 @@ export default [
         exact: true,
         layout:'admin'
     },
+
+    {
+        path: "messageformat",
+        component: MessageForm,
+        exact: true,
+        layout:'admin'
+    },
+
+
+    
     {
         path: "section/:id",
         component: Detailcard,

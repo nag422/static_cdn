@@ -17,6 +17,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import LocalMallIcon from '@material-ui/icons/LocalMall';
 import { Box, Chip, Menu, MenuItem } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -142,31 +143,20 @@ export default function ContentExplorecardAdmin(props) {
         title={props.val.title}
       />
       <CardContent>
-        <Box display="flex" justifyContent="flex-start">
-          {/* <Avatar aria-label="recipe" className={classes.small} src={`https://app.contentbond.com/media/${props.val.thumbnail}`}>
-            U
-          </Avatar> */}
+        
+            Author: <Link to="/admin/profile/2"> <Chip color="primary" label={props.val.customauthor} /> </Link>
 
-
-          <Typography variant="body2" color="textSecondary" component="p">
-
-            Author: <Chip color="primary" label={props.val.customauthor} />
-
-          </Typography>
-
-
-        </Box>
-        <Typography variant="body2" color="textSecondary" component="p">
+          
+         
+        
 
           {props.val.title}
 
-        </Typography>
-
-        <Typography variant="body2" color="textSecondary" component="p">
+      
 
           Requested By: <Chip color="primary" label= {props.val.likedbyname} />
 
-        </Typography>
+
 
         
       </CardContent>

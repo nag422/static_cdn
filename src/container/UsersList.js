@@ -6,7 +6,7 @@ import { fade, makeStyles } from "@material-ui/core/styles";
 
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
- 
+
 import axios from 'axios';
 
 import Chip from '@material-ui/core/Chip';
@@ -16,8 +16,8 @@ import Select from '@material-ui/core/Select';
 import { grey } from '@material-ui/core/colors'
 
 import ChipInput from 'material-ui-chip-input'
-import {getUsernameChips} from './api/authapi';
-import {getProductChips,ProductUserSave,ProductGroupSave} from './api/cardactionsapi'
+import { getUsernameChips } from './api/authapi';
+import { getProductChips, ProductUserSave, ProductGroupSave } from './api/cardactionsapi'
 import UserlistIcon from '../components/IconList/UserlistIcon';
 import Producticonlist from 'components/IconList/Producticonlist';
 
@@ -74,20 +74,20 @@ const UsersList = () => {
     const [usersgroupdata, setUsersgroupdata] = React.useState([])
     const [productlistdata, setProductlistdata] = React.useState([])
 
-    const [chipuser,setChipuser] = React.useState([])
-    const [chipproduct,setChipproduct] = React.useState([])
+    const [chipuser, setChipuser] = React.useState([])
+    const [chipproduct, setChipproduct] = React.useState([])
 
 
     const [uservalues, setUservalues] = React.useState({
         username: '',
         password: '',
-        phone:''
+        phone: ''
 
     })
 
     const [chipData, setChipData] = React.useState([
         // { key: 0, label: 'Angular' },
-        
+
         // 'angular',
         // 'jquery'
     ]);
@@ -110,13 +110,13 @@ const UsersList = () => {
     const handleDeleteChip = (chipToDelete, index) => {
 
         setChipData((chips) => chips.filter((chip, chipindex) => chipindex !== index));
-        
+
     };
 
     const handleDeleteChipProduct = (chipToDelete, index) => {
 
         setChipDataProduct((chips) => chips.filter((chip, chipindex) => chipindex !== index));
-        
+
     };
 
 
@@ -142,7 +142,7 @@ const UsersList = () => {
             }
         }).catch(err => {
 
-            alert('myalert',err.message)
+            alert('myalert', err.message)
 
         })
     }
@@ -251,21 +251,21 @@ const UsersList = () => {
     // Products
 
     const AssignhandleSubmit = async () => {
-        
-        const u =  await chipuser.filter((val,index) => chipData.includes(val.username))
-       const p =  await chipproduct.filter((val,index) => chipDataProduct.includes(val.title))
-       console.log(p.map(val=>val.id))
-       console.log(u.map(val=>val.id))
-       var response = await ProductUserSave({userdata:u.map(val=>val.id),productdata:p.map(val=>val.id),action:'saveuserproducts'})
+
+        const u = await chipuser.filter((val, index) => chipData.includes(val.username))
+        const p = await chipproduct.filter((val, index) => chipDataProduct.includes(val.title))
+        console.log(p.map(val => val.id))
+        console.log(u.map(val => val.id))
+        var response = await ProductUserSave({ userdata: u.map(val => val.id), productdata: p.map(val => val.id), action: 'saveuserproducts' })
 
     }
 
     const AssignhandleGroupSubmit = async () => {
-        
-        
-       const p =  await chipproduct.filter((val,index) => chipDataProduct.includes(val.title))
-   
-       var response = await ProductGroupSave({groupdata:usergroup,productdata:p.map(val=>val.id),action:'savegroupproducts'})
+
+
+        const p = await chipproduct.filter((val, index) => chipDataProduct.includes(val.title))
+
+        var response = await ProductGroupSave({ groupdata: usergroup, productdata: p.map(val => val.id), action: 'savegroupproducts' })
 
     }
 
@@ -301,31 +301,31 @@ const UsersList = () => {
     // Chips
 
     const handleAddChip = (chips) => {
-        
+
         chipData.push(chips)
     }
     const handleAddChipProduct = (chips) => {
-       
+
         chipDataProduct.push(chips)
     }
 
-    const onUpdateInput =async (chip) => {
+    const onUpdateInput = async (chip) => {
 
-        var response = await getUsernameChips({value:chip.target.value,action:'Getusername'})
+        var response = await getUsernameChips({ value: chip.target.value, action: 'Getusername' })
         setChipuser(response.users)
-        
-        
-        
+
+
+
     }
 
-    const onUpdateInputProduct =async (chip) => {
+    const onUpdateInputProduct = async (chip) => {
 
-        var response = await getProductChips({value:chip.target.value,action:'getproduct'})
+        var response = await getProductChips({ value: chip.target.value, action: 'getproduct' })
         setChipproduct(response.products)
-        
-        
- 
-        
+
+
+
+
     }
 
 
@@ -507,33 +507,35 @@ const UsersList = () => {
                                 {/* <TextareaAutosize aria-label="empty textarea" placeholder="Empty" /> */}
                             </FormControl>
                             <br></br>
+                            Users:
                             <Paper component="ul" className={calsses.chiproot}>
 
                                 <ChipInput
-                                    onUpdateInput={(chip)=>onUpdateInput(chip)}
+                                    onUpdateInput={(chip) => onUpdateInput(chip)}
                                     disableUnderline={false}
                                     variant="outlined"
                                     value={chipData}
                                     onAdd={(chip) => handleAddChip(chip)}
                                     onDelete={(chip, index) => handleDeleteChip(chip, index)}
                                 />
-                            {/* {chipuser.map((val,index) => {
+                                {/* {chipuser.map((val,index) => {
                                 return <p key={index}>{JSON.stringify(val.username)}</p>
                             })} */}
-                            <Box pt={3} display="flex" justifyContent="space-between">
-                            <UserlistIcon chipuser={chipuser} chipdata={chipData} handleAddChip={handleAddChip} handleDeleteChip={handleDeleteChip} />
-                            </Box>
-                            {/* {productlistdata.map((val, index) => {
+                                <Box pt={3} display="flex" justifyContent="space-between">
+                                    <UserlistIcon chipuser={chipuser} chipdata={chipData} handleAddChip={handleAddChip} handleDeleteChip={handleDeleteChip} />
+                                </Box>
+                                {/* {productlistdata.map((val, index) => {
                                         return <MenuItem key={val.id} value={val.id}>{val.title}</MenuItem>
                                     })} */}
                             </Paper>
-                                
-                            
+
+
                             <br></br>
+                            Products:
                             <Paper component="ul" className={calsses.chiproot}>
 
                                 <ChipInput
-                                    onUpdateInput={(chip)=>onUpdateInputProduct(chip)}
+                                    onUpdateInput={(chip) => onUpdateInputProduct(chip)}
                                     disableUnderline={false}
                                     variant="outlined"
                                     value={chipDataProduct}
@@ -544,12 +546,12 @@ const UsersList = () => {
                                 return <p key={index}>{JSON.stringify(val.username)}</p>
                                 })} */}
                                 <Box pt={3} display="flex" justifyContent="space-between">
-                                <Producticonlist chipuser={chipproduct} chipdata={chipDataProduct} handleAddChip={handleAddChipProduct} handleDeleteChip={handleDeleteChipProduct} />
+                                    <Producticonlist chipuser={chipproduct} chipdata={chipDataProduct} handleAddChip={handleAddChipProduct} handleDeleteChip={handleDeleteChipProduct} />
                                 </Box>
                                 {/* {productlistdata.map((val, index) => {
                                         return <MenuItem key={val.id} value={val.id}>{val.title}</MenuItem>
                                     })} */}
-                                </Paper>
+                            </Paper>
                             <br></br>
                             {/* <Paper component="ul" className={calsses.chiproot}>
                                 {chipData.map((data) => {
@@ -576,16 +578,10 @@ const UsersList = () => {
                                     type="button" onClick={AssignhandleSubmit} color="primary" variant="contained">Assign Poroducts</Button>
                                     &nbsp; <Button
 
-type="button" onClick={AssignhandleGroupSubmit} color="primary" variant="contained">Group Assign Poroducts</Button>
+                                    type="button" onClick={AssignhandleGroupSubmit} color="primary" variant="contained">Group Assign Poroducts</Button>
                             </Box>
-                            
+
                             <br></br>
-
-
-
-
-
-
 
 
                         </Box>

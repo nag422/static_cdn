@@ -45,3 +45,39 @@ const getCookie = (name) => {
       return statuscode
       }
 
+export const getchatmessages = async (payload) =>{
+    
+  let statuscode = ''
+  
+
+  // const form_data = new FormData();
+  // form_data.append('id', payload)
+  // form_data.append('action', 'getusers')
+  
+
+  await axios
+    .get(url+"admin/chat/savemessage/",config)
+    .then(resp => {statuscode=resp.data})
+    .catch(error => error);
+      
+    return statuscode
+    }
+    
+
+export const postchatmessages = async (payload) =>{
+
+  let statuscode = ''
+  
+
+  // const form_data = new FormData();
+  // form_data.append('id', payload)
+  // form_data.append('action', 'getusers')
+  
+
+  await axios
+    .post(url+"admin/chat/savemessage/",config)
+    .then(resp => {statuscode=resp.data})
+    .catch(error => error);
+      
+    return statuscode
+    }

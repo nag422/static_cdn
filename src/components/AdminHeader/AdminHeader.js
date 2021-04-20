@@ -319,7 +319,7 @@ const toggleDrawer = (anchor, open) => (event) => {
       elevation={1}
     >
       <Link to="/admin/profile" style={{textDecoration:"none",color:"inherit"}}><MenuItem onClick={handleMenuClose}>Profile</MenuItem></Link>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      {/* <MenuItem onClick={handleMenuClose}>My account</MenuItem> */}
       <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
   );
@@ -360,7 +360,7 @@ const toggleDrawer = (anchor, open) => (event) => {
       onClose={handleMobileMenuClose}
       elevation={0}
     >
-      <MenuItem>
+      {/* <MenuItem>
         <IconButton aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="secondary">
             <MailIcon />
@@ -375,7 +375,7 @@ const toggleDrawer = (anchor, open) => (event) => {
           </Badge>
         </IconButton>
         <p>Notifications</p>
-      </MenuItem>
+      </MenuItem> */}
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           aria-label="account of current user"
@@ -388,6 +388,8 @@ const toggleDrawer = (anchor, open) => (event) => {
         </IconButton>
         <p>Profile</p>
       </MenuItem>
+
+      <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
   );
 
@@ -513,15 +515,16 @@ const toggleDrawer = (anchor, open) => (event) => {
       
       
       :null}
-
-      <Link to="/admin/requests" style={{textDecoration:'none',color:'inherit'}}>
-        <ListItem button>
-          <ListItemIcon>
-          <FavoriteIcon />
-          </ListItemIcon>
-          <ListItemText primary="Requests" />
-        </ListItem>
-      </Link>
+    {response.is_superuser &&
+          <Link to="/admin/requests" style={{textDecoration:'none',color:'inherit'}}>
+            <ListItem button>
+              <ListItemIcon>
+              <FavoriteIcon />
+              </ListItemIcon>
+              <ListItemText primary="Requests" />
+            </ListItem>
+          </Link>
+    }
       
   {profileresponse.content == "producer" && !response.is_superuser  ? 
 
@@ -679,14 +682,16 @@ const toggleDrawer = (anchor, open) => (event) => {
 
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <MailIcon />
+
+
+            {/* <IconButton aria-label="show 4 new mails" color="inherit">
+              <Badge badgeContent={4} color="secondary">                
+                <NotificationsIcon />
               </Badge>
-            </IconButton>
+            </IconButton> */}
 
            
-
+{/* 
             <IconButton
               
               aria-label="show 17 new notifications"
@@ -696,10 +701,10 @@ const toggleDrawer = (anchor, open) => (event) => {
               color="inherit"
             >
               <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
+              <MailIcon />
               </Badge>
               
-            </IconButton>
+            </IconButton> */}
 
 
 

@@ -6,6 +6,8 @@ import axios from 'axios';
 import ChipInput from 'material-ui-chip-input'
 import UserlistIcon from 'components/IconList/UserlistIcon';
 import { getUsernameChips } from './api/authapi';
+import {postchatmessages} from './api/message'
+
 const useStyles = makeStyles((theme) => ({
     root: {
         '& > *': {
@@ -26,9 +28,13 @@ const MessageForm = () => {
     const [chipuser, setChipuser] = React.useState([])
     const [userslistdata, setUserslistdata] = React.useState([])
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         alert(messagetext)
+        console.log(chipData)
+
+        const msgresp = await postchatmessages ({data:chipData,msg:messagetext})
+        alert('Message Submitted')
     }
 
 

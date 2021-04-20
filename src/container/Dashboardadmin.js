@@ -12,6 +12,7 @@ import { amber, green, red, pink } from '@material-ui/core/colors';
 import { Doughnut, Bar } from 'react-chartjs-2';
 import Apexchartdemo from './Apexchartdemo'
 import TrafficByDevice from './TrafficByDevice';
+import axios from 'axios';
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -60,6 +61,69 @@ const data = {
 
 const Dashboardadmin = () => {
     const classes = useStyles();
+    const [responsedata,setResponsedata] = React.useState({
+        sellers:0,
+        buyers:0,
+        enquiries:0,
+        leads:0
+    })
+
+    // const url = 'http://127.0.0.1:8000/'
+    const url = 'https://app.contentbond.com/'
+
+    React.useEffect(() => {
+        const loadDashboard = async() => {
+            await axios
+            .get(url + "admin/dashboardview/", config)
+            .then(resp => { 
+
+                setResponsedata({
+                    ...responsedata,
+                    sellers:resp.data.sellers,
+                    buyers:resp.data.buyers,
+                    enquiries:resp.data.enquiries,
+                    leads:resp.data.leads
+
+                })
+                
+             })
+            .catch(error => {
+                alert('error')
+            });
+    
+      
+
+        }
+
+        loadDashboard();
+        
+        
+    }, [])
+
+    const getToken = () => {
+        var unparsedtoken = localStorage.getItem('access_token');
+        try{
+            var parsedtoken = JSON.parse(unparsedtoken);
+            return parsedtoken.access_token
+        }catch{
+            return '22cab19ad1b1ed66a1d69bcb849ceb9af0f6ac54'
+
+        }
+        
+    }
+
+    const config = {
+        headers: {
+          'content-type': 'application/json',
+          'Authorization': 'Token '+ getToken()
+        }
+    }
+
+   
+
+
+
+
     return (
         <div className={classes.root}>
             <Grid container spacing={3}>
@@ -68,40 +132,20 @@ const Dashboardadmin = () => {
                     <Paper className={classes.paper}>
                         <Box display="flex" alignItems="flex-start" flexDirection="column">
                             <Typography component='p' className={classes.headingtext}>
-                                TODAYS MONEY
+                                SELLERS
                         </Typography>
                             <Box component='div' className={classes.pricetext}>
-                                $24,000   <Box component="p"
+                                {responsedata.sellers} 
+
+                                {/* <Box component="p"
                                     className={classes.chipnumber}
                                     style={{
                                         color: green[800],
                                         backgroundColor: green[100],
                                     }}>
                                     +4%
-                                      </Box>
-                            </Box>
-                        </Box>
-                        <Avatar className={classes.avatarcolor}>
-                            <AttachMoneyOutlinedIcon />
-                        </Avatar>
+                                </Box> */}
 
-                    </Paper>
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                    <Paper className={classes.paper}>
-                        <Box display="flex" alignItems="flex-start" flexDirection="column">
-                            <Typography component='p' className={classes.headingtext}>
-                                TOTAL CUSTOMERS
-                        </Typography>
-                            <Box component='div' className={classes.pricetext}>
-                                1,600   <Box component="p"
-                                    className={classes.chipnumber}
-                                    style={{
-                                        color: red[800],
-                                        backgroundColor: red[100],
-                                    }}>
-                                    +4%
-                                      </Box>
                             </Box>
                         </Box>
                         <Avatar className={classes.avatarcolor}>
@@ -111,31 +155,25 @@ const Dashboardadmin = () => {
                     </Paper>
                 </Grid>
                 <Grid item xs={12} sm={3}>
-
                     <Paper className={classes.paper}>
-
-                        <Box display="flex" component="div" alignItems="flex-start" flexDirection="column">
+                        <Box display="flex" alignItems="flex-start" flexDirection="column">
                             <Typography component='p' className={classes.headingtext}>
-                                TASKS PROGRESS
-                            <LinearProgress variant="determinate" value={30.5} />
-                                <Typography variant="body2" color="textSecondary"
+                                BUYERS
+                        </Typography>
+                            <Box component='div' className={classes.pricetext}>
+                            {responsedata.buyers}    
+                            {/* <Box component="p"
+                                    className={classes.chipnumber}
                                     style={{
                                         color: red[800],
-
-                                    }}
-                                >30.5% </Typography>
-
-                            </Typography>
-
-
-
-
-
+                                        backgroundColor: red[100],
+                                    }}>
+                                    +4%
+                            </Box> */}
+                            </Box>
                         </Box>
-
                         <Avatar className={classes.avatarcolor}>
-                            <InsertChartIcon />
-
+                            <PeopleIcon />
                         </Avatar>
 
                     </Paper>
@@ -144,17 +182,42 @@ const Dashboardadmin = () => {
                     <Paper className={classes.paper}>
                         <Box display="flex" alignItems="flex-start" flexDirection="column">
                             <Typography component='p' className={classes.headingtext}>
-                                BUDGET
+                                ENQUIRIES
                         </Typography>
                             <Box component='div' className={classes.pricetext}>
-                                $23,200  <Box component="div"
+                            {responsedata.enquiries} 
+                                {/* <Box component="div"
                                     className={classes.chipnumber}
                                     style={{
                                         color: pink[800],
                                         backgroundColor: pink[100],
                                     }}>
                                     +4%
-                                      </Box>
+                                </Box> */}
+                            </Box>
+                        </Box>
+                        <Avatar className={classes.avatarcolor}>
+                            <InsertChartIcon />
+                        </Avatar>
+
+                    </Paper>
+                </Grid>
+                <Grid item xs={12} sm={3}>
+                    <Paper className={classes.paper}>
+                        <Box display="flex" alignItems="flex-start" flexDirection="column">
+                            <Typography component='p' className={classes.headingtext}>
+                                LEADS
+                        </Typography>
+                            <Box component='div' className={classes.pricetext}>
+                            {responsedata.leads} 
+                                {/* <Box component="div"
+                                    className={classes.chipnumber}
+                                    style={{
+                                        color: pink[800],
+                                        backgroundColor: pink[100],
+                                    }}>
+                                    +4%
+                                </Box> */}
                             </Box>
                         </Box>
                         <Avatar className={classes.avatarcolor}>
@@ -172,7 +235,7 @@ const Dashboardadmin = () => {
                 </Grid>
                 <Grid item xs={12} sm={4}>
 
-                    <TrafficByDevice />
+                    <TrafficByDevice userdata = {responsedata} />
 
                 </Grid>
 

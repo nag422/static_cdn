@@ -69,13 +69,13 @@ export const postchatmessages = async (payload) =>{
   let statuscode = ''
   
 
-  // const form_data = new FormData();
-  // form_data.append('id', payload)
-  // form_data.append('action', 'getusers')
+  const form_data = new FormData();
+  form_data.append('msg', payload.msg)
+  form_data.append('category', payload.category)
   
 
   await axios
-    .post(url+"admin/chat/savemessage/",config)
+    .post(url+"admin/chat/savemessage/",form_data,config)
     .then(resp => {statuscode=resp.data})
     .catch(error => error);
       

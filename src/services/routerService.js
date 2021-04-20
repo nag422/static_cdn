@@ -20,6 +20,10 @@ import ContentEdit from '../container/ContentEdit'
 import ContentExploreAdminRequests from '../container/ContentExploreAdminRequests'
 import Profiledynamic from '../container/Profiledynamic'
 import MessageForm from '../container/MessageForm'
+import ChatFormUser from '../container/ChatFormUser'
+import UserFavorite from '../container/admincopy/UserFavorite'
+import UserBagged from '../container/admincopy/UserBagged'
+import UserRecommended from '../container/admincopy/UserRecommended'
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
     //Auth url
@@ -66,7 +70,7 @@ export default [
         layout:'admin'
     },
     {
-        path: "reset",
+        path: "password_reset",
         component: ForgotPassword,
         exact: true,
         layout:'auth'
@@ -120,6 +124,27 @@ export default [
         exact: true,
         layout:'admin'
     },
+    // Admin
+
+    {
+        path: "favorite/:id",
+        component: UserFavorite,
+        exact: true,
+        layout:'admin'
+    },
+    {
+        path: "interested/:id",
+        component: UserBagged,
+        exact: true,
+        layout:'admin'
+    },{
+        path: "recommended/:id",
+        component: UserRecommended,
+        exact: true,
+        layout:'admin'
+    },
+
+    // Admin
     {
         path: "upload",
         component: ContentRequest,
@@ -155,6 +180,12 @@ export default [
     {
         path: "messageformat",
         component: MessageForm,
+        exact: true,
+        layout:'admin'
+    },
+    {
+        path: "sendmessage",
+        component: ChatFormUser,
         exact: true,
         layout:'admin'
     },

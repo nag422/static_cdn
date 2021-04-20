@@ -356,7 +356,7 @@ export default function TableMaterialuser(props) {
         const form_data = new FormData();
         form_data.append('itemlist',selected)
         form_data.append('status',status)
-        const statusbool = false
+        var statusbool = false
         if(status == "activate"){
           statusbool = true
         }

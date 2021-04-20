@@ -13,9 +13,13 @@ import {
   makeStyles,
   useTheme
 } from '@material-ui/core';
-import LaptopMacIcon from '@material-ui/icons/LaptopMac';
-import PhoneIcon from '@material-ui/icons/Phone';
-import TabletIcon from '@material-ui/icons/Tablet';
+// import LaptopMacIcon from '@material-ui/icons/LaptopMac';
+// import PhoneIcon from '@material-ui/icons/Phone';
+// import TabletIcon from '@material-ui/icons/Tablet';
+
+import GroupAddOutlinedIcon from '@material-ui/icons/GroupAddOutlined';
+import GroupOutlinedIcon from '@material-ui/icons/GroupOutlined';
+import GroupWorkOutlinedIcon from '@material-ui/icons/GroupWorkOutlined';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -23,17 +27,19 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const TrafficByDevice = ({ className, ...rest }) => {
+const TrafficByDevice = ({ className,userdata, ...rest }) => {
   const classes = useStyles();
   const theme = useTheme();
-
+  const total_users = ((+userdata.sellers) + (+userdata.buyers)).toFixed(1)
+  const percentage_sellers = ((+userdata.sellers/parseInt(total_users)) * 100).toFixed(1)
+  const percentage_buyers = ((+userdata.buyers/parseInt(total_users)) * 100).toFixed(1)
   const data = {
     datasets: [
       {
-        data: [63, 15, 22],
+        data: [percentage_sellers, percentage_buyers],
         backgroundColor: [
           colors.indigo[500],
-          colors.red[600],
+          // colors.red[600],
           colors.orange[600]
         ],
         borderWidth: 8,
@@ -41,7 +47,7 @@ const TrafficByDevice = ({ className, ...rest }) => {
         hoverBorderColor: colors.common.white
       }
     ],
-    labels: ['Desktop', 'Tablet', 'Mobile']
+    labels: ['Sellers', 'Buyers']
   };
 
   const options = {
@@ -65,26 +71,26 @@ const TrafficByDevice = ({ className, ...rest }) => {
       titleFontColor: theme.palette.text.primary
     }
   };
-
+  
   const devices = [
     {
-      title: 'Desktop',
-      value: 63,
-      icon: LaptopMacIcon,
+      title: 'Sellers',
+      value: percentage_sellers,
+      icon: GroupAddOutlinedIcon,
       color: colors.indigo[500]
     },
     {
-      title: 'Tablet',
-      value: 15,
-      icon: TabletIcon,
+      title: 'Buyers',
+      value: percentage_buyers,
+      icon: GroupOutlinedIcon,
       color: colors.red[600]
     },
-    {
-      title: 'Mobile',
-      value: 23,
-      icon: PhoneIcon,
-      color: colors.orange[600]
-    }
+    // {
+    //   title: 'TotalUsers',
+    //   value: total_users,
+    //   icon: GroupWorkOutlinedIcon,
+    //   color: colors.orange[600]
+    // }
   ];
 
   return (
@@ -92,7 +98,7 @@ const TrafficByDevice = ({ className, ...rest }) => {
       className={clsx(classes.root, className)}
       {...rest}
     >
-      <CardHeader title="Traffic by Device" />
+      <CardHeader title="Users" />
       <Divider />
       <CardContent>
         <Box

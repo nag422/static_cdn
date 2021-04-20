@@ -145,3 +145,67 @@ export const getalllikedproducts = async (payload) =>{
 
   
   }
+
+
+// Admin Dyno DataFetching
+
+export const getalllikedproductsadmin = async (payload) =>{
+
+  let statuscode = ''
+  const config = {
+      headers: {
+          'content-type': 'application/json',          
+          'X-CSRFToken': getCookie('csrftoken')
+      }
+  }
+
+
+ 
+  return await axios
+      .get(`${url}admin/getproductsalllikedbyid/?page=${payload.pageNumber}&id=${payload.dynoid}`,config)
+      .then(resp => resp.data.obs)
+      .catch(error => error);
+
+
+}
+
+
+export const getallbaggedproductsadmin = async (payload) =>{
+
+  let statuscode = ''
+  const config = {
+      headers: {
+          'content-type': 'application/json',          
+          'X-CSRFToken': getCookie('csrftoken')
+      }
+  }
+
+
+  return await axios
+      .get(`${url}admin/getproductsallbaggedbyid/?page=${payload.pageNumber}&id=${payload.dynoid}`,config)
+      .then(resp => resp.data.obs)
+      .catch(error => error);
+
+
+}
+
+
+export const getallrecommendedproductsadmin = async (payload) =>{
+
+  let statuscode = ''
+  const config = {
+      headers: {
+          'content-type': 'application/json',          
+          'X-CSRFToken': getCookie('csrftoken')
+      }
+  }
+
+
+  console.log('pagenumber',payload.pageNumber)
+  return await axios
+      .get(`${url}admin/getproductsallbyusersbyid/?page=${payload.pageNumber}&id=${payload.dynoid}`,config)
+      .then(resp => resp.data.obs)
+      .catch(error => error);
+
+
+}

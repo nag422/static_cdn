@@ -85,8 +85,8 @@ export const getProductById = async (payload) => {
     const config = {
         headers: {
             'content-type': 'application/json',
-            // 'X-CSRFToken': getCookie('csrftoken'),
-            'Authorization':'Token ae2e376c0781973c42fc3e261d854ea6b9532cb3'
+            'X-CSRFToken': getCookie('csrftoken'),
+            // 'Authorization':'Token ae2e376c0781973c42fc3e261d854ea6b9532cb3'
         },
         cancelToken: new axios.CancelToken(c => cancel = c)
     }

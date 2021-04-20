@@ -288,7 +288,7 @@ const SigninFirebase = (props) => {
               </Typography>
               <Typography component="h5" variant="body2">
                 <Link
-                  to="/auth/reset"
+                  to="/auth/password_reset"
                   style={{ textDecorationColor: "none", color: "inherit" }}
                 >
                   Forgot Password ?
@@ -296,11 +296,11 @@ const SigninFirebase = (props) => {
               </Typography>
             </Box>
           </Box>
-          <Box display="flex" justifyContent="center" mb={2}>
+          {/* <Box display="flex" justifyContent="center" mb={2}>
             <Button color="primary" variant="contained" onClick={(e)=>onUserLogin(e)}>
               google login
             </Button>
-          </Box>
+          </Box> */}
         </Grid>
       </Box>
       </Box>

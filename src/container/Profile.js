@@ -190,7 +190,7 @@ export class Profile extends Component {
                       <ListItemText primary="Favorites" />
                     </ListItem>
                   </Link>
-                  <Link to="/admin/bagged">
+                  <Link to="/admin/interested">
 
 
 

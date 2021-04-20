@@ -144,7 +144,7 @@ export default function ContentExplorecardAdmin(props) {
       />
       <CardContent>
         
-            Author: <Link to="/admin/profile/2"> <Chip color="primary" label={props.val.customauthor} /> </Link>
+            Author: <Link to={`/admin/profile/${props.val.author_id}`}> <Chip color="primary" label={props.val.customauthor} /> </Link>
 
           
          
@@ -154,7 +154,7 @@ export default function ContentExplorecardAdmin(props) {
 
       
 
-          Requested By: <Chip color="primary" label= {props.val.likedbyname} />
+          Requested By: <Link to={`/admin/profile/${props.val.likedby}`}><Chip color="primary" label= {props.val.likedbyname} /> </Link>
 
 
 

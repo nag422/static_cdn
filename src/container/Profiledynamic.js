@@ -194,7 +194,8 @@ export class Profiledynamic extends Component {
               <CardHeader title="Collections"></CardHeader>
               <CardContent>
                 <Box display="flex" flexDirection="row" justifyContent="space-between">
-                  <Link to="/admin/favorite">
+
+                  <Link to={`/admin/favorite/${this.props.match.params.id}`}>
                     <ListItem button>
                       <ListItemIcon>
                         <FavoriteIcon />
@@ -202,7 +203,8 @@ export class Profiledynamic extends Component {
                       <ListItemText primary="Favorites" />
                     </ListItem>
                   </Link>
-                  <Link to="/admin/bagged">
+
+                  <Link to={`/admin/interested/${this.props.match.params.id}`}>
 
 
 
@@ -213,7 +215,7 @@ export class Profiledynamic extends Component {
                       <ListItemText primary="Interests" />
                     </ListItem>
                   </Link>
-                  <Link to="/admin/recommended">
+                  <Link to={`/admin/recommended/${this.props.match.params.id}`}>
 
 
                     <ListItem button>

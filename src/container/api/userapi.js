@@ -19,13 +19,27 @@ const getCookie = (name) => {
   return cookieValue;
 }
 
+
+const getToken = () => {
+  var unparsedtoken = localStorage.getItem('access_token');
+  try{
+      var parsedtoken = JSON.parse(unparsedtoken);
+      return parsedtoken.access_token
+  }catch{
+      return '22cab19ad1b1ed66a1d69bcb849ceb9af0f6ac54'
+
+  }
+  
+}
+
 export const isactive = async (payload) => {
 
   let statuscode = ''
   const config = {
     headers: {
       'content-type': 'multipart/form-data',
-      'X-CSRFToken': getCookie('csrftoken')
+      'X-CSRFToken': getCookie('csrftoken'),
+      
     }
   }
 
@@ -101,7 +115,7 @@ export const getdynoProfile = async (payload) => {
 
 
   const params = {
-    profileid: 2,
+    profileid: payload,
     action: 'get'
   }
 

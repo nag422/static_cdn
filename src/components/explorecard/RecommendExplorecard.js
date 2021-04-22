@@ -17,7 +17,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import LocalMallIcon from '@material-ui/icons/LocalMall';
 import { Menu, MenuItem } from '@material-ui/core';
-
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function RecommendExplorecard(props) {
   const classes = useStyles();
-
+  const history = useHistory();
  
 
 
@@ -73,6 +73,10 @@ export default function RecommendExplorecard(props) {
 
   };
 
+  const detailPagenavigator = async(id) => {
+    history.push('/admin/section/'+id)
+  }
+
   // const handleInstock = (e,id) => {
   //   setAnchorEl(null);
   //   const response = cardapi.instock(id)
@@ -86,11 +90,11 @@ export default function RecommendExplorecard(props) {
   return (
     <Card className={classes.root}>
       <CardHeader
-        avatar={
-          <Avatar aria-label="recipe" className={classes.avatar} src={`https://app.contentbond.com${props.val.thumbnail}`}>
-            R
-          </Avatar>
-        }
+        // avatar={
+        //   <Avatar aria-label="recipe" className={classes.avatar} src={`https://app.contentbond.com${props.val.thumbnail}`}>
+        //     R
+        //   </Avatar>
+        // }
         // action={
         //   <>
         //     <IconButton aria-label="settings" onClick={handleClick} >
@@ -136,6 +140,7 @@ export default function RecommendExplorecard(props) {
         className={classes.media}
         image={`https://app.contentbond.com${props.val.thumbnail}`}
         title={props.val.title}
+        onClick={(e)=>detailPagenavigator(props.val.id)}
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">

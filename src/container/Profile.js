@@ -31,16 +31,18 @@ export class Profile extends Component {
     }
   }
 
-
+ 
 
   componentDidMount() {
     // console.log('didmount',this.props.data)
     // getProfileData({user:'nagendra',history:this.props.history})
     // alert('stoppedn in component did mount')
-    let dataprops = this.props.data
+
+    const LoadStatedata = async() => {
+      let dataprops = this.props.data
 
 
-    return this.setState(() => ({
+    return await this.setState(() => ({
 
       first_name: dataprops.user_ptr.first_name,
       last_name: dataprops.user_ptr.last_name,
@@ -53,6 +55,15 @@ export class Profile extends Component {
       content: dataprops.content
     })
     )
+
+    }
+    
+    LoadStatedata()
+
+    // if (this.state.email == ""){
+    //   this.props.history.push('/admin/dashboard')
+    // }
+
 
 
   }
@@ -88,18 +99,18 @@ export class Profile extends Component {
     }));
   }
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
 
-    return this.props.primaryprofileupdate({
+    return await this.props.primaryprofileupdate({
       data: this.state,
       payload: this.props.history
     })
   }
 
-  handleSubmit2 = (event) => {
+  handleSubmit2 = async (event) => {
     event.preventDefault();
-    updateSecondaryProfile(this.state)
+    await updateSecondaryProfile(this.state)
 
   }
 
@@ -270,7 +281,7 @@ export class Profile extends Component {
 const mapStateToProps = state => ({
   // data: adminProfileState(state),
   data: state.profileops.profile,
-  updateprops: adminProfileUpdateState(state),
+  updateprops: adminProfileUpdateState(state.profileops),
   profileloading: state.profileops.profileloading
 });
 

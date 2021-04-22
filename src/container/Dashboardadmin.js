@@ -71,6 +71,26 @@ const Dashboardadmin = () => {
     // const url = 'http://127.0.0.1:8000/'
     const url = 'https://app.contentbond.com/'
 
+    const getToken = () => {
+        
+        try{
+            var unparsedtoken = localStorage.getItem('access_token');
+            var parsedtoken = JSON.parse(unparsedtoken);
+            return parsedtoken.access_token
+        }catch{
+            return 'sdfsdfsdfsdf'
+
+        }
+        
+    }
+
+    const config = {
+        headers: {
+          'content-type': 'application/json',
+          'Authorization': 'Token '+ getToken()
+        }
+    }
+
     React.useEffect(() => {
         const loadDashboard = async() => {
             await axios
@@ -88,7 +108,7 @@ const Dashboardadmin = () => {
                 
              })
             .catch(error => {
-                alert('error')
+                alert(error.message)
             });
     
       
@@ -100,24 +120,7 @@ const Dashboardadmin = () => {
         
     }, [])
 
-    const getToken = () => {
-        var unparsedtoken = localStorage.getItem('access_token');
-        try{
-            var parsedtoken = JSON.parse(unparsedtoken);
-            return parsedtoken.access_token
-        }catch{
-            return '22cab19ad1b1ed66a1d69bcb849ceb9af0f6ac54'
-
-        }
-        
-    }
-
-    const config = {
-        headers: {
-          'content-type': 'application/json',
-          'Authorization': 'Token '+ getToken()
-        }
-    }
+    
 
    
 

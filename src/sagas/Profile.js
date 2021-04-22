@@ -18,7 +18,7 @@ import {updateUserProfilewithApiRequest,getUserProfilewithApiRequest} from './ap
 
 
 function* updateUserProfilewithApi({ payload }) {
-    // debugger;
+    debugger;
     try {
         const ProfileResponse = yield call(
             updateUserProfilewithApiRequest,
@@ -84,6 +84,7 @@ function* getUserProfilewithApi({ payload }) {
 
 export function* profileUpdateSage() {
     console.log("UpdateProfile saga called..");
+    debugger;
     
     yield takeLeading(UPDATE_PROFILE_PRIMARY, updateUserProfilewithApi);
 }

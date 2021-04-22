@@ -26,6 +26,7 @@ export const adminProfileUpdateState = createSelector(
     [adminProfileupdatestatus,adminProfileupdaterror],
     (updatestatus,updaterror) => {
         debugger;
+        console.log({updatestatus:updatestatus,updaterror:updaterror})
         switch(updatestatus){
             case true:
                 return {updatestatus:true,updaterror:false};

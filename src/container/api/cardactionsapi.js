@@ -18,6 +18,19 @@ const getCookie = (name) => {
   return cookieValue;
 }
 
+const getToken = () => {
+  
+  try{
+    var unparsedtoken = localStorage.getItem('access_token');
+    var parsedtoken = JSON.parse(unparsedtoken);
+    return parsedtoken.access_token
+
+  }catch{
+    return 'sdfsdfonfsdfsd'
+  }
+  
+}
+
 export const isactive = async (payload) => {
 
   let statuscode = ''
@@ -103,7 +116,8 @@ export const ProductUserSave = async (payload) => {
   const config = {
     headers: {
       'content-type': 'multipart/form-data',
-      'X-CSRFToken': getCookie('csrftoken')
+      'X-CSRFToken': getCookie('csrftoken'),
+      'Authorization': 'Token '+getToken()
     },
     cancelToken: new axios.CancelToken(c => cancel = c)
   }

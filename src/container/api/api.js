@@ -17,7 +17,18 @@ const getCookie = (name) => {
     }
     return cookieValue;
   }
-
+  const getToken = () => {
+  
+    try{
+      var unparsedtoken = localStorage.getItem('access_token');
+      var parsedtoken = JSON.parse(unparsedtoken);
+      return parsedtoken.access_token
+  
+    }catch{
+      return 'sdfsdfonfsdfsd'
+    }
+    
+  }
 
  export const addlike = async (payload) =>{
          
@@ -70,7 +81,8 @@ export const getallproducts = async (payload) =>{
         const config = {
           headers: {
               'content-type': 'multipart/form-data',          
-              'X-CSRFToken': getCookie('csrftoken')
+              'X-CSRFToken': getCookie('csrftoken'),
+              'Authorization': 'Token '+getToken()
           }
         }
       
@@ -132,7 +144,8 @@ export const getalllikedproducts = async (payload) =>{
       const config = {
           headers: {
               'content-type': 'application/json',          
-              'X-CSRFToken': getCookie('csrftoken')
+              'X-CSRFToken': getCookie('csrftoken'),
+              'Authorization': 'Token '+getToken()
           }
       }
 
@@ -204,6 +217,29 @@ export const getallrecommendedproductsadmin = async (payload) =>{
   console.log('pagenumber',payload.pageNumber)
   return await axios
       .get(`${url}admin/getproductsallbyusersbyid/?page=${payload.pageNumber}&id=${payload.dynoid}`,config)
+      .then(resp => resp.data.obs)
+      .catch(error => error);
+
+
+}
+
+
+
+
+export const getalluploadedproductsadmin = async (payload) =>{
+
+  let statuscode = ''
+  const config = {
+      headers: {
+          'content-type': 'application/json',          
+          'X-CSRFToken': getCookie('csrftoken')
+      }
+  }
+
+
+  console.log('pagenumber',payload.pageNumber)
+  return await axios
+      .get(`${url}admin/getuploadsallbyusersbyid/?page=${payload.pageNumber}&id=${payload.dynoid}`,config)
       .then(resp => resp.data.obs)
       .catch(error => error);
 

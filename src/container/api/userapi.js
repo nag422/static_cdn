@@ -26,7 +26,7 @@ const getToken = () => {
       var parsedtoken = JSON.parse(unparsedtoken);
       return parsedtoken.access_token
   }catch{
-      return '22cab19ad1b1ed66a1d69bcb849ceb9af0f6ac54'
+      return null
 
   }
   
@@ -39,6 +39,7 @@ export const isactive = async (payload) => {
     headers: {
       'content-type': 'multipart/form-data',
       'X-CSRFToken': getCookie('csrftoken'),
+      'Authorization': 'Token '+getToken()
       
     }
   }
@@ -62,7 +63,8 @@ export const userupdate = async (payload) => {
   const config = {
     headers: {
       'content-type': 'multipart/form-data',
-      'X-CSRFToken': getCookie('csrftoken')
+      'X-CSRFToken': getCookie('csrftoken'),
+      'Authorization': 'Token '+getToken()
     }
   }
 
@@ -87,7 +89,8 @@ export const updateSecondaryProfile = async (payload) => {
   const config = {
     headers: {
       'content-type': 'application/json',
-      'X-CSRFToken': getCookie('csrftoken')
+      'X-CSRFToken': getCookie('csrftoken'),
+      'Authorization': 'Token '+getToken()
     }
   }
 
@@ -109,7 +112,8 @@ export const getdynoProfile = async (payload) => {
   const config = {
     headers: {
       'content-type': 'application/json',
-      'X-CSRFToken': getCookie('csrftoken')
+      'X-CSRFToken': getCookie('csrftoken'),
+      'Authorization': 'Token '+getToken()
     }
   }
 
@@ -139,7 +143,8 @@ export const primaryprofileupdate = async (payload) => {
   const config = {
       headers: {
           'content-type': 'application/json',
-          'X-CSRFToken': getCookie('csrftoken')
+          'X-CSRFToken': getCookie('csrftoken'),
+          'Authorization': 'Token '+getToken()
       },
       cancelToken: new axios.CancelToken(c => cancel = c)
   }
@@ -165,7 +170,8 @@ export const updateSecondaryProfilebyadmin = async (payload) => {
   const config = {
     headers: {
       'content-type': 'application/json',
-      'X-CSRFToken': getCookie('csrftoken')
+      'X-CSRFToken': getCookie('csrftoken'),
+      'Authorization': 'Token '+getToken()
       
     }
   }

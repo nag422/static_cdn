@@ -18,11 +18,18 @@ const getCookie = (name) => {
     }
     return cookieValue;
   }
-const getToken = () => {
-  var unparsedtoken = localStorage.getItem('access_token');
-  var parsedtoken = JSON.parse(unparsedtoken);
-  return parsedtoken.access_token
-}
+  const getToken = () => {
+  
+    try{
+      var unparsedtoken = localStorage.getItem('access_token');
+      var parsedtoken = JSON.parse(unparsedtoken);
+      return parsedtoken.access_token
+  
+    }catch{
+      return 'sdfsdfonfsdfsd'
+    }
+    
+  }
 
 export const addProductwithApiRequest = async (productData) => {
     

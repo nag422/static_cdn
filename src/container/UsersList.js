@@ -249,14 +249,37 @@ const UsersList = () => {
 
 
     // Products
-
+    
     const AssignhandleSubmit = async () => {
 
         const u = await chipuser.filter((val, index) => chipData.includes(val.username))
         const p = await chipproduct.filter((val, index) => chipDataProduct.includes(val.title))
-        console.log(p.map(val => val.id))
-        console.log(u.map(val => val.id))
+        // console.log(p.map(val => val.id))
+        // console.log(u.map(val => val.id))
         var response = await ProductUserSave({ userdata: u.map(val => val.id), productdata: p.map(val => val.id), action: 'saveuserproducts' })
+        if (response.status == 200){
+            alert(response.message)
+        }
+        else if(response.status == 400){
+            alert(response.message)
+        }
+
+    }
+
+
+    const DeAssignhandleSubmit = async () => {
+
+        const u = await chipuser.filter((val, index) => chipData.includes(val.username))
+        const p = await chipproduct.filter((val, index) => chipDataProduct.includes(val.title))
+        // console.log(p.map(val => val.id))
+        // console.log(u.map(val => val.id))
+        var response = await ProductUserSave({ userdata: u.map(val => val.id), productdata: p.map(val => val.id), action: 'removeuserproducts' })
+        if (response.status == 200){
+            alert(response.message)
+        }
+        else if(response.status == 400){
+            alert(response.message)
+        }
 
     }
 
@@ -576,9 +599,17 @@ const UsersList = () => {
                                 <Button
 
                                     type="button" onClick={AssignhandleSubmit} color="primary" variant="contained">Assign Poroducts</Button>
-                                    &nbsp; <Button
+                                    &nbsp; 
 
-                                    type="button" onClick={AssignhandleGroupSubmit} color="primary" variant="contained">Group Assign Poroducts</Button>
+                                    <Button type="button" onClick={DeAssignhandleSubmit} color="primary" variant="contained">
+                                        DeAssign Poroducts
+                                    </Button>
+                                    &nbsp; 
+                                    
+                                    
+                                    {/* <Button type="button" onClick={AssignhandleGroupSubmit} color="primary" variant="contained">
+                                        Group Assign Poroducts
+                                    </Button> */}
                             </Box>
 
                             <br></br>

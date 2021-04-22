@@ -16,9 +16,8 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import LocalMallIcon from '@material-ui/icons/LocalMall';
-import { Box, Menu, MenuItem } from '@material-ui/core';
-import { Link, useHistory } from 'react-router-dom';
-
+import { Menu, MenuItem } from '@material-ui/core';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,23 +40,18 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     backgroundColor: red[500],
   },
-  small: {
-    width: theme.spacing(3),
-    height: theme.spacing(3)
-  }
 }));
 
-export default function ContentExplorecardAdminRequests(props) {
+export default function UploadExplorecard(props) {
   const classes = useStyles();
   const history = useHistory();
-
-
+ 
 
 
   const options = [
     'in_stock',
     'is_active',
-
+    
 
   ];
 
@@ -68,14 +62,14 @@ export default function ContentExplorecardAdminRequests(props) {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
+  
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const handleIsactive = async (e, id, action) => {
+  const handleIsactive =async (e,id,action) => {
     setAnchorEl(null);
-    await props.handleIsactivemain(id, action)
+    await props.handleIsactivemain(id,action)
 
   };
 
@@ -96,88 +90,72 @@ export default function ContentExplorecardAdminRequests(props) {
   return (
     <Card className={classes.root}>
       <CardHeader
-        
-        action={
-          <>
-            <IconButton aria-label="settings" onClick={handleClick} >
-              <MoreVertIcon />
-            </IconButton>
-            <Menu
-              id="long-menu"
-              anchorEl={anchorEl}
-              keepMounted
-              open={open}
-              onClose={handleClose}
-              PaperProps={{
-                style: {
-                  maxHeight: 48 * 4.5,
-                  width: '20ch',
-                },
-              }}
-            >
-              {options.map((val, index) => {
-                return (
-                  <MenuItem key={index} onClick={(e) => handleIsactive(e, props.val.id, val)}>
-                    {val == "is_active" ? props.val[val] ? 'Deactivate' : 'Activate' : props.val.in_stock ? 'Private' : 'Public'}
-                  </MenuItem>
-                  // <MenuItem key={index+1} onClick={(e) => handleInstock(e,props.val.id,'stock')}>
-                  //     {props.val.in_stock?'Private':'Public'}
-                  // </MenuItem>
-
-
-                )
-              })
-
-
-
-              }
-
-            </Menu>
-          </>
-        }
+        // avatar={
+        //   <Avatar aria-label="recipe" className={classes.avatar} src={`https://app.contentbond.com${props.val.thumbnail}`}>
+        //     R
+        //   </Avatar>
+        // }
+        // action={
+        //   <>
+        //     <IconButton aria-label="settings" onClick={handleClick} >
+        //       <MoreVertIcon />
+        //     </IconButton>
+        //     <Menu
+        //       id="long-menu"
+        //       anchorEl={anchorEl}
+        //       keepMounted
+        //       open={open}              
+        //       onClose={handleClose}
+        //       PaperProps={{
+        //         style: {
+        //           maxHeight: 48 * 4.5,
+        //           width: '20ch',
+        //         },
+        //       }}
+        //     >
+        //       {options.map((val,index) => {
+        //         return (
+        //         <MenuItem key={index} onClick={(e)=>handleIsactive(e,props.val.id,val)}>
+        //         {val == "is_active"?props.val[val]?'Deactivate':'Activate':props.val.in_stock?'Private':'Public'}
+        //       </MenuItem>
+        //       // <MenuItem key={index+1} onClick={(e) => handleInstock(e,props.val.id,'stock')}>
+        //       //     {props.val.in_stock?'Private':'Public'}
+        //       // </MenuItem>
+            
+            
+        //       )
+        //       })
+                
+               
+              
+        // }
+              
+        //     </Menu>
+        //   </>
+        // }
         title={props.val.title}
         subheader={props.val.created.toLocaleString()}
       />
       <CardMedia
         className={classes.media}
-        image={`https://app.contentbond.com/media/${props.val.thumbnail}`}
+        image={`https://app.contentbond.com${props.val.thumbnail}`}
         title={props.val.title}
         onClick={(e)=>detailPagenavigator(props.val.id)}
       />
       <CardContent>
-        <Box display="flex" justifyContent="flex-start">
-          
-        <Link to={`/admin/profile/${props.val.author_id}`}>
-          <Typography variant="body2" color="textSecondary" component="p">
-
-            {props.val.customauthor}
-
-          </Typography>
-          </Link>
- 
-        </Box>
         <Typography variant="body2" color="textSecondary" component="p">
-
           {props.val.title}
-
         </Typography>
-        <Typography variant="body2" color="textSecondary" component="p">
-
-          {props.val.likedbyname}
-
-        </Typography>
-
-
       </CardContent>
-      <CardActions disableSpacing>
-        <IconButton color={props.val.isliked ? 'primary' : 'secondary'} aria-label="add to favorites" onClick={(e) => props.likefun(e, props.val.id)}>
+      {/* <CardActions disableSpacing>
+        <IconButton color={props.val.isliked?'primary':'secondary'} aria-label="add to favorites" onClick={(e) => props.likefun(e,props.val.id)}>
           <FavoriteIcon />
         </IconButton>
-        <IconButton aria-label="share" color={props.val.isfavored ? 'primary' : 'secondary'} onClick={(e) => props.interestfun(e, props.val.id)}>
+        <IconButton aria-label="share" color={props.val.isfavored?'primary':'secondary'} onClick={(e) => props.interestfun(e,props.val.id)}>
           <LocalMallIcon />
         </IconButton>
 
-      </CardActions>
+      </CardActions> */}
 
     </Card>
   );

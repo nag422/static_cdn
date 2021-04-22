@@ -13,7 +13,7 @@ import { adminProfileState } from 'reducers/selectors/ProfileSelector';
 import { adminProfileUpdateState } from 'reducers/selectors/ProfileSelector';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { updateSecondaryProfile,getdynoProfile,primaryprofileupdate,updateSecondaryProfilebyadmin } from './api/userapi'
-
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 
 export class Profiledynamic extends Component {
@@ -223,6 +223,18 @@ export class Profiledynamic extends Component {
                         <DynamicFeedIcon />
                       </ListItemIcon>
                       <ListItemText primary="Assigned" />
+                    </ListItem>
+
+                  </Link>
+
+                  <Link to={`/admin/uploads/${this.props.match.params.id}`}>
+
+
+                    <ListItem button>
+                      <ListItemIcon>
+                        <CloudUploadIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Uploads" />
                     </ListItem>
 
                   </Link>

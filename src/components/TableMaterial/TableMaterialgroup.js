@@ -46,10 +46,25 @@ const getCookie = (name) => {
   }
   return cookieValue;
 }
+
+const getToken = () => {
+  
+  try{
+    var unparsedtoken = localStorage.getItem('access_token');
+    var parsedtoken = JSON.parse(unparsedtoken);
+    return parsedtoken.access_token
+
+  }catch{
+    return 'sdfsdfonfsdfsd'
+  }
+  
+}
+
 const config = {
   headers: {
       'content-type': 'multipart/form-data',          
-      'X-CSRFToken': getCookie('csrftoken')
+      'X-CSRFToken': getCookie('csrftoken'),
+      'Authorization': 'Token '+getToken()
   }
 }
 
@@ -224,7 +239,8 @@ const EnhancedTableToolbar = (props) => {
         </>
       ) : (
         <Tooltip title="Filter list">
-          <IconButton aria-label="filter list" onClick = {props.handleClickOpen}>
+          {/* <IconButton aria-label="filter list" onClick = {props.handleClickOpen}> */}
+          <IconButton aria-label="filter list">
             <FilterListIcon />            
           </IconButton>
         </Tooltip>
@@ -326,7 +342,7 @@ export default function TableMaterialgroup() {
       const form_data = new FormData();
       form_data.append('itemlist',selected)
       
-        axios.post(url+'auth/admin/deleteusers/',form_data,config).then(res=>{
+        axios.post(url+'admin/deletegroups/',form_data,config).then(res=>{
           if(!res.data.error){
               
             alert('Successfully Deleted')

@@ -17,6 +17,19 @@ const getCookie = (name) => {
     return cookieValue;
 }
 
+const getToken = () => {
+  
+    try{
+      var unparsedtoken = localStorage.getItem('access_token');
+      var parsedtoken = JSON.parse(unparsedtoken);
+      return parsedtoken.access_token
+  
+    }catch{
+      return 'sdfsdfonfsdfsd'
+    }
+    
+  }
+
 export const getUserProfilewithApiRequest = async (payload) => {
 
     let statuscode = ''
@@ -25,10 +38,11 @@ export const getUserProfilewithApiRequest = async (payload) => {
     const config = {
         headers: {
             'content-type': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken')
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Authorization': 'Token '+getToken()
             
         },
-        cancelToken: new axios.CancelToken(c => cancel = c)
+        // cancelToken: new axios.CancelToken(c => cancel = c)
     }
 
 
@@ -45,6 +59,7 @@ export const getUserProfilewithApiRequest = async (payload) => {
     return statuscode
 }
 
+
 export const updateUserProfilewithApiRequest = async (payload) => {
     
     console.log("UpdateProfile api step saga called..");
@@ -55,7 +70,8 @@ export const updateUserProfilewithApiRequest = async (payload) => {
     const config = {
         headers: {
             'content-type': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken')
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Authorization': 'Token '+getToken()
         },
         cancelToken: new axios.CancelToken(c => cancel = c)
     }
@@ -67,6 +83,7 @@ export const updateUserProfilewithApiRequest = async (payload) => {
         .post(url + "auth/aboutme/", body, config)
         .then(resp => { statuscode = resp.data })
         .catch(e => {
+            statuscode = 400
             if (axios.isCancel(e)) return
 
         })
@@ -86,6 +103,7 @@ export const getProductById = async (payload) => {
         headers: {
             'content-type': 'application/json',
             'X-CSRFToken': getCookie('csrftoken'),
+            'Authorization': 'Token '+getToken()
             // 'Authorization':'Token ae2e376c0781973c42fc3e261d854ea6b9532cb3'
         },
         cancelToken: new axios.CancelToken(c => cancel = c)

@@ -14,12 +14,26 @@ const SimpleList = React.forwardRef((props,ref) => {
 const [chat,setChat] = React.useState([]);
 const [pagenumber,setPagenumber] = React.useState(1);
 
+const getToken = () => {
+  
+  try{
+    var unparsedtoken = localStorage.getItem('access_token');
+    var parsedtoken = JSON.parse(unparsedtoken);
+    return parsedtoken.access_token
 
+  }catch{
+    return 'sdfsdfonfsdfsd'
+  }
+  
+}
   React.useEffect(() => {
+
+    
+
     const config = {
       headers: {
           'content-type': 'application/json',
-          'Authorization':'Token 22cab19ad1b1ed66a1d69bcb849ceb9af0f6ac54'          
+          'Authorization': 'Token '+getToken()   
           // 'X-CSRFToken': getCookie('csrftoken')
       }
     }

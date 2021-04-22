@@ -56,6 +56,6 @@ class AuthLayout extends Component {
     }
 }
 const mapStateToProps = state => ({
-    isAuthenticated: authUserState(state)
+    isAuthenticated: authUserState(state.authUser)
 });
 export default connect(mapStateToProps, null)(withRouter(AuthLayout));

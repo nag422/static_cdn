@@ -24,6 +24,8 @@ import ChatFormUser from '../container/ChatFormUser'
 import UserFavorite from '../container/admincopy/UserFavorite'
 import UserBagged from '../container/admincopy/UserBagged'
 import UserRecommended from '../container/admincopy/UserRecommended'
+import Loginredirector from '../container/Loginredirector'
+import UserUploads from '../container/admincopy/UserUploads'
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
     //Auth url
@@ -82,6 +84,13 @@ export default [
         layout:'admin'
     },
 
+    {
+        path: "login/success",
+        component: Loginredirector,
+        exact: true,
+        layout:'admin'
+    },
+
     
     {
         path: "profile",
@@ -89,6 +98,8 @@ export default [
         exact: true,
         layout:'admin'
     },
+
+    
     {
         path: "profile/:id",
         component: Profiledynamic,
@@ -140,6 +151,12 @@ export default [
     },{
         path: "recommended/:id",
         component: UserRecommended,
+        exact: true,
+        layout:'admin'
+    },
+    {
+        path: "uploads/:id",
+        component: UserUploads,
         exact: true,
         layout:'admin'
     },

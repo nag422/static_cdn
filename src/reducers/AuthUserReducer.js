@@ -29,7 +29,7 @@ const INIT_STATE = {
     // user: localStorage.getItem("user")
     //     ? JSON.parse(localStorage.getItem("user"))
     //     : null,
-    access_token: localStorage.getItem("access_token"),
+    access_token: null ,
     loading: false,
     user: null,
     isAuthenticated:false,

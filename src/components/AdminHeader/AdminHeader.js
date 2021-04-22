@@ -340,7 +340,7 @@ const toggleDrawer = (anchor, open) => (event) => {
       
       {/* <MenuItem onClick={handleMenuClose}><SimpleList /></MenuItem> */}
       
-      <SimpleList ref={myref} />
+      {/* <SimpleList ref={myref} /> */}
       
     </Menu>
     

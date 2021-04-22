@@ -17,7 +17,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import LocalMallIcon from '@material-ui/icons/LocalMall';
 import { Menu, MenuItem } from '@material-ui/core';
-
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ContentExplorecard(props) {
   const classes = useStyles();
+  const history = useHistory();
 
  
 
@@ -72,6 +73,10 @@ export default function ContentExplorecard(props) {
     await props.handleIsactivemain(id,action)
 
   };
+
+  const detailPagenavigator = async(id) => {
+    history.push('/admin/section/'+id)
+  }
 
   // const handleInstock = (e,id) => {
   //   setAnchorEl(null);
@@ -139,6 +144,7 @@ export default function ContentExplorecard(props) {
         className={classes.media}
         image={`https://app.contentbond.com/media/${props.val.thumbnail}`}
         title={props.val.title}
+        onClick={(e)=>detailPagenavigator(props.val.id)}
       />
 
       <CardContent>

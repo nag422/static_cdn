@@ -29,10 +29,8 @@ import Brightness1Icon from '@material-ui/icons/Brightness1';
 
 import * as authapi from '../../container/api/userapi'
 
-
-
-
-
+import Moment from 'react-moment';
+import { useHistory } from 'react-router';
 function createData(id,role, category, name, email, created) {
   return { id,role, category, name, email, created };
 }
@@ -134,6 +132,7 @@ const headCells = [
   { id: 'is_active', numeric: false, disablePadding: false, label: 'Status' },
   { id: 'created', numeric: false, disablePadding: false, label: 'Created' },
   { id: 'group', numeric: false, disablePadding: false, label: 'Group' },
+  { id: 'id', numeric: false, disablePadding: false, label: 'Profile' },
   
 ];
 
@@ -313,6 +312,7 @@ export default function TableMaterialuser(props) {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [queryfromodel, setQueryfromodel] = React.useState('');
+  const history = useHistory()
 
       // backend operations
 
@@ -630,12 +630,13 @@ export default function TableMaterialuser(props) {
                         {row.is_staff?row.is_superuser? 'Superuser':'Admin':'User'}
                       </TableCell>
                       {/* <TableCell align="left">{row.role}</TableCell> */}
-                      <TableCell align="left">{row.content?row.content:'-------'}</TableCell>
+                      <TableCell align="left">{row.content?row.content =="creator"?"seller":"buyer":'-------'}</TableCell>
                       <TableCell align="left">{row.username}</TableCell>
                       <TableCell align="left">{row.email?row.email:'-----------'}</TableCell>
                       <TableCell align="left">{row.is_active?'active':'deactivte'}</TableCell>
-                      <TableCell align="left">{row.date_joined}</TableCell>
+                      <TableCell align="left"><Moment format="YYYY/MM/DD">{row.date_joined}</Moment></TableCell>
                       <TableCell align="left">{row.group?row.group:'---------'}</TableCell>
+                      <TableCell align="left" onClick={(e) => history.push(`/admin/profile/${row.id}`)}>View Profile</TableCell>
                      
                     </TableRow>
                   );

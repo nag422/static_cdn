@@ -110,7 +110,7 @@ const Sales = ({ className, ...rest }) => {
             Last 7 days
           </Button>
         )}
-        title="Latest Sales"
+        title="Products and Users"
       />
       <Divider />
       <CardContent>
@@ -125,7 +125,7 @@ const Sales = ({ className, ...rest }) => {
         </Box>
       </CardContent>
       <Divider />
-      <Box
+      {/* <Box
         display="flex"
         justifyContent="flex-end"
         p={0}
@@ -138,7 +138,7 @@ const Sales = ({ className, ...rest }) => {
         >
           Overview
         </Button>
-      </Box>
+      </Box> */}
     </Card>
   );
 };

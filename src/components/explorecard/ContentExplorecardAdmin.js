@@ -18,11 +18,12 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import LocalMallIcon from '@material-ui/icons/LocalMall';
 import { Box, Menu, MenuItem } from '@material-ui/core';
 import { Link, useHistory } from 'react-router-dom';
-
+import Moment from 'react-moment';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 'auto',
+    minHeight: '520px'
   },
   media: {
     height: 0,
@@ -79,8 +80,8 @@ export default function ContentExplorecardAdminRequests(props) {
 
   };
 
-  const detailPagenavigator = async(id) => {
-    history.push('/admin/section/'+id)
+  const detailPagenavigator = async(id,isinterested) => {
+    history.push('/admin/section/'+id+'?interest='+isinterested)
   }
 
   // const handleInstock = (e,id) => {
@@ -135,14 +136,15 @@ export default function ContentExplorecardAdminRequests(props) {
             </Menu>
           </>
         }
-        title={props.val.title}
-        subheader={props.val.created.toLocaleString()}
+        title={props.val.title.substring(0,48)}
+        subheader={<Moment format="YYYY/MM/DD HH:MM:SS">{props.val.created.toLocaleString()}</Moment>}
+        onClick={(e)=>detailPagenavigator(props.val.id,props.val.isfavored)}
       />
       <CardMedia
         className={classes.media}
         image={`https://app.contentbond.com/media/${props.val.thumbnail}`}
         title={props.val.title}
-        onClick={(e)=>detailPagenavigator(props.val.id)}
+        onClick={(e)=>detailPagenavigator(props.val.id,props.val.isfavored)}
       />
       <CardContent>
         <Box display="flex" justifyContent="flex-start">
@@ -158,7 +160,7 @@ export default function ContentExplorecardAdminRequests(props) {
         </Box>
         <Typography variant="body2" color="textSecondary" component="p">
 
-          {props.val.title}
+          {props.val.title.substring(0,130)}
 
         </Typography>
         <Typography variant="body2" color="textSecondary" component="p">

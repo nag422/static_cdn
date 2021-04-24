@@ -123,7 +123,13 @@ class AdminLayout extends Component {
 
 
     
-   
+   getPageTitle = (location) => {
+    var pagetitle = (location.pathname.split('/'))[2].slice(0).charAt(0).toUpperCase() +(location.pathname.split('/'))[2].slice(1)
+    if(pagetitle == "Contentadmin"){
+      pagetitle = "Explore";
+    }
+    return pagetitle
+   }
 
     
     
@@ -135,7 +141,8 @@ class AdminLayout extends Component {
         const {location, classes} = this.props;
        
         
-        const width = this.state.issidebar?`calc(100% - 80%)`:`calc(100% - 93%)`;
+        const width = this.state.issidebar? +window.innerWidth >= 1366?`calc(100% - 80%)`:`calc(100% - 74%)`:`calc(100% - 93%)`;
+        
         
     
         
@@ -148,7 +155,8 @@ class AdminLayout extends Component {
                 <Box className={classes.root}>
                 <Typography className={classes.color}>
                     
-                    {(location.pathname.split('/'))[2].slice(0).charAt(0).toUpperCase() +(location.pathname.split('/'))[2].slice(1)}
+                    {this.getPageTitle(location)}
+
                 </Typography>
                 </Box>
             <Switch>

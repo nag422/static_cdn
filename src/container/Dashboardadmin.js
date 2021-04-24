@@ -185,7 +185,7 @@ const Dashboardadmin = () => {
                     <Paper className={classes.paper}>
                         <Box display="flex" alignItems="flex-start" flexDirection="column">
                             <Typography component='p' className={classes.headingtext}>
-                                ENQUIRIES
+                               SELLER ENQUIRIES
                         </Typography>
                             <Box component='div' className={classes.pricetext}>
                             {responsedata.enquiries} 
@@ -209,7 +209,7 @@ const Dashboardadmin = () => {
                     <Paper className={classes.paper}>
                         <Box display="flex" alignItems="flex-start" flexDirection="column">
                             <Typography component='p' className={classes.headingtext}>
-                                LEADS
+                            BUYER ENQUIRIES
                         </Typography>
                             <Box component='div' className={classes.pricetext}>
                             {responsedata.leads} 

@@ -418,7 +418,7 @@ const UsersList = () => {
 
                             <br></br>
 
-                            <TextField id="phone" label="phone" variant="outlined"
+                            <TextField id="phone" label="Phone" variant="outlined"
                                 InputLabelProps={{
                                     shrink: uservalues.phone ? true : false
                                 }}
@@ -469,8 +469,8 @@ const UsersList = () => {
 
                                 >
                                     <MenuItem value={""}>Choose Category of User</MenuItem>
-                                    <MenuItem value={"producer"}>Producer</MenuItem>
-                                    <MenuItem value={"creator"}>Creator</MenuItem>
+                                    <MenuItem value={"producer"}>Seller</MenuItem>
+                                    <MenuItem value={"creator"}>Buyer</MenuItem>
 
                                 </Select>
                             </FormControl>

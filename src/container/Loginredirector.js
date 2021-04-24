@@ -11,7 +11,7 @@ const Loginredirector = (props) => {
     React.useEffect(() => {
         setTimeout(() => {
             if(profileresponse == false){
-                return history.push('/admin/profile')
+                return history.push('/admin/dashboard')
             }
             
         }, 3000);

@@ -63,6 +63,53 @@ export const addProductwithApiRequest = async (productData) => {
     return statuscode
   }
 
+
+
+  export const addProductwithApiRequestAdmin = async (productData) => {
+    
+    let statuscode = ''
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data',
+        'X-CSRFToken': getCookie('csrftoken'),
+        'Authorization': 'Token '+getToken()
+      }
+    }
+  
+    const form_data = new FormData();
+    form_data.append('title', productData.title)
+    form_data.append('castncrew', productData.castncrew)
+    form_data.append('category', productData.category)
+    form_data.append('description', productData.description)
+    form_data.append('price', productData.price)
+    
+    form_data.append('user', productData.user)
+    form_data.append('rights', productData.rights)
+    form_data.append('language', productData.language)
+    form_data.append('genre', productData.genre)
+    form_data.append('keywords', productData.keywords)
+    form_data.append('country', productData.country)
+    form_data.append('rightsregion', productData.rightsregion)
+    form_data.append('termsconditions', productData.termsconditions)
+    form_data.append('runtime', productData.runtime)
+    form_data.append('numbofvideos', productData.numbofvideos)
+
+    form_data.append('thumbnail', productData.thumbnail)
+    form_data.append('thumbnail1', productData.thumbnail1)
+    form_data.append('thumbnail2', productData.thumbnail2)
+    form_data.append('thumbnail3', productData.thumbnail3)
+    form_data.append('videofile', productData.video)
+
+    
+  
+    await axios
+      .post(url + "admin/saveproductbyadmin/", form_data, config)
+      .then(resp => { statuscode = resp.data.status })
+      .catch(error => error);
+  
+    return statuscode
+  }
+
   export const saverequestProductwithApiRequest = async (payload) => {
     let productData = payload;
     let statuscode = ''

@@ -26,6 +26,7 @@ import UserBagged from '../container/admincopy/UserBagged'
 import UserRecommended from '../container/admincopy/UserRecommended'
 import Loginredirector from '../container/Loginredirector'
 import UserUploads from '../container/admincopy/UserUploads'
+import UploadProduct from '../container/admincopy/container/UploadProduct'
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
     //Auth url
@@ -165,6 +166,12 @@ export default [
     {
         path: "upload",
         component: ContentRequest,
+        exact: true,
+        layout:'admin'
+    },
+    {
+        path: "upload/product",
+        component: UploadProduct,
         exact: true,
         layout:'admin'
     },

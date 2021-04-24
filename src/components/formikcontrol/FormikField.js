@@ -3,7 +3,7 @@ import { ErrorMessage, Field } from "formik";
 import TextField from '@material-ui/core/TextField'
 import PropTypes from 'prop-types';
 
-const FormikField = ({ name="somename", label="somelable", type = "text", required = false, textvariant=false}) => {
+const FormikField = ({ name="somename", label="somelable", type = "text", required = false, textvariant=false, ...props}) => {
     return (
         <div className="FormikField">
             <Field
@@ -16,6 +16,7 @@ const FormikField = ({ name="somename", label="somelable", type = "text", requir
                 fullWidth
                 type={type}
                 helperText={<ErrorMessage name={name} style={{color:'red'}} />}
+                {...props}
             />         
         </div>
     )

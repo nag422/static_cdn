@@ -49,15 +49,15 @@ import LocalMallIcon from '@material-ui/icons/LocalMall';
 import Brightness6Icon from '@material-ui/icons/Brightness6';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import DynamicFeedIcon from '@material-ui/icons/DynamicFeed';
-import { useDispatch,useSelector } from 'react-redux';
-import {signoutUser, themodechanger} from '../../actions/AuthActions'
+import { useDispatch, useSelector } from 'react-redux';
+import { signoutUser, themodechanger } from '../../actions/AuthActions'
 import { Scrollbars } from 'react-custom-scrollbars';
 import PublishIcon from '@material-ui/icons/Publish';
 // Side Drawer
 
 const drawerWidth = 250;
 const useStyles = makeStyles((theme) => ({
-  root:{},
+  root: {},
   grow: {
     flexGrow: 1,
   },
@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
     // display: 'none',
     [theme.breakpoints.up('sm')]: {
       display: 'block',
-      wrap:'noWrap'
+      wrap: 'noWrap'
     },
   },
   search: {
@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: theme.spacing(3),
       width: 'auto',
     }
-    
+
   },
   searchIcon: {
     padding: theme.spacing(0, 2),
@@ -108,8 +108,8 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('md')]: {
       width: '20ch',
     },
-    '&:focus':{
-      
+    '&:focus': {
+
       paddingRight: theme.spacing(10),
     }
   },
@@ -141,8 +141,8 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
-//   Drawer styles
-list: {
+  //   Drawer styles
+  list: {
     width: 250,
   },
   fullList: {
@@ -150,14 +150,14 @@ list: {
   },
   drawerPaper: {
     // backgroundImage: 'url(https://reactify.theironnetwork.org/static/media/sidebar-4.34aa4bc1.jpg)',
-    backgroundColor:theme.palette.primary.contrastText
-    
+    backgroundColor: theme.palette.primary.contrastText
+
   },
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
     whiteSpace: 'nowrap',
-    overflow:'hidden',
+    overflow: 'hidden',
   },
   drawerOpen: {
     width: 'auto',
@@ -180,56 +180,56 @@ list: {
       width: 0,
     }
   },
-  logo:{
-    
-    padding: theme.spacing(2,0),
+  logo: {
+
+    padding: theme.spacing(2, 0),
     backgroundColor: theme.palette.primary.main,
-    color:theme.palette.primary.contrastText,
-    
+    color: theme.palette.primary.contrastText,
+
     [theme.breakpoints.down('md')]: {
-     
-      padding: theme.spacing(1.6,0),
+
+      padding: theme.spacing(1.6, 0),
     },
   },
-  logod:{
-    position:'fixed',
-    width:'20%',
-    padding: theme.spacing(2,0),
+  logod: {
+    position: 'fixed',
+    width: '20%',
+    padding: theme.spacing(2, 0),
     zIndex: theme.zIndex.drawer + 1,
     backgroundColor: theme.palette.primary.main,
-    color:theme.palette.primary.contrastText,
-    
+    color: theme.palette.primary.contrastText,
+
     [theme.breakpoints.down('md')]: {
-      position:'relative',
-      width:'100%',
-      padding: theme.spacing(1.6,0),
+      position: 'relative',
+      width: '100%',
+      padding: theme.spacing(1.6, 0),
     },
   },
 
-// End Drawer styles
-nested: {
-  paddingLeft: theme.spacing(4),
-},
-listItemText:{
-  fontSize:'1em',//Insert your required size
-},
-modechanger:{
-  position:'absolute',
-  bottom:0,
-  alignItems:'center'
-}
+  // End Drawer styles
+  nested: {
+    paddingLeft: theme.spacing(4),
+  },
+  listItemText: {
+    fontSize: '1em',//Insert your required size
+  },
+  modechanger: {
+    position: 'absolute',
+    bottom: 0,
+    alignItems: 'center'
+  }
 
 
 }));
 
-const AdminHeader = (props)=> {
+const AdminHeader = (props) => {
   const dispatch = useDispatch()
   const response = useSelector(state => state.profileops.profile.user_ptr)
   const profileresponse = useSelector(state => state.profileops.profile)
-  
-  const {anchor,sidebardrawer} = props;
+
+  const { anchor, sidebardrawer } = props;
   const classes = useStyles();
-  const [isdrawer,setIsdrawer] = React.useState(false)
+  const [isdrawer, setIsdrawer] = React.useState(false)
   const [state, setState] = React.useState({
     top: false,
     left: false,
@@ -237,12 +237,12 @@ const AdminHeader = (props)=> {
     right: false,
   });
   const [switchstate, setSwitchstate] = React.useState(true);
-  
+
   const switchhandleChange = (event) => {
     setSwitchstate(!switchstate);
     dispatch(themodechanger())
   };
-  const [collapseopen,setCollapseopen] = React.useState(false)
+  const [collapseopen, setCollapseopen] = React.useState(false)
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [notifyanchorEl, setNotifyanchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -251,7 +251,7 @@ const AdminHeader = (props)=> {
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const isNotificationOpen = Boolean(notifyanchorEl);
-  
+
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -286,14 +286,14 @@ const AdminHeader = (props)=> {
     return;
 
   }
- 
+
 
   const handle = useFullScreenHandle();
-  
-  const myref = React.useRef()
-//   Side Drawer
 
-const toggleDrawer = (anchor, open) => (event) => {
+  const myref = React.useRef()
+  //   Side Drawer
+
+  const toggleDrawer = (anchor, open) => (event) => {
     setIsdrawer(!isdrawer)
     sidebardrawer()
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -303,12 +303,12 @@ const toggleDrawer = (anchor, open) => (event) => {
     setState({ ...state, [anchor]: open });
   };
 
-// End Side Drawer
+  // End Side Drawer
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
-      style={{top:40}}
+      style={{ top: 40 }}
       anchorEl={anchorEl}
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       id={menuId}
@@ -318,7 +318,7 @@ const toggleDrawer = (anchor, open) => (event) => {
       onClose={handleMenuClose}
       elevation={1}
     >
-      <Link to="/admin/profile" style={{textDecoration:"none",color:"inherit"}}><MenuItem onClick={handleMenuClose}>Profile</MenuItem></Link>
+      <Link to="/admin/profile" style={{ textDecoration: "none", color: "inherit" }}><MenuItem onClick={handleMenuClose}>Profile</MenuItem></Link>
       {/* <MenuItem onClick={handleMenuClose}>My account</MenuItem> */}
       <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
@@ -326,31 +326,31 @@ const toggleDrawer = (anchor, open) => (event) => {
 
   const renderMenuSimplelist = (
     <>
-    <Menu
-      style={{top:40}}
-      anchorEl={notifyanchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isNotificationOpen}
-      onClose={handleNotifyClose}
-      elevation={1}
-    >
-      
-      {/* <MenuItem onClick={handleMenuClose}><SimpleList /></MenuItem> */}
-      
-      {/* <SimpleList ref={myref} /> */}
-      
-    </Menu>
-    
+      <Menu
+        style={{ top: 40 }}
+        anchorEl={notifyanchorEl}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        id={menuId}
+        keepMounted
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        open={isNotificationOpen}
+        onClose={handleNotifyClose}
+        elevation={1}
+      >
+
+        {/* <MenuItem onClick={handleMenuClose}><SimpleList /></MenuItem> */}
+
+        {/* <SimpleList ref={myref} /> */}
+
+      </Menu>
+
     </>
   );
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
     <Menu
-      style={{top:40}}
+      style={{ top: 40 }}
       anchorEl={mobileMoreAnchorEl}
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       id={mobileMenuId}
@@ -382,7 +382,7 @@ const toggleDrawer = (anchor, open) => (event) => {
           aria-controls="primary-search-account-menu"
           aria-haspopup="true"
           color="inherit"
-          
+
         >
           <AccountCircle />
         </IconButton>
@@ -401,179 +401,187 @@ const toggleDrawer = (anchor, open) => (event) => {
         [classes.fullList]: anchor === 'top' || anchor === 'bottom',
       })}
       role="presentation"
-      // onClick={toggleDrawer(anchor, false)}
-      // onKeyDown={toggleDrawer(anchor, false)}
+    // onClick={toggleDrawer(anchor, false)}
+    // onKeyDown={toggleDrawer(anchor, false)}
     >
       <Box display="flex" alignItems="center" justifyContent="space-around" className={classes.logod}>
-      <Typography className={classes.title} variant="h6" noWrap>
-            Contentbond
+        <Typography className={classes.title} variant="h6" noWrap>
+          Contentbond
           </Typography>
-          <Hidden smUp>
-         <IconButton onClick={()=>setIsdrawer(!isdrawer)} size="small">
-         <MenuOpenIcon fontSize="small" style={{color:'#fff'}} /></IconButton>
-         </Hidden>
+        <Hidden smUp>
+          <IconButton onClick={() => setIsdrawer(!isdrawer)} size="small">
+            <MenuOpenIcon fontSize="small" style={{ color: '#fff' }} /></IconButton>
+        </Hidden>
 
-          </Box>
+      </Box>
       <List
-      style={{paddingTop:'25%'}}
-      component="nav"
-          aria-labelledby="available-content"
-          subheader={
-            <ListSubheader component="div" id="available-content">
-              Content
-            </ListSubheader>
-          }
-          className={classes.root}
-      
-      
+        style={{ paddingTop: '25%' }}
+        component="nav"
+        aria-labelledby="available-content"
+        // subheader={
+        //   <ListSubheader component="div" id="available-content">
+        //     Content
+        //   </ListSubheader>
+        // }
+        className={classes.root}
+
+
       >
-        <Link to="/admin/dashboard" style={{textDecoration:'none',color:'inherit'}}>
+        <Link to="/admin/dashboard" style={{ textDecoration: 'none', color: 'inherit' }}>
           <ListItem button>
             <ListItemIcon>
-            <DashboardIcon />
+              <DashboardIcon />
             </ListItemIcon>
             <ListItemText primary="Dashboard" />
           </ListItem>
         </Link>
-          {profileresponse.content == "creator" && 
-        <Link to="/admin/upload" style={{textDecoration:'none',color:'inherit'}}>
-          <ListItem button>
-            <ListItemIcon>
-            <PublishIcon />
-            </ListItemIcon>
-            <ListItemText primary="Upload" />
-          </ListItem>
-        </Link>
-}
-        {response.is_superuser ?
-        <>
-    
-      <Link to="/admin/users" style={{textDecoration:'none',color:'inherit'}}>
-      <ListItem button>
-        <ListItemIcon>
-        <GroupIcon />
-        </ListItemIcon>
-        <ListItemText primary="Users" />
-      </ListItem>
-      </Link>
-      <Link to="/admin/groups" style={{textDecoration:'none',color:'inherit'}}>
-      <ListItem button>
-        <ListItemIcon>
-        <GroupWorkIcon />
-        </ListItemIcon>
-        <ListItemText primary="Groups" />
-      </ListItem>
-      </Link>
-</>
-      :null}
-
-
-     
-      {response.is_superuser &&
-
-        <Link to="/admin/contentadmin" style={{textDecoration:'none',color:'inherit'}}>
-        <ListItem button>
-          <ListItemIcon>
-          <MenuBookIcon />
-          </ListItemIcon>
-          <ListItemText primary="Explore (Admin) " />
-        </ListItem>
-        </Link>
-      }
-
-    {!response.is_superuser &&
-      <Link to="/admin/content" style={{textDecoration:'none',color:'inherit'}}>
-      <ListItem button>
-        <ListItemIcon>
-        <MenuBookIcon />
-        </ListItemIcon>
-        <ListItemText primary={profileresponse.content == "creator" ?  "Myuploads":"Explore"} />
-      </ListItem>
-      </Link>
-    }
-      {profileresponse.content == "producer" && !response.is_superuser ?
-      <>
-      <Link to="/admin/favorite" style={{textDecoration:'none',color:'inherit'}}>
-        <ListItem button>
-          <ListItemIcon>
-          <FavoriteIcon />
-          </ListItemIcon>
-          <ListItemText primary="Favorite" />
-        </ListItem>
-      </Link>
-
-      <Link to="/admin/interested" style={{textDecoration:'none',color:'inherit'}}>
-        <ListItem button>
-          <ListItemIcon>
-          <LocalMallIcon />
-          </ListItemIcon>
-          <ListItemText primary="Interested" />
-        </ListItem>
-      </Link>
-      </>
-      
-      
-      
-      :null}
-    {response.is_superuser &&
-          <Link to="/admin/requests" style={{textDecoration:'none',color:'inherit'}}>
+        {profileresponse.content == "creator" && !response.is_superuser ?
+          <Link to="/admin/upload" style={{ textDecoration: 'none', color: 'inherit' }}>
             <ListItem button>
               <ListItemIcon>
-              <FavoriteIcon />
+                <PublishIcon />
+              </ListItemIcon>
+              <ListItemText primary="Upload" />
+            </ListItem>
+          </Link>
+          : null}
+        {response.is_superuser ?
+          <>
+
+            <Link to="/admin/users" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <ListItem button>
+                <ListItemIcon>
+                  <GroupIcon />
+                </ListItemIcon>
+                <ListItemText primary="Users" />
+              </ListItem>
+            </Link>
+            <Link to="/admin/groups" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <ListItem button>
+                <ListItemIcon>
+                  <GroupWorkIcon />
+                </ListItemIcon>
+                <ListItemText primary="Groups" />
+              </ListItem>
+            </Link>
+            <Link to="/admin/upload/product" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <ListItem button>
+              <ListItemIcon>
+                <PublishIcon />
+              </ListItemIcon>
+              <ListItemText primary="UploadProduct" />
+            </ListItem>
+          </Link>
+          </>
+          : null}
+
+
+
+        {response.is_superuser &&
+
+          <Link to="/admin/contentadmin" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <ListItem button>
+              <ListItemIcon>
+                <MenuBookIcon />
+              </ListItemIcon>
+              <ListItemText primary="Explore (Admin) " />
+            </ListItem>
+          </Link>
+        }
+
+        {!response.is_superuser &&
+          <Link to="/admin/content" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <ListItem button>
+              <ListItemIcon>
+                <MenuBookIcon />
+              </ListItemIcon>
+              <ListItemText primary={profileresponse.content == "creator" ? "Myuploads" : "Explore"} />
+            </ListItem>
+          </Link>
+        }
+        {profileresponse.content == "producer" && !response.is_superuser ?
+          <>
+            <Link to="/admin/favorite" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <ListItem button>
+                <ListItemIcon>
+                  <FavoriteIcon />
+                </ListItemIcon>
+                <ListItemText primary="Favorite" />
+              </ListItem>
+            </Link>
+
+            <Link to="/admin/interested" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <ListItem button>
+                <ListItemIcon>
+                  <LocalMallIcon />
+                </ListItemIcon>
+                <ListItemText primary="Interested" />
+              </ListItem>
+            </Link>
+          </>
+
+
+
+          : null}
+        {response.is_superuser &&
+          <Link to="/admin/requests" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <ListItem button>
+              <ListItemIcon>
+                <FavoriteIcon />
               </ListItemIcon>
               <ListItemText primary="Requests" />
             </ListItem>
           </Link>
-    }
-      
-  {profileresponse.content == "producer" && !response.is_superuser  ? 
+        }
 
-    <Link to="/admin/recommended" style={{textDecoration:'none',color:'inherit'}}>
-    <ListItem button>
-      <ListItemIcon>
-      <DynamicFeedIcon />
-      </ListItemIcon>
-      <ListItemText primary="Recommended" />
-    </ListItem>
-    </Link>
-  :null}
-     
+        {profileresponse.content == "producer" && !response.is_superuser ?
 
-      
-      {!response.is_superuser  ? 
-      <Link to="/admin/contentrequest" style={{textDecoration:'none',color:'inherit'}}>
-      <ListItem button>
-        <ListItemIcon>
-          <SendIcon />
-        </ListItemIcon>
-        <ListItemText primary="Request" />
-      </ListItem>
-      </Link>
-      :null}
-      {/* <ListItem button>
+          <Link to="/admin/recommended" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <ListItem button>
+              <ListItemIcon>
+                <DynamicFeedIcon />
+              </ListItemIcon>
+              <ListItemText primary="Recommended" />
+            </ListItem>
+          </Link>
+          : null}
+
+
+
+        {!response.is_superuser ?
+          <Link to="/admin/contentrequest" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <ListItem button>
+              <ListItemIcon>
+                <SendIcon />
+              </ListItemIcon>
+              <ListItemText primary="Request" />
+            </ListItem>
+          </Link>
+          : null}
+        {/* <ListItem button>
         <ListItemIcon>
           <DraftsIcon />
         </ListItemIcon>
         <ListItemText primary="Drafts" />
       </ListItem> */}
-        
-        <ListItem button onClick={()=>setCollapseopen(!collapseopen)}>
-        <ListItemIcon>
-          <InboxIcon />
-        </ListItemIcon>
-        <ListItemText primary="Inbox" />
-        {collapseopen ? <ExpandLess /> : <ExpandMore />}
-      </ListItem>
+
+        <ListItem button onClick={() => setCollapseopen(!collapseopen)}>
+          <ListItemIcon>
+            <InboxIcon />
+          </ListItemIcon>
+          <ListItemText primary="Inbox" />
+          {collapseopen ? <ExpandLess /> : <ExpandMore />}
+        </ListItem>
         <Collapse in={collapseopen} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItem button className={classes.nested}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="Starred" />
-          </ListItem>
-        </List>
-      </Collapse>
+          <List component="div" disablePadding>
+            <ListItem button className={classes.nested}>
+              <ListItemIcon>
+                <StarBorder />
+              </ListItemIcon>
+              <ListItemText primary="Starred" />
+            </ListItem>
+          </List>
+        </Collapse>
       </List>
       <Divider />
       {/* <ListItem button>
@@ -593,73 +601,75 @@ const toggleDrawer = (anchor, open) => (event) => {
       />
       </Box> */}
 
-      <ListItem button onClick = {switchhandleChange}>
+      <ListItem button onClick={switchhandleChange}>
         <ListItemIcon>
-        {switchstate?<Brightness7Icon />:<Brightness6Icon />}
+          {switchstate ? <Brightness7Icon /> : <Brightness6Icon />}
         </ListItemIcon>
         <ListItemText primary="Theme Mode" />
       </ListItem>
-      
+
     </div>
-    
+
   );
 
   return (
-      <>
-      
+    <>
+
       <div className={classes.root}>
-        
-      <Drawer variant="permanent" 
-      // classes={{ paper:classes.drawerPaper}} 
-      className={clsx(classes.drawer, {
-        [classes.drawerOpen]: isdrawer,
-        [classes.drawerClose]: !isdrawer,
-      })}
-      classes={{
-        paper: clsx({
-          [classes.drawerOpen]: isdrawer,
-          [classes.drawerClose]: !isdrawer,
-        }),
-      }}
-      anchor={anchor} open={state[anchor]} onClose={toggleDrawer(anchor, false)}>
-        
-      {list(anchor)}
-      
-          </Drawer>
+
+        <Drawer
+          variant="permanent" 
+          // variant="persistent"
+          // classes={{ paper:classes.drawerPaper}} 
+          className={clsx(classes.drawer, {
+            [classes.drawerOpen]: isdrawer,
+            [classes.drawerClose]: !isdrawer,
+          })}
+          classes={{
+            paper: clsx({
+              [classes.drawerOpen]: isdrawer,
+              [classes.drawerClose]: !isdrawer,
+            }),
+          }}
+          anchor={anchor} open={state[anchor]} onClose={toggleDrawer(anchor, false)}>
+
+          {list(anchor)}
+
+        </Drawer>
 
 
-    <div className={classes.grow}>
-      <AppBar position="fixed" className={clsx(classes.appBar, {
-          [classes.appBarShift]: isdrawer,
-        })}>
-          
-        <Toolbar className='toolbarcolor'>
-        {!isdrawer &&
-        
-        <Box display="flex" alignItems="center" justifyContent="center" className={classes.logo}>
-          <Typography className={classes.title} variant="h6" noWrap>
-                Contentbond
+        <div className={classes.grow}>
+          <AppBar position="fixed" className={clsx(classes.appBar, {
+            [classes.appBarShift]: isdrawer,
+          })}>
+
+            <Toolbar className='toolbarcolor'>
+              {!isdrawer &&
+
+                <Box display="flex" alignItems="center" justifyContent="center" className={classes.logo}>
+                  <Typography className={classes.title} variant="h6" noWrap>
+                    Contentbond
               </Typography>
-          </Box>
-        }
-       
-        
-          <IconButton
-            onClick = {toggleDrawer(anchor, true)}            
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-            style={{border:'1px solid gray',marginLeft:`${drawerWidth-195}px`}}
-            
-          >
-            <MenuIcon fontSize="small" />
-          </IconButton>
+                </Box>
+              }
 
-          
+
+              <IconButton
+                onClick={toggleDrawer(anchor, true)}
+                edge="start"
+                className={classes.menuButton}
+                color="inherit"
+                aria-label="open drawer"
+                style={{ border: '1px solid gray', marginLeft: `${drawerWidth - 195}px` }}
+
+              >
+                <MenuIcon fontSize="small" />
+              </IconButton>
 
 
 
+
+              {/* 
           <Hidden only={['sm', 'xs']}>
     
     
@@ -678,20 +688,20 @@ const toggleDrawer = (anchor, open) => (event) => {
             />
           </div>
           </Grow>
-          </Hidden>
+          </Hidden> */}
 
-          <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
+              <div className={classes.grow} />
+              <div className={classes.sectionDesktop}>
 
 
-            {/* <IconButton aria-label="show 4 new mails" color="inherit">
+                {/* <IconButton aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="secondary">                
                 <NotificationsIcon />
               </Badge>
             </IconButton> */}
 
-           
-{/* 
+
+                {/* 
             <IconButton
               
               aria-label="show 17 new notifications"
@@ -708,48 +718,48 @@ const toggleDrawer = (anchor, open) => (event) => {
 
 
 
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-
-            
-
-          </div>
+                <IconButton
+                  edge="end"
+                  aria-label="account of current user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  onClick={handleProfileMenuOpen}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
 
 
-          <div className={classes.sectionMobile}>
-            <IconButton
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-              
-            </IconButton>
-          </div>
-        </Toolbar>
-        
-      </AppBar>
-      {renderMobileMenu}
-      {renderMenu}
-      
-      {renderMenuSimplelist}
-     
-     
-      
-    </div>
-    
-    </div>
-    
+
+              </div>
+
+
+              <div className={classes.sectionMobile}>
+                <IconButton
+                  aria-label="show more"
+                  aria-controls={mobileMenuId}
+                  aria-haspopup="true"
+                  onClick={handleMobileMenuOpen}
+                  color="inherit"
+                >
+                  <MoreIcon />
+
+                </IconButton>
+              </div>
+            </Toolbar>
+
+          </AppBar>
+          {renderMobileMenu}
+          {renderMenu}
+
+          {renderMenuSimplelist}
+
+
+
+        </div>
+
+      </div>
+
     </>
   );
 }

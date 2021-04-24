@@ -38,18 +38,16 @@ export default function CustomizedSelect(props) {
           <MenuItem value="">
             <em>Choose Option</em>
           </MenuItem>
-          <ListSubheader>OTT Platform</ListSubheader>
-          <MenuItem value={1}>YouTube</MenuItem>
-          <MenuItem value={2}>Web Series</MenuItem>
-          <MenuItem value={3}>OTT Content</MenuItem>
-          <MenuItem value={4}>Short Form</MenuItem>
-          <MenuItem value={5}>Long Form</MenuItem>
-          <MenuItem value={6}>Movie</MenuItem>
-          <MenuItem value={7}>Long Form</MenuItem>      
-          <ListSubheader>Independent</ListSubheader>
-          <MenuItem value={8}>Music</MenuItem>
-          <MenuItem value={9}>Original Songs</MenuItem>
-          <MenuItem value={10}>Content Transalation Theme</MenuItem>
+          <ListSubheader>Content Type</ListSubheader>
+          <MenuItem value={1}>General Video Content</MenuItem>
+          <MenuItem value={2}>Youtube Content</MenuItem>
+          <MenuItem value={3}>Web series content</MenuItem>
+          <MenuItem value={4}>Ott content</MenuItem>
+          <MenuItem value={5}>Movie content</MenuItem>
+          <MenuItem value={6}>Shortform video content</MenuItem>
+          <MenuItem value={7}>Longform video content</MenuItem>    
+          <MenuItem value={8}>Music Content</MenuItem>
+          <MenuItem value={9}>Others</MenuItem>
         </Select>
       </FormControl>
     </div>

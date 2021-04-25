@@ -17,12 +17,14 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import LocalMallIcon from '@material-ui/icons/LocalMall';
 import { Box, Chip, Menu, MenuItem } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import Moment from 'react-moment';
 
 
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 'auto',
+    minHeight: '520px'
   },
   media: {
     height: 0,
@@ -49,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ContentExplorecardAdmin(props) {
   const classes = useStyles();
-
+  const history = useHistory();
 
 
 
@@ -71,12 +73,16 @@ export default function ContentExplorecardAdmin(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  
   const handleIsactive = async (e, id, action) => {
     setAnchorEl(null);
     await props.handleIsactivemain(id, action)
 
   };
+
+  const detailPagenavigator = async(id,isinterested) => {
+    history.push('/admin/section/'+id+'?interest='+isinterested)
+  }
 
   // const handleInstock = (e,id) => {
   //   setAnchorEl(null);
@@ -134,18 +140,20 @@ export default function ContentExplorecardAdmin(props) {
             </Menu>
           </>
         }
-        title={props.val.title}
-        subheader={props.val.created.toLocaleString()}
+        title={props.val.title.substring(0,48)}
+        subheader={<Moment format="YYYY/MM/DD HH:MM:SS">{props.val.created.toLocaleString()}</Moment>}
+        onClick={(e)=>detailPagenavigator(props.val.id,props.val.isfavored)}
       />
       <CardMedia
         className={classes.media}
         image={`https://app.contentbond.com/media/${props.val.thumbnail}`}
         title={props.val.title}
+        onClick={(e)=>detailPagenavigator(props.val.id,props.val.isfavored)}
       />
       <CardContent>
-        
+      
             Author: <Link to={`/admin/profile/${props.val.author_id}`}> <Chip color="primary" label={props.val.customauthor} /> </Link>
-
+            <br></br>
           
          
         
@@ -153,7 +161,7 @@ export default function ContentExplorecardAdmin(props) {
           {props.val.title}
 
       
-
+<br></br>
           Requested By: <Link to={`/admin/profile/${props.val.likedby}`}><Chip color="primary" label= {props.val.likedbyname} /> </Link>
 
 

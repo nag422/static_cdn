@@ -61,22 +61,23 @@ const tileData = [
 
 const Detailcard = (props) => {
   const classes = useStyles();
-  const [post, setPost] = React.useState([]);
-  const [favorite, setFavorite] = React.useState(false);
+  const [post, setPost] = React.useState([]);  
   const gethist = new URLSearchParams(props.location.search)
   const isinterest = gethist.get('interest')
+  const [favorite, setFavorite] = React.useState(null);
 
 
   React.useEffect(() => {
 
     const getsingleproduct = async () => {
-      const data = await getProductById(props.match.params.id)
-
+      const data = await getProductById(props.match.params.id)     
+      setFavorite(isinterest)
       if (data.obs.length > 0) {
         setPost(data.obs[0])
       }
 
     }
+    
     getsingleproduct()
 
 
@@ -90,10 +91,10 @@ const Detailcard = (props) => {
     if (+response.status === 200) {
       
       if(response.message == "removedbuy"){
-        setFavorite(false)
+        setFavorite('false')
       }
       if(response.message == "addedbuy"){
-        setFavorite(true)
+        setFavorite('true')
       }
         alert(response.message)
 
@@ -135,12 +136,14 @@ const Detailcard = (props) => {
             <br></br>
             <Typography component="p" variant="subtitle1"><Chip size="small" color="primary" label="Terms & Conditions : "></Chip>&nbsp;{post.termsconditions}</Typography>
             <br></br><Typography component="p" variant="subtitle1"><Chip size="small" color="primary" label="Cost : "></Chip>&nbsp;{post.price} USD</Typography>
-            <IconButton aria-label="share" color={favorite?'primary':'secondary'} onClick={(e) => addfavorites(e,post.id)}>
+            <IconButton aria-label="share" color={favorite=="true"?'primary':'secondary'} onClick={(e) => addfavorites(e,post.id)}>
           <LocalMallIcon />
         </IconButton>
-        {isinterest?!favorite?'Add to interestslist':'Added to interestslist':favorite?'Added to interestslist':'Add to interestslist'}
 
+          {favorite == "true" ?"Added to list":"Add to list"}
 
+          
+          
             
             {/* <Button variant="outlined" color="primary" size="small" onClick={() => props.history.goBack()}>Back</Button> */}
           </Card>

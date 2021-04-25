@@ -14,19 +14,19 @@ import ContentExploreFavorite from '../container/ContentExploreFavorite';
 import ContentExploreAdminBagged from '../container/ContentExploreAdminBagged';
 import Recommended from 'container/Recommended';
 import ConfirmPassword from 'container/ConfirmPassword';
-import ChatMessenger from 'container/ChatMessenger';
 import Detailcard from '../components/Detailcard/Detailcard'
 import ContentEdit from '../container/ContentEdit'
 import ContentExploreAdminRequests from '../container/ContentExploreAdminRequests'
 import Profiledynamic from '../container/Profiledynamic'
-import MessageForm from '../container/MessageForm'
-import ChatFormUser from '../container/ChatFormUser'
+
 import UserFavorite from '../container/admincopy/UserFavorite'
 import UserBagged from '../container/admincopy/UserBagged'
 import UserRecommended from '../container/admincopy/UserRecommended'
 import Loginredirector from '../container/Loginredirector'
 import UserUploads from '../container/admincopy/UserUploads'
 import UploadProduct from '../container/admincopy/container/UploadProduct'
+import MessageAdmin from '../container/admincopy/container/MessageAdmin'
+import MessageSeller from '../container/MessageSeller'
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
     //Auth url
@@ -193,28 +193,24 @@ export default [
         exact: true,
         layout:'admin'
     },
-
     {
-        path: "messages",
-        component: ChatMessenger,
-        exact: true,
-        layout:'admin'
-    },
-
-    {
-        path: "messageformat",
-        component: MessageForm,
+        path: "backend/message",
+        component: MessageAdmin,
         exact: true,
         layout:'admin'
     },
     {
-        path: "sendmessage",
-        component: ChatFormUser,
+        path: "seller/message/seller",
+        component: MessageSeller,
         exact: true,
         layout:'admin'
     },
-
-
+    {
+        path: "buyer/message",
+        component: ContentExploreAdminRequests,
+        exact: true,
+        layout:'admin'
+    },
     
     {
         path: "section/:id",

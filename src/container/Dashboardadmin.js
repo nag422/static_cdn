@@ -1,6 +1,7 @@
 import React from 'react'
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import { Link,useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { Avatar, Box, Chip, Typography } from '@material-ui/core';
 import AttachMoneyOutlinedIcon from '@material-ui/icons/AttachMoneyOutlined';
@@ -12,7 +13,9 @@ import { amber, green, red, pink } from '@material-ui/core/colors';
 import { Doughnut, Bar } from 'react-chartjs-2';
 import Apexchartdemo from './Apexchartdemo'
 import TrafficByDevice from './TrafficByDevice';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
+
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -64,9 +67,14 @@ const Dashboardadmin = () => {
     const [responsedata,setResponsedata] = React.useState({
         sellers:0,
         buyers:0,
-        enquiries:0,
-        leads:0
+        sellerenquiries:0,
+        buyerenquiries:0
     })
+
+    const dispatch = useDispatch()
+    const response = useSelector(state => state.profileops.profile.user_ptr)
+    const profileresponse = useSelector(state => state.profileops.profile)
+    const history = useHistory();
 
     // const url = 'http://127.0.0.1:8000/'
     const url = 'https://app.contentbond.com/'
@@ -92,6 +100,19 @@ const Dashboardadmin = () => {
     }
 
     React.useEffect(() => {
+        if(!response.is_superuser) {
+
+            if(profileresponse.content == "creator"){
+            return history.push('/admin/seller/dashboard')
+        }else if(profileresponse.content == "producer"){
+            return history.push('/admin/buyer/dashboard')
+        }
+
+
+        }
+        
+        console.log('user response',profileresponse.content)
+
         const loadDashboard = async() => {
             await axios
             .get(url + "admin/dashboardview/", config)
@@ -101,8 +122,8 @@ const Dashboardadmin = () => {
                     ...responsedata,
                     sellers:resp.data.sellers,
                     buyers:resp.data.buyers,
-                    enquiries:resp.data.enquiries,
-                    leads:resp.data.leads
+                    sellerenquiries:resp.data.sellerenquiries,
+                    buyerenquiries:resp.data.buyerenquiries
 
                 })
                 
@@ -188,7 +209,7 @@ const Dashboardadmin = () => {
                                SELLER ENQUIRIES
                         </Typography>
                             <Box component='div' className={classes.pricetext}>
-                            {responsedata.enquiries} 
+                            {responsedata.sellerenquiries} 
                                 {/* <Box component="div"
                                     className={classes.chipnumber}
                                     style={{
@@ -205,6 +226,7 @@ const Dashboardadmin = () => {
 
                     </Paper>
                 </Grid>
+
                 <Grid item xs={12} sm={3}>
                     <Paper className={classes.paper}>
                         <Box display="flex" alignItems="flex-start" flexDirection="column">
@@ -212,7 +234,7 @@ const Dashboardadmin = () => {
                             BUYER ENQUIRIES
                         </Typography>
                             <Box component='div' className={classes.pricetext}>
-                            {responsedata.leads} 
+                            {responsedata.buyerenquiries} 
                                 {/* <Box component="div"
                                     className={classes.chipnumber}
                                     style={{
@@ -229,6 +251,8 @@ const Dashboardadmin = () => {
 
                     </Paper>
                 </Grid>
+
+
             </Grid>
 
             <Grid container spacing={3}>

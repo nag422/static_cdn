@@ -40,7 +40,7 @@ import GroupIcon from '@material-ui/icons/Group';
 import clsx from 'clsx';
 import { Box, Collapse, ListSubheader, Paper } from '@material-ui/core';
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
-import { Link } from 'react-router-dom';
+import { Link,useHistory } from 'react-router-dom';
 import SimpleList from '../ListSimple/SimpleList'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import GroupWorkIcon from '@material-ui/icons/GroupWork';
@@ -226,7 +226,7 @@ const AdminHeader = (props) => {
   const dispatch = useDispatch()
   const response = useSelector(state => state.profileops.profile.user_ptr)
   const profileresponse = useSelector(state => state.profileops.profile)
-
+  const history = useHistory();
   const { anchor, sidebardrawer } = props;
   const classes = useStyles();
   const [isdrawer, setIsdrawer] = React.useState(false)
@@ -257,7 +257,7 @@ const AdminHeader = (props) => {
     setAnchorEl(event.currentTarget);
   };
   const handleNotificationMenuOpen = (event) => {
-    setNotifyanchorEl(event.currentTarget);
+    // setNotifyanchorEl(event.currentTarget);
   };
 
   const handleNotifyClose = () => {
@@ -286,6 +286,37 @@ const AdminHeader = (props) => {
     return;
 
   }
+
+  const handleMessageClick = () => {
+    if(response.is_superuser){
+      history.push('/admin/backend/message')
+    }else{
+      if(profileresponse.content=="creator"){
+        history.push('/admin/seller/message')
+      }
+      if(profileresponse.content=="producer"){
+        history.push('/admin/producer/message')
+      }
+
+    }  
+  }
+
+  const handleNotificationClick = () => {
+    if(response.is_superuser){
+      history.push('/admin/backend/notification')
+    }else{
+      if(profileresponse.content=="creator"){
+        history.push('/admin/seller/notification')
+      }
+      if(profileresponse.content=="producer"){
+        history.push('/admin/producer/notification')
+      }
+
+    } 
+
+  }
+
+
 
 
   const handle = useFullScreenHandle();
@@ -338,7 +369,7 @@ const AdminHeader = (props) => {
         elevation={1}
       >
 
-        {/* <MenuItem onClick={handleMenuClose}><SimpleList /></MenuItem> */}
+        <MenuItem onClick={handleMessageClick}>Messages</MenuItem>
 
         {/* <SimpleList ref={myref} /> */}
 
@@ -694,27 +725,31 @@ const AdminHeader = (props) => {
               <div className={classes.sectionDesktop}>
 
 
-                {/* <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">                
-                <NotificationsIcon />
-              </Badge>
-            </IconButton> */}
+                <IconButton 
+                aria-label="show 4 new mails" 
+                color="inherit"
+                onClick={handleNotificationClick}
+                >
+                  <Badge badgeContent={''} color="secondary">                
+                    <NotificationsIcon />
+                  </Badge>
+            </IconButton>
 
 
-                {/* 
+                
             <IconButton
               
               aria-label="show 17 new notifications"
               aria-controls={menuId}
               aria-haspopup="true"
-              onClick={handleNotificationMenuOpen}
+              onClick={handleMessageClick}
               color="inherit"
             >
-              <Badge badgeContent={17} color="secondary">
+              <Badge badgeContent={''} color="secondary">
               <MailIcon />
               </Badge>
               
-            </IconButton> */}
+            </IconButton>
 
 
 

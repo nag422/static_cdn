@@ -12,6 +12,9 @@ import { amber, green, red, pink } from '@material-ui/core/colors';
 import { Doughnut, Bar } from 'react-chartjs-2';
 import Apexchartdemo from './Apexchartdemo'
 import TrafficByDevice from './TrafficByDevice';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link,useHistory } from 'react-router-dom';
+import axios from 'axios';
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -60,6 +63,77 @@ const data = {
 
 const Dashboardseller = () => {
     const classes = useStyles();
+
+    const [responsedata,setResponsedata] = React.useState({
+        sellerenquiries:0,
+        likedcount:0,
+        interestcount:0,
+        totaluploads:0
+    })
+
+    const dispatch = useDispatch()
+    const response = useSelector(state => state.profileops.profile.user_ptr)
+    const profileresponse = useSelector(state => state.profileops.profile)
+    const history = useHistory();
+
+
+    // const url = 'http://127.0.0.1:8000/'
+    const url = 'https://app.contentbond.com/'
+
+    const getToken = () => {
+        
+        try{
+            var unparsedtoken = localStorage.getItem('access_token');
+            var parsedtoken = JSON.parse(unparsedtoken);
+            return parsedtoken.access_token
+        }catch{
+            return 'sdfsdfsdfsdf'
+
+        }
+        
+    }
+
+    const config = {
+        headers: {
+          'content-type': 'application/json',
+          'Authorization': 'Token '+ getToken()
+        }
+    }
+
+    React.useEffect(() => {
+
+        // if(profileresponse.content != "creator"){
+        //     return history.push('/admin/profile')
+        // }
+
+        const loadDashboard = async() => {
+            await axios
+            .get(url + "admin/dashboardviewseller/", config)
+            .then(resp => { 
+
+                setResponsedata({
+                    ...responsedata,
+                    
+                    sellerenquiries:resp.data.sellerenquiries,
+                    likedcount:resp.data.likedcount,
+                    interestcount:resp.data.interestcount,
+                    totaluploads:resp.data.totaluploads
+
+                })
+                
+             })
+            .catch(error => {
+                alert(error.message)
+            });
+    
+      
+
+        }
+
+        loadDashboard();
+        
+        
+    }, [])
     return (
         <div className={classes.root}>
             <Grid container spacing={3}>
@@ -68,40 +142,20 @@ const Dashboardseller = () => {
                     <Paper className={classes.paper}>
                         <Box display="flex" alignItems="flex-start" flexDirection="column">
                             <Typography component='p' className={classes.headingtext}>
-                                FAVORITES
+                                TOTAL UPLOADS
                         </Typography>
                             <Box component='div' className={classes.pricetext}>
-                                $24,000   <Box component="p"
+                                {responsedata.totaluploads} 
+
+                                {/* <Box component="p"
                                     className={classes.chipnumber}
                                     style={{
                                         color: green[800],
                                         backgroundColor: green[100],
                                     }}>
                                     +4%
-                                      </Box>
-                            </Box>
-                        </Box>
-                        <Avatar className={classes.avatarcolor}>
-                            <AttachMoneyOutlinedIcon />
-                        </Avatar>
+                                </Box> */}
 
-                    </Paper>
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                    <Paper className={classes.paper}>
-                        <Box display="flex" alignItems="flex-start" flexDirection="column">
-                            <Typography component='p' className={classes.headingtext}>
-                                INTERESTED
-                        </Typography>
-                            <Box component='div' className={classes.pricetext}>
-                                1,600   <Box component="p"
-                                    className={classes.chipnumber}
-                                    style={{
-                                        color: red[800],
-                                        backgroundColor: red[100],
-                                    }}>
-                                    +4%
-                                      </Box>
                             </Box>
                         </Box>
                         <Avatar className={classes.avatarcolor}>
@@ -110,22 +164,71 @@ const Dashboardseller = () => {
 
                     </Paper>
                 </Grid>
-
                 <Grid item xs={12} sm={3}>
                     <Paper className={classes.paper}>
                         <Box display="flex" alignItems="flex-start" flexDirection="column">
                             <Typography component='p' className={classes.headingtext}>
-                                DEALS
+                                INTERESTS
                         </Typography>
                             <Box component='div' className={classes.pricetext}>
-                                $23,200  <Box component="div"
+                            {responsedata.interestcount}    
+                            {/* <Box component="p"
+                                    className={classes.chipnumber}
+                                    style={{
+                                        color: red[800],
+                                        backgroundColor: red[100],
+                                    }}>
+                                    +4%
+                            </Box> */}
+                            </Box>
+                        </Box>
+                        <Avatar className={classes.avatarcolor}>
+                            <PeopleIcon />
+                        </Avatar>
+
+                    </Paper>
+                </Grid>
+                <Grid item xs={12} sm={3}>
+                    <Paper className={classes.paper}>
+                        <Box display="flex" alignItems="flex-start" flexDirection="column">
+                            <Typography component='p' className={classes.headingtext}>
+                               SELLER ENQUIRIES
+                        </Typography>
+                            <Box component='div' className={classes.pricetext}>
+                            {responsedata.sellerenquiries} 
+                                {/* <Box component="div"
                                     className={classes.chipnumber}
                                     style={{
                                         color: pink[800],
                                         backgroundColor: pink[100],
                                     }}>
                                     +4%
-                                      </Box>
+                                </Box> */}
+                            </Box>
+                        </Box>
+                        <Avatar className={classes.avatarcolor}>
+                            <InsertChartIcon />
+                        </Avatar>
+
+                    </Paper>
+                </Grid>
+
+                <Grid item xs={12} sm={3}>
+                    <Paper className={classes.paper}>
+                        <Box display="flex" alignItems="flex-start" flexDirection="column">
+                            <Typography component='p' className={classes.headingtext}>
+                            FAVORITES
+                        </Typography>
+                            <Box component='div' className={classes.pricetext}>
+                            {responsedata.likedcount} 
+                                {/* <Box component="div"
+                                    className={classes.chipnumber}
+                                    style={{
+                                        color: pink[800],
+                                        backgroundColor: pink[100],
+                                    }}>
+                                    +4%
+                                </Box> */}
                             </Box>
                         </Box>
                         <Avatar className={classes.avatarcolor}>
@@ -134,33 +237,12 @@ const Dashboardseller = () => {
 
                     </Paper>
                 </Grid>
-                
-                <Grid item xs={12} sm={3}>
-                    <Paper className={classes.paper}>
-                        <Box display="flex" alignItems="flex-start" flexDirection="column">
-                            <Typography component='p' className={classes.headingtext}>
-                                EARNINGS
-                        </Typography>
-                            <Box component='div' className={classes.pricetext}>
-                                $23,200  <Box component="div"
-                                    className={classes.chipnumber}
-                                    style={{
-                                        color: pink[800],
-                                        backgroundColor: pink[100],
-                                    }}>
-                                    +4%
-                                      </Box>
-                            </Box>
-                        </Box>
-                        <Avatar className={classes.avatarcolor}>
-                            <MoneyIcon />
-                        </Avatar>
 
-                    </Paper>
-                </Grid>
+
             </Grid>
+               
 
-            <Grid container spacing={3}>
+            {/* <Grid container spacing={3}>
 
                 <Grid item xs={12} sm={8}>
                     <Apexchartdemo />
@@ -171,7 +253,7 @@ const Dashboardseller = () => {
 
                 </Grid>
 
-            </Grid>
+            </Grid> */}
         </div>
     )
 }

@@ -6,12 +6,22 @@ const Loginredirector = (props) => {
     const history = useHistory()   
   
     const profileresponse = useSelector(state => state.profileops.profileloading)
+    const profiler = useSelector(state => state.profileops)
     
  
     React.useEffect(() => {
         setTimeout(() => {
             if(profileresponse == false){
-                return history.push('/admin/dashboard')
+                
+                if(profiler.content == "creator"){
+                    return history.push('/admin/seller/dashboard')
+                }
+                else if(profiler.content == "producer"){
+                    return history.push('/admin/buyer/dashboard')
+                }else{
+                    return history.push('/admin/dashboard')
+                }
+                
             }
             
         }, 3000);

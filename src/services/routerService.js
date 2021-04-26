@@ -27,6 +27,8 @@ import UserUploads from '../container/admincopy/UserUploads'
 import UploadProduct from '../container/admincopy/container/UploadProduct'
 import MessageAdmin from '../container/admincopy/container/MessageAdmin'
 import MessageSeller from '../container/MessageSeller'
+import MessageBuyer from '../container/MessageBuyer'
+import NotifyExpore from '../container/NotifyExpore'
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
     //Auth url
@@ -200,18 +202,38 @@ export default [
         layout:'admin'
     },
     {
-        path: "seller/message/seller",
+        path: "seller/message",
         component: MessageSeller,
         exact: true,
         layout:'admin'
     },
     {
         path: "buyer/message",
-        component: ContentExploreAdminRequests,
+        component: MessageBuyer,
+        exact: true,
+        layout:'admin'
+    },
+    // Notification
+    {
+        path: "backend/notification",
+        component: NotifyExpore,
         exact: true,
         layout:'admin'
     },
     
+    {
+        path: "seller/notification",
+        component: NotifyExpore,
+        exact: true,
+        layout:'admin'
+    },
+    {
+        path: "buyer/notification",
+        component: NotifyExpore,
+        exact: true,
+        layout:'admin'
+    },
+    // Notification
     {
         path: "section/:id",
         component: Detailcard,

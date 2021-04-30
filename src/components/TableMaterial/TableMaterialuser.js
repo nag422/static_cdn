@@ -311,7 +311,11 @@ export default function TableMaterialuser(props) {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
   const [queryfromodel, setQueryfromodel] = React.useState('');
+  const [querycontent, setQuerycontent] = React.useState('all');
+  const [querycategory, setQuerycategory] = React.useState('all');
+
   const history = useHistory()
 
       // backend operations
@@ -421,7 +425,7 @@ export default function TableMaterialuser(props) {
     const handleSearchsubmit = async (e) => {
 
         setModelopen(false)
-        axios.get(url+'auth/admin/getsingleuser/?username='+(queryfromodel),config).then(res=>{
+        axios.get(url+'auth/admin/getsingleuser/?username='+(queryfromodel)+'&usertype='+(querycategory)+'&usercontent='+(querycontent),config).then(res=>{
           if(!res.data.error){
               
             setRows(res.data.GETmethodData)
@@ -562,7 +566,16 @@ export default function TableMaterialuser(props) {
 
   return (
     <div className={classes.root}>
-      <ConfirmModel setQueryfromodel = {setQueryfromodel} modelopen={modelopen} 
+      <ConfirmModel 
+
+        setQueryfromodel = {setQueryfromodel}
+        setQuerycontent = {setQuerycontent} 
+        setQuerycategory = {setQuerycategory}
+
+        querycontent = {querycontent}
+        querycategory = {querycategory}
+
+        modelopen={modelopen} 
         handleSearchsubmit={handleSearchsubmit} handleClickOpen={handleClickOpen} 
         handleClose={handleClose} 
       />

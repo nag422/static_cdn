@@ -36,7 +36,8 @@ const getCookie = (name) => {
     const config = {
       headers: {
           'content-type': 'multipart/form-data',          
-          'X-CSRFToken': getCookie('csrftoken')
+          'X-CSRFToken': getCookie('csrftoken'),
+          'Authorization': 'Token '+ getToken()
       }
     }
   

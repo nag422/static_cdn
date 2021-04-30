@@ -18,23 +18,21 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
-
-import ReplyIcon from '@material-ui/icons/Reply';
-
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import axios from 'axios';
 import ConfirmModel from '../ModelDialogue/ConfirmModel'
-import MessageModel from '../ModelDialogue/MessageModel'
-
 import UserEditModel from '../ModelDialogue/UserEditModel'
+import CreateIcon from '@material-ui/icons/Create';
 
-import MailIcon from '@material-ui/icons/Mail';
+import Brightness3Icon from '@material-ui/icons/Brightness3';
+import Brightness1Icon from '@material-ui/icons/Brightness1';
+
 import * as authapi from '../../container/api/userapi'
 
 import Moment from 'react-moment';
 import { useHistory } from 'react-router';
-import { Button, DialogActions, DialogContent, DialogContentText, MenuItem, TextField } from '@material-ui/core';
-function createData(id, role, category, name, email, created) {
-  return { id, role, category, name, email, created };
+function createData(id,role, category, name, email, created) {
+  return { id,role, category, name, email, created };
 }
 // const url = "http://127.0.0.1:8000/"
 const url = 'https://app.contentbond.com/'
@@ -56,22 +54,22 @@ const getCookie = (name) => {
 }
 
 const getToken = () => {
-
-  try {
+  
+  try{
     var unparsedtoken = localStorage.getItem('access_token');
     var parsedtoken = JSON.parse(unparsedtoken);
     return parsedtoken.access_token
 
-  } catch {
+  }catch{
     return 'sdfsdfonfsdfsd'
   }
-
+  
 }
 const config = {
   headers: {
-    'content-type': 'multipart/form-data',
-    'X-CSRFToken': getCookie('csrftoken'),
-    'Authorization': 'Token ' + getToken()
+      'content-type': 'multipart/form-data',          
+      'X-CSRFToken': getCookie('csrftoken'),
+      'Authorization': 'Token '+getToken()
   }
 }
 
@@ -91,7 +89,7 @@ const config = {
 //   createData(5,'Admin','Hybrid',faker.name.findName(),faker.internet.email(),   faker.date.future().toLocaleString()),
 //   createData(6,'Admin','Hybrid',faker.name.findName(),faker.internet.email(),   faker.date.future().toLocaleString()),
 //   createData(7,'Admin','Hybrid',faker.name.findName(),faker.internet.email(),   faker.date.future().toLocaleString()),
-
+  
 // ];
 
 
@@ -127,12 +125,15 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'sendertype', numeric: false, disablePadding: true, label: 'Sender' },
-  { id: 'receivertype', numeric: false, disablePadding: false, label: 'Receiver' },
-  { id: 'msg:', numeric: false, disablePadding: false, label: 'Message' },
-  { id: 'created:', numeric: false, disablePadding: false, label: 'Created' },
-
-
+  { id: 'role', numeric: false, disablePadding: true, label: 'Role' },
+  { id: 'category', numeric: false, disablePadding: false, label: 'Category' },
+  { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
+  { id: 'email', numeric: false, disablePadding: false, label: 'Email' },
+  { id: 'is_active', numeric: false, disablePadding: false, label: 'Status' },
+  { id: 'created', numeric: false, disablePadding: false, label: 'Created' },
+  { id: 'group', numeric: false, disablePadding: false, label: 'Group' },
+  { id: 'id', numeric: false, disablePadding: false, label: 'Profile' },
+  
 ];
 
 function EnhancedTableHead(props) {
@@ -141,7 +142,7 @@ function EnhancedTableHead(props) {
     onRequestSort(event, property);
   };
 
-
+ 
 
 
   return (
@@ -161,7 +162,7 @@ function EnhancedTableHead(props) {
             align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'default'}
             sortDirection={orderBy === headCell.id ? order : false}
-            style={{ fontWeight: 800 }}
+            style={{fontWeight:800}}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
@@ -200,13 +201,13 @@ const useToolbarStyles = makeStyles((theme) => ({
   highlight:
     theme.palette.type === 'light'
       ? {
-        color: theme.palette.secondary.main,
-        backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-      }
+          color: theme.palette.secondary.main,
+          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+        }
       : {
-        color: theme.palette.text.primary,
-        backgroundColor: theme.palette.secondary.dark,
-      },
+          color: theme.palette.text.primary,
+          backgroundColor: theme.palette.secondary.dark,
+        },
   title: {
     flex: '1 1 100%',
   },
@@ -228,32 +229,45 @@ const EnhancedTableToolbar = (props) => {
         </Typography>
       ) : (
         <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-          All Messages
+          All Users
         </Typography>
       )}
 
       {numSelected > 0 ? (
         <>
+ 
+        <Tooltip title="Activate">
+          <IconButton aria-label="activate" onClick={() =>props.handleuserClickActivateStatus('activate')}>
+            <Brightness1Icon />            
+          </IconButton>
+        </Tooltip>
 
+        <Tooltip title="Deactivate">
+          <IconButton aria-label="delete" onClick={() =>props.handleuserClickActivateStatus('deactivate')}>
+            <Brightness3Icon />            
+          </IconButton>
+        </Tooltip>
 
-          <Tooltip title="Reply">
-            <IconButton aria-label="reply" onClick={props.handleReplyOpen}>
-              <ReplyIcon />
-            </IconButton>
-          </Tooltip>
-
-          <Tooltip title="Delete">
-            <IconButton aria-label="delete" onClick={props.deleteUsersclick}>
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
-
-
+        <Tooltip title="Edit">
+          <IconButton aria-label="edit" onClick={props.handleuserClickOpen}>
+            <CreateIcon />            
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Delete">
+          <IconButton aria-label="delete" onClick={props.deleteUsersclick}>
+            <DeleteIcon />            
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Assign">
+          <IconButton aria-label="assign" onClick={props.assignuserstogroupclick}>
+            <AssignmentIndIcon />            
+          </IconButton>
+        </Tooltip>
         </>
       ) : (
         <Tooltip title="Filter list">
-          <IconButton aria-label="filter list" onClick={props.handleClickOpen}>
-            <FilterListIcon />
+          <IconButton aria-label="filter list" onClick = {props.handleClickOpen}>
+            <FilterListIcon />            
           </IconButton>
         </Tooltip>
       )}
@@ -289,7 +303,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TableMaterialMessagesSeller(props) {
+export default function DashboardUserTable(props) {
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
@@ -297,219 +311,220 @@ export default function TableMaterialMessagesSeller(props) {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [queryfromodel, setQueryfromodel] = React.useState('');
-  const [togroup, setTogroup] = React.useState('creator');
 
+  const [queryfromodel, setQueryfromodel] = React.useState('');
+  const [querycontent, setQuerycontent] = React.useState('all');
+  const [querycategory, setQuerycategory] = React.useState('all');
 
   const history = useHistory()
+  
 
-  // backend operations
+      // backend operations
 
-  const [rows, setRows] = React.useState([])
+    const [rows,setRows] = React.useState([])
+    
+    const [modelopen, setModelopen] = React.useState(false);
+    const [usereditmodelopen, setUsereditmodelopen] = React.useState(false);
 
-  const [modelopen, setModelopen] = React.useState(false);
-  const [replymodelopen, setReplymodelopen] = React.useState(false);
-  const [usereditmodelopen, setUsereditmodelopen] = React.useState(false);
-
-  const [userupdateform, setUserupdateform] = React.useState({
-    role: 'user',
-    category: 'producer'
-  })
-
-
-
-  const handleChangeeditForm = (e) => {
-    setUserupdateform({
-      ...userupdateform,
-      [e.target.name]: e.target.value
+    const [userupdateform,setUserupdateform] = React.useState({
+      role:'user',
+      category:'producer'
     })
-  };
 
+    
 
-  const handleClickOpen = () => {
-    setModelopen(true);
-  };
-
-  const handleReplyOpen = () => {
-    setReplymodelopen(true)
-  };
-
-  const handleClose = () => {
-    setModelopen(false);
-  };
-
-
-  const handleuserClickOpen = (e) => {
-
-    console.log(selected[0]);
-    if (selected.length > 1) {
-      return alert('select one only')
-    }
-    var updated = rows.filter((val) => +val.id === +(selected[0]));
-    setUsereditmodelopen(true);
-    updated.map(val => {
-      return setUserupdateform({
-        ...userupdateform,
-        role: val.is_staff ? val.is_superuser ? 'superuser' : 'admin' : 'user',
-        category: val.content ? val.content : 'creator'
+    const handleChangeeditForm = (e) => {
+      setUserupdateform({
+          ...userupdateform,
+          [e.target.name]:e.target.value
       })
-    })
-
-
   };
-
-
-
-  const handleuserClose = () => {
-    setUsereditmodelopen(false);
-  };
-
-  const getallusers = async () => {
-    axios.get(url + 'admin/getadminmesssages/?q='+togroup, config).then(res => {
-      if (!res.data.error) {
-
-        setRows(res.data.mesgs)
-
-      }
-    }).catch(err => {
-
-      alert(err.message)
-
-    })
-  }
-  
-  React.useEffect(() => {
-    const cont = history.location.state.contentype
-    setTogroup(cont)
-  }, [])
-
-  React.useEffect(() => {
-    
-    getallusers()
-  }, [togroup])
-
-  const handleMessagesubmit = async (e) => {
-
-    setModelopen(false)
-
-    const form_data = new FormData();
-    form_data.append('message', queryfromodel)
-    form_data.append('to', togroup)
-
-    axios.post(url + 'admin/getadminmesssages/', form_data, config).then(res => {
-      if (!res.data.error) {
-
-        // setRows(res.data.GETmethodData)
-        alert('Message has been sent')
-
-      }
-    }).catch(err => {
-
-      alert(err.message)
-
-    })
-
-
-  }
-
-
-  
-
-  const handleMessageReply = async (e) => {
-
     
 
-    const form_data = new FormData();
-    form_data.append('message', queryfromodel)
-    form_data.append('itemlist', selected)
+      const handleClickOpen = () => {
+        setModelopen(true);
+      };
 
-    axios.post(url + 'admin/getadminmesssagesreply/', form_data, config).then(res => {
-      if (!res.data.error) {
+      const handleClose = () => {
+        setModelopen(false);
+      };
 
-        // setRows(res.data.GETmethodData)
-        alert('Message has been sent')
+
+      const handleuserClickOpen = (e) => {
+        
+        console.log(selected[0]);
+        if (selected.length > 1){
+           return alert('select one only')
+        }
+        var updated = rows.filter((val) => +val.id === +(selected[0]));
+        setUsereditmodelopen(true);
+        updated.map(val=> {
+          return setUserupdateform({
+            ...userupdateform,
+            role:val.is_staff? val.is_superuser? 'superuser':'admin':'user',
+            category:val.content?val.content:'creator'
+        })
+        })
+       
+
+      };
+
+      const handleuserClickActivateStatus = (status) => {
+        alert('Activate status : '+status)
+        const form_data = new FormData();
+        form_data.append('itemlist',selected)
+        form_data.append('status',status)
+        var statusbool = false
+        if(status == "activate"){
+          statusbool = true
+        }
+        
+        axios.post(url+'auth/useractiveordeactivate/',form_data,config).then(res=>{
+
+          var rowsupdateuser = rows.filter((val,key) =>{
+            return [...rows, selected.includes(val.id) ? val.is_active=statusbool:val]
+           
+           });
+           setRows(rowsupdateuser)
+          // if(!res.data.error){
+              
+          //   setRows(res.data.GETmethodData)
+            
+          // }
+          alert('Success')
+      }).catch(err=>{
+          
+          alert(err.message)
+          
+      })
+
 
       }
-    }).catch(err => {
 
-      alert(err.message)
+      const handleuserClose = () => {
+        setUsereditmodelopen(false);
+      };
 
+    const getallusers = async() => {
+      axios.get(url+'auth/admin/saveuser/',config).then(res=>{
+        if(!res.data.error){
+            
+          setRows(res.data.GETmethodData)
+          
+        }
+    }).catch(err=>{
+        
+        alert(err.message)
+        
     })
-    setReplymodelopen(false)
+    }
 
-  }
+    React.useEffect(() => {
+      
+        
+        if(props.usersearchtype != 'undefined'){
+            setQuerycategory(props.usersearchtype)
+            handleSearchsubmit()
+            
+        }
+        if(props.userscontenttype != 'undefined'){
+          setQuerycontent(props.userscontenttype)   
+          handleSearchsubmit()         
+        }
+      
+    }, [props.userscontenttype,props.usersearchtype,querycategory,querycontent])
 
-  const handleUpdateSubmit = async (e) => {
+    const handleSearchsubmit = async (e) => {
+
+        setModelopen(false)
+        axios.get(url+'auth/admin/getsingleuser/?username='+(queryfromodel)+'&usertype='+(querycategory)+'&usercontent='+(querycontent),config).then(res=>{
+          if(!res.data.error){
+              
+            setRows(res.data.GETmethodData)
+            
+          }
+      }).catch(err=>{
+          
+          alert(err.message)
+          
+      })
+      
+
+    }
+
+    const handleUpdateSubmit = async (e) => {
 
     //   setModelopen(false)
-
+     
     const payload = {
-      id: selected[0],
-      role: userupdateform.role,
-      category: userupdateform.category
+      id:selected[0],
+      role:userupdateform.role,
+      category:userupdateform.category
     }
     var response = await authapi.userupdate(payload)
     setUsereditmodelopen(false)
-    if (response.status == 200) {
-      const updatedusers = rows.filter((val, key) => {
-        return [...rows, +val.id == +payload.id ? payload.role === "superuser" ? (val.is_superuser = true, val.is_staff = true, val.is_active = true, val.content = payload.category) : payload.role === "admin" ? (val.is_superuser = false, val.is_staff = true, val.is_active = true, val.content = payload.category) : (val.is_superuser = false, val.is_staff = false, val.is_active = true, val.content = payload.category) : null]
-      })
-      setRows(updatedusers);
+    if(response.status == 200){
+      const updatedusers = rows.filter((val,key) =>{
+        return [...rows, +val.id == +payload.id ? payload.role==="superuser"?(val.is_superuser=true,val.is_staff=true,val.is_active=true,val.content=payload.category):payload.role==="admin"?(val.is_superuser=false,val.is_staff=true,val.is_active=true,val.content=payload.category):(val.is_superuser=false,val.is_staff=false,val.is_active=true,val.content=payload.category):null]
+    })
+    setRows(updatedusers);
       return props.userstatusupdate('success')
-    } else {
+    }else{
       return props.userstatusupdate('error')
+    }
+    
+    
+
+  }
+
+
+    
+
+    const deleteUsers = async () => {
+
+      const form_data = new FormData();
+      form_data.append('itemlist',selected)
+      
+        axios.post(url+'auth/admin/deleteusers/',form_data,config).then(res=>{
+          if(!res.data.error){
+              
+            alert('Successfully Deleted')
+            
+          }
+      }).catch(err=>{
+          
+          alert(err.message)
+          
+      })
+
+    }
+
+    
+
+    const assignuserstoGroup = async () => {
+
+      const form_data = new FormData();
+      form_data.append('itemlist',selected)
+      form_data.append('groupname',props.usergroup)
+      
+      
+        axios.post(url+'admin/assignedtogroup/',form_data,config).then(res=>{
+          if(!res.data.error){
+              
+            alert('Successfully assigned')
+            
+          }
+      }).catch(err=>{
+          
+          alert(err.message)
+          
+      })
+
     }
 
 
-
-  }
-
-
-
-
-  const deleteUsers = async () => {
-
-    // const form_data = new FormData();
-    // form_data.append('itemlist',selected)
-
-    //   axios.post(url+'auth/admin/deleteusers/',form_data,config).then(res=>{
-    //     if(!res.data.error){
-
-    //       alert('Successfully Deleted')
-
-    //     }
-    // }).catch(err=>{
-
-    //     alert(err.message)
-
-    // })
-
-  }
-  const replyTouser = async () => {
-
-    const form_data = new FormData();
-    form_data.append('itemlist', selected)
-
-    axios.post(url + 'auth/admin/deletemessages/', form_data, config).then(res => {
-      if (!res.data.error) {
-
-        alert('Successfully Deleted')
-
-      }
-    }).catch(err => {
-
-      alert(err.message)
-
-    })
-
-  }
-
-
-
-
-
-  // backedn operations
-
+    // backedn operations
+  
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -555,7 +570,7 @@ export default function TableMaterialMessagesSeller(props) {
     setPage(0);
   };
 
-
+  
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
@@ -563,7 +578,16 @@ export default function TableMaterialMessagesSeller(props) {
 
   return (
     <div className={classes.root}>
-      {/* <ConfirmModel setQueryfromodel = {setQueryfromodel} modelopen={modelopen} 
+      <ConfirmModel 
+
+        setQueryfromodel = {setQueryfromodel}
+        setQuerycontent = {setQuerycontent} 
+        setQuerycategory = {setQuerycategory}
+
+        querycontent = {querycontent}
+        querycategory = {querycategory}
+
+        modelopen={modelopen} 
         handleSearchsubmit={handleSearchsubmit} handleClickOpen={handleClickOpen} 
         handleClose={handleClose} 
       />
@@ -575,153 +599,19 @@ export default function TableMaterialMessagesSeller(props) {
         handleUpdateSubmit={handleUpdateSubmit}
         
       
-      /> */}
+      />
 
-      <MessageModel
-
-        modelopen={modelopen}
-
-        handleClickOpen={handleClickOpen}
-
-      >
-
-        <DialogContent>
-
-          <DialogContentText>
-            To Sellers or Buyers
-        </DialogContentText>
-
-          <TextField
-            fullWidth
-            id="select" name="togroup" label="Category"
-            value={togroup} onChange={(e) => setTogroup(e.target.value)}
-            select variant="standard">
-            <MenuItem value="creator">Sellers</MenuItem>
-            <MenuItem value="producer">Buyers</MenuItem>
-            <MenuItem value="requests">Requests</MenuItem>
-            <MenuItem value="all">All</MenuItem>
-          </TextField>
-
-          <TextField
-            onChange={(e) => setQueryfromodel(e.target.value)}
-            autoFocus
-            margin="dense"
-            id="message"
-            label="Message"
-            type="text"
-            placeholder="Enter Message"
-            fullWidth
-            multiline={true}
-            rows="5"
-          />
-
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleMessagesubmit} color="primary">
-            SendMessage
-          </Button>
-        </DialogActions>
-        {/* <TextField
-          onChange={(e)=>setQueryfromodel(e.target.value)}
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Username"
-            type="text"
-            placeholder="enter userName"
-            fullWidth
-          /> */}
-
-
-
-      </MessageModel>
-
-
-
-
-      <MessageModel
-
-        modelopen={replymodelopen}
-
-        handleReplyOpen={handleReplyOpen}
-
-      >
-
-        <DialogContent>
-
-          <DialogContentText>
-            Reply Message
-        </DialogContentText>
-
-         
-
-          <TextField
-            onChange={(e) => setQueryfromodel(e.target.value)}
-            autoFocus
-            margin="dense"
-            id="message"
-            label="Message"
-            type="text"
-            placeholder="Enter Message"
-            fullWidth
-            multiline={true}
-            rows="5"
-          />
-
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={()=>setReplymodelopen(false)} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleMessageReply} color="primary">
-            SendMessage
-          </Button>
-        </DialogActions>
-        {/* <TextField
-          onChange={(e)=>setQueryfromodel(e.target.value)}
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Username"
-            type="text"
-            placeholder="enter userName"
-            fullWidth
-          /> */}
-
-
-
-      </MessageModel>
-
-
-
-      {/* <Button color="primary" variant="contained">Add Message</Button> */}
       
-      <TextField
-            
-            id="select" name="togroup" label=""
-            value={togroup} onChange={(e) => setTogroup(e.target.value)}
-            select variant="standard">
-            <MenuItem value="creator">Sellers</MenuItem>
-            <MenuItem value="producer">Buyers</MenuItem>
-            <MenuItem value="requests">Requests</MenuItem>
-            <MenuItem value="all">All</MenuItem>
-      </TextField>
       <Paper className={classes.paper}>
-
-        <EnhancedTableToolbar
-          deleteUsersclick={deleteUsers}
-          replyTouser={replyTouser}
-          numSelected={selected.length}
-          handleClickOpen={handleClickOpen}
-          handleuserClickOpen={handleuserClickOpen}
-          replymodelopen={replymodelopen}
-          handleReplyOpen ={handleReplyOpen}
-
+        <EnhancedTableToolbar 
+        assignuserstogroupclick={assignuserstoGroup} 
+        deleteUsersclick={deleteUsers} 
+        numSelected={selected.length} 
+        handleClickOpen={handleClickOpen}
+        handleuserClickOpen={handleuserClickOpen}
+        handleuserClickActivateStatus = {handleuserClickActivateStatus}
+        
         />
-
         <TableContainer>
           <Table
             className={classes.table}
@@ -753,7 +643,7 @@ export default function TableMaterialMessagesSeller(props) {
                       aria-checked={isItemSelected}
                       tabIndex={-1}
                       key={row.id}
-                      selected={isItemSelected}
+                     selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
                         <Checkbox
@@ -761,15 +651,18 @@ export default function TableMaterialMessagesSeller(props) {
                           inputProps={{ 'aria-labelledby': labelId }}
                         />
                       </TableCell>
-
+                      <TableCell component="th" id={labelId} scope="row" padding="none">
+                        {row.is_staff?row.is_superuser? 'Superuser':'Admin':'User'}
+                      </TableCell>
                       {/* <TableCell align="left">{row.role}</TableCell> */}
-
-                      <TableCell align="left">{row.sendername}</TableCell>
-                      <TableCell align="left">{row.receivername}</TableCell>
-                      <TableCell align="left">{row.msg ? row.msg : '-------'}</TableCell>
-                      <TableCell align="left"><Moment format="YYYY/MM/DD">{row.created}</Moment></TableCell>
-
-
+                      <TableCell align="left">{row.content?row.content =="creator"?"seller":"buyer":'-------'}</TableCell>
+                      <TableCell align="left">{row.username}</TableCell>
+                      <TableCell align="left">{row.email?row.email:'-----------'}</TableCell>
+                      <TableCell align="left">{row.is_active?'active':'deactivte'}</TableCell>
+                      <TableCell align="left"><Moment format="YYYY/MM/DD">{row.date_joined}</Moment></TableCell>
+                      <TableCell align="left">{row.group?row.group:'---------'}</TableCell>
+                      <TableCell align="left" onClick={(e) => history.push(`/admin/profile/${row.id}`)}>View Profile</TableCell>
+                     
                     </TableRow>
                   );
                 })}

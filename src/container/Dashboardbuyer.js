@@ -10,8 +10,8 @@ import MoneyIcon from '@material-ui/icons/Money';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { amber, green, red, pink } from '@material-ui/core/colors';
 import { Doughnut, Bar } from 'react-chartjs-2';
-import Apexchartdemo from './Apexchartdemo'
-import TrafficByDevice from './TrafficByDevice';
+import Apexchartdemobuyer from './Apexchartdemobuyer'
+import TrafficByDevicebuyer from './TrafficByDevicebuyer';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link,useHistory } from 'react-router-dom';
 import axios from 'axios';
@@ -108,7 +108,7 @@ const Dashboardbuyer = () => {
 
         const loadDashboard = async() => {
             await axios
-            .get(url + "admin/dashboardviewseller/", config)
+            .get(url + "admin/dashboardviewbuyerview/", config)
             .then(resp => { 
 
                 setResponsedata({
@@ -159,7 +159,7 @@ const Dashboardbuyer = () => {
                 </Grid> */}
 
 
-                <Grid item xs={12} sm={3}>
+                <Grid item xs={12} sm={4}>
                     <Paper className={classes.paper}>
                         <Box display="flex" alignItems="flex-start" flexDirection="column">
                             <Typography component='p' className={classes.headingtext}>
@@ -183,7 +183,7 @@ const Dashboardbuyer = () => {
 
                     </Paper>
                 </Grid>
-                <Grid item xs={12} sm={3}>
+                <Grid item xs={12} sm={4}>
                     <Paper className={classes.paper}>
                         <Box display="flex" alignItems="flex-start" flexDirection="column">
                             <Typography component='p' className={classes.headingtext}>
@@ -208,7 +208,7 @@ const Dashboardbuyer = () => {
                     </Paper>
                 </Grid>
 
-                <Grid item xs={12} sm={3}>
+                <Grid item xs={12} sm={4}>
                     <Paper className={classes.paper}>
                         <Box display="flex" alignItems="flex-start" flexDirection="column">
                             <Typography component='p' className={classes.headingtext}>
@@ -237,18 +237,18 @@ const Dashboardbuyer = () => {
             </Grid>
                
 
-            {/* <Grid container spacing={3}>
+            <Grid container spacing={3}>
 
                 <Grid item xs={12} sm={8}>
-                    <Apexchartdemo />
+                    <Apexchartdemobuyer respdatabuyer = {responsedata} />
                 </Grid>
                 <Grid item xs={12} sm={4}>
 
-                    <TrafficByDevice />
+                    <TrafficByDevicebuyer userdata={responsedata} />
 
                 </Grid>
 
-            </Grid> */}
+            </Grid>
         </div>
     )
 }

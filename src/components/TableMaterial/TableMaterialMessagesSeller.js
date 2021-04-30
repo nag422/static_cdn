@@ -19,6 +19,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 
+import EmailIcon from '@material-ui/icons/Email';
 import ReplyIcon from '@material-ui/icons/Reply';
 
 import axios from 'axios';
@@ -226,11 +227,13 @@ const EnhancedTableToolbar = (props) => {
         <Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
           {numSelected} selected
         </Typography>
-      ) : (
+      ) : 
+      (
         <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-          Seller Messages
+          {/* Seller Messages */}
         </Typography>
-      )}
+        )
+      }
 
       {numSelected > 0 ? (
         <>
@@ -251,10 +254,21 @@ const EnhancedTableToolbar = (props) => {
 
         </>
       ) : (
-        <Tooltip title="Filter list">
-          <IconButton aria-label="filter list" onClick={props.handleClickOpen}>
-            <FilterListIcon />
-          </IconButton>
+        <Tooltip title="Compose">
+          {/* <IconButton aria-label="Compose" onClick={props.handleClickOpen}>
+            <EmailIcon />  Compose Message
+          </IconButton> */}
+
+          <Button
+        variant="contained"
+        color="primary"
+        className={classes.button}
+        startIcon={<EmailIcon />}
+        onClick={props.handleClickOpen}
+      >
+        Compose
+      </Button>
+         
         </Tooltip>
       )}
     </Toolbar>
@@ -686,12 +700,12 @@ export default function TableMaterialMessages(props) {
       
       <TextField
             
-            id="select" name="togroup" label="Category"
+            id="select" name="togroup" label=""
             value={togroup} onChange={(e) => setTogroup(e.target.value)}
             select variant="standard">
             <MenuItem value="creator">My Messages</MenuItem>
-            
-            <MenuItem value="all">Other</MenuItem>
+            <MenuItem value="requests">Requests</MenuItem>
+            <MenuItem value="all">Platform Messages</MenuItem>
       </TextField>
       <Paper className={classes.paper}>
 

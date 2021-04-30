@@ -104,10 +104,18 @@ const ContentExplore = (props) => {
                 return [...allproducts, +val.id == +id ? val.isliked = !val.isliked : null]
             })
             setAllproducts(updatedproducts);
-            alert(response.message)
+            
+
+            setProductmessage(response.message)
+            setOpen(true);
+            setAlertseverity('success')
 
         } else {
-            alert('something is went wrong')
+
+            setProductmessage(response.message)
+            setOpen(true);
+            setAlertseverity('error')
+            
         }
 
     }
@@ -119,10 +127,16 @@ const ContentExplore = (props) => {
                 return [...allproducts, +val.id == +id ? val.isfavored = !val.isfavored : null]
             })
             setAllproducts(updatedproducts);
-            alert(response.message)
+            
+            setProductmessage(response.message)
+            setOpen(true);
+            setAlertseverity('success')
 
         } else {
-            alert('something is went wrong')
+           
+            setProductmessage(response.message)
+            setOpen(true);
+            setAlertseverity('error')
         }
 
 

@@ -53,10 +53,6 @@ const initialValues = {
 
 
 
-
-
-
-
 };
 
 const UploadProduct = (props) => {

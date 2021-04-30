@@ -20,6 +20,8 @@ import { getUsernameChips } from './api/authapi';
 import { getProductChips, ProductUserSave, ProductGroupSave } from './api/cardactionsapi'
 import UserlistIcon from '../components/IconList/UserlistIcon';
 import Producticonlist from 'components/IconList/Producticonlist';
+import DashboardUserTable from '../components/TableMaterial/DashboardUserTable';
+import { useHistory } from 'react-router';
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -59,9 +61,14 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const UsersList = () => {
+const UsersListDashboard = () => {
 
     const calsses = useStyles();
+    const history = useHistory()
+
+    const usersearchtype = history.location.state.usertype
+    const userscontenttype = history.location.state.contentype
+
     const [usercategory, setUsercategory] = React.useState('creator')
     const [usertype, setUsertype] = React.useState('user')
     const [productlistvalue, setProductlistvalue] = React.useState('')
@@ -196,19 +203,26 @@ const UsersList = () => {
     }
 
     React.useEffect(() => {
-        getalluserss()
-        getallgroups()
-        return () => {
+        
+        
+
+        const getuserprepare = async () => {
+            // await getalluserss()
+            await getallgroups()
 
         }
+        getuserprepare()
+        
+        
     }, [])
-    React.useEffect(() => {
 
-        getproductlist()
-        return () => {
+    // React.useEffect(() => {
 
-        }
-    }, [])
+    //     getproductlist()
+    //     return () => {
+
+    //     }
+    // }, [])
 
 
     // Users
@@ -659,11 +673,11 @@ const UsersList = () => {
                             })}
                         </Select>
                     </FormControl>
-                    <TableMaterialuser usergroup={usergroup} userstatusupdate={userstatusUpdate} />
+                    <DashboardUserTable usergroup={usergroup} userstatusupdate={userstatusUpdate} usersearchtype={usersearchtype} userscontenttype={userscontenttype} />
                 </Grid>
             </Grid>
         </div>
     )
 }
 
-export default UsersList
+export default UsersListDashboard

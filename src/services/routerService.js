@@ -29,6 +29,7 @@ import MessageAdmin from '../container/admincopy/container/MessageAdmin'
 import MessageSeller from '../container/MessageSeller'
 import MessageBuyer from '../container/MessageBuyer'
 import NotifyExpore from '../container/NotifyExpore'
+import UsersListDashboard from '../container/UsersListDashboard'
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
     //Auth url
@@ -64,6 +65,18 @@ export default [
     },
     {
         path: "users",
+        component: UsersList,
+        exact: true,
+        layout:'admin'
+    },
+    {
+        path: "dasboard/users",
+        component: UsersListDashboard,
+        exact: true,
+        layout:'admin'
+    },
+    {
+        path: "dasboard/messages",
         component: UsersList,
         exact: true,
         layout:'admin'

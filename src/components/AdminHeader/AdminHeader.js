@@ -32,22 +32,17 @@ import DraftsIcon from '@material-ui/icons/Drafts';
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import SendIcon from '@material-ui/icons/Send';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import StarBorder from '@material-ui/icons/StarBorder';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import GroupIcon from '@material-ui/icons/Group';
 import clsx from 'clsx';
 import { Box, Collapse, ListSubheader, Paper } from '@material-ui/core';
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
-import { Link,useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import SimpleList from '../ListSimple/SimpleList'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import GroupWorkIcon from '@material-ui/icons/GroupWork';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import LocalMallIcon from '@material-ui/icons/LocalMall';
-import Brightness6Icon from '@material-ui/icons/Brightness6';
-import Brightness7Icon from '@material-ui/icons/Brightness7';
 import DynamicFeedIcon from '@material-ui/icons/DynamicFeed';
 import { useDispatch, useSelector } from 'react-redux';
 import { signoutUser, themodechanger } from '../../actions/AuthActions'
@@ -288,31 +283,31 @@ const AdminHeader = (props) => {
   }
 
   const handleMessageClick = () => {
-    if(response.is_superuser){
+    if (response.is_superuser) {
       history.push('/admin/backend/message')
-    }else{
-      if(profileresponse.content=="creator"){
+    } else {
+      if (profileresponse.content == "creator") {
         history.push('/admin/seller/message')
       }
-      if(profileresponse.content=="producer"){
+      if (profileresponse.content == "producer") {
         history.push('/admin/producer/message')
       }
 
-    }  
+    }
   }
 
   const handleNotificationClick = () => {
-    if(response.is_superuser){
+    if (response.is_superuser) {
       history.push('/admin/backend/notification')
-    }else{
-      if(profileresponse.content=="creator"){
+    } else {
+      if (profileresponse.content == "creator") {
         history.push('/admin/seller/notification')
       }
-      if(profileresponse.content=="producer"){
+      if (profileresponse.content == "producer") {
         history.push('/admin/producer/notification')
       }
 
-    } 
+    }
 
   }
 
@@ -351,7 +346,11 @@ const AdminHeader = (props) => {
     >
       <Link to="/admin/profile" style={{ textDecoration: "none", color: "inherit" }}><MenuItem onClick={handleMenuClose}>Profile</MenuItem></Link>
       {/* <MenuItem onClick={handleMenuClose}>My account</MenuItem> */}
+      <MenuItem onClick={switchhandleChange}>Theme</MenuItem>
       <MenuItem onClick={handleLogout}>Logout</MenuItem>
+
+
+
     </Menu>
   );
 
@@ -496,13 +495,13 @@ const AdminHeader = (props) => {
               </ListItem>
             </Link>
             <Link to="/admin/upload/product" style={{ textDecoration: 'none', color: 'inherit' }}>
-            <ListItem button>
-              <ListItemIcon>
-                <PublishIcon />
-              </ListItemIcon>
-              <ListItemText primary="UploadProduct" />
-            </ListItem>
-          </Link>
+              <ListItem button>
+                <ListItemIcon>
+                  <PublishIcon />
+                </ListItemIcon>
+                <ListItemText primary="UploadProduct" />
+              </ListItem>
+            </Link>
           </>
           : null}
 
@@ -526,7 +525,7 @@ const AdminHeader = (props) => {
               <ListItemIcon>
                 <MenuBookIcon />
               </ListItemIcon>
-              <ListItemText primary={profileresponse.content == "creator" ? "Myuploads" : "Explore"} />
+              <ListItemText primary={profileresponse.content == "creator" ? "My Uploads" : "Explore"} />
             </ListItem>
           </Link>
         }
@@ -560,7 +559,7 @@ const AdminHeader = (props) => {
               <ListItemIcon>
                 <FavoriteIcon />
               </ListItemIcon>
-              <ListItemText primary="Requests" />
+              <ListItemText primary="Buyer Requests" />
             </ListItem>
           </Link>
         }
@@ -585,7 +584,7 @@ const AdminHeader = (props) => {
               <ListItemIcon>
                 <SendIcon />
               </ListItemIcon>
-              <ListItemText primary="Request" />
+              <ListItemText primary="Contnet Request" />
             </ListItem>
           </Link>
           : null}
@@ -596,14 +595,44 @@ const AdminHeader = (props) => {
         <ListItemText primary="Drafts" />
       </ListItem> */}
 
-        <ListItem button onClick={() => setCollapseopen(!collapseopen)}>
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary="Inbox" />
-          {collapseopen ? <ExpandLess /> : <ExpandMore />}
-        </ListItem>
-        <Collapse in={collapseopen} timeout="auto" unmountOnExit>
+        {/* <ListItem button onClick={() => setCollapseopen(!collapseopen)}> */}
+        {profileresponse.content == "creator" && !response.is_superuser ?
+          <Link to={"/admin/seller/message"} style={{ textDecoration: 'none', color: 'inherit' }}>
+            <ListItem button>
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary="Messages" />
+              {/* {collapseopen ? <ExpandLess /> : <ExpandMore />} */}
+            </ListItem>
+          </Link>
+          : null}
+        {profileresponse.content == "producer" && !response.is_superuser ?
+          <Link to={"/admin/buyer/message"} style={{ textDecoration: 'none', color: 'inherit' }}>
+            <ListItem button>
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary="Messages" />
+              {/* {collapseopen ? <ExpandLess /> : <ExpandMore />} */}
+            </ListItem>
+          </Link>
+          : null}
+        {response.is_superuser &&
+          <Link to={"/admin/backend/message"} style={{ textDecoration: 'none', color: 'inherit' }}>
+            <ListItem button>
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary="Messages" />
+              {/* {collapseopen ? <ExpandLess /> : <ExpandMore />} */}
+            </ListItem>
+          </Link>
+
+
+
+        }
+        {/* <Collapse in={collapseopen} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             <ListItem button className={classes.nested}>
               <ListItemIcon>
@@ -612,7 +641,7 @@ const AdminHeader = (props) => {
               <ListItemText primary="Starred" />
             </ListItem>
           </List>
-        </Collapse>
+        </Collapse> */}
       </List>
       <Divider />
       {/* <ListItem button>
@@ -632,12 +661,12 @@ const AdminHeader = (props) => {
       />
       </Box> */}
 
-      <ListItem button onClick={switchhandleChange}>
+      {/* <ListItem button onClick={switchhandleChange}>
         <ListItemIcon>
           {switchstate ? <Brightness7Icon /> : <Brightness6Icon />}
         </ListItemIcon>
         <ListItemText primary="Theme Mode" />
-      </ListItem>
+      </ListItem> */}
 
     </div>
 
@@ -649,7 +678,7 @@ const AdminHeader = (props) => {
       <div className={classes.root}>
 
         <Drawer
-          variant="permanent" 
+          variant="permanent"
           // variant="persistent"
           // classes={{ paper:classes.drawerPaper}} 
           className={clsx(classes.drawer, {
@@ -691,7 +720,7 @@ const AdminHeader = (props) => {
                 className={classes.menuButton}
                 color="inherit"
                 aria-label="open drawer"
-                style={{ border: '1px solid gray', marginLeft: `${drawerWidth - 195}px` }}
+                style={{ border: '1px solid gray', marginLeft: `${drawerWidth - 240}px` }}
 
               >
                 <MenuIcon fontSize="small" />
@@ -725,31 +754,31 @@ const AdminHeader = (props) => {
               <div className={classes.sectionDesktop}>
 
 
-                <IconButton 
-                aria-label="show 4 new mails" 
-                color="inherit"
-                onClick={handleNotificationClick}
+                <IconButton
+                  aria-label="show 4 new mails"
+                  color="inherit"
+                  onClick={handleNotificationClick}
                 >
-                  <Badge badgeContent={''} color="secondary">                
+                  <Badge badgeContent={''} color="secondary">
                     <NotificationsIcon />
                   </Badge>
-            </IconButton>
+                </IconButton>
 
 
-                
-            <IconButton
-              
-              aria-label="show 17 new notifications"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleMessageClick}
-              color="inherit"
-            >
-              <Badge badgeContent={''} color="secondary">
-              <MailIcon />
-              </Badge>
-              
-            </IconButton>
+
+                <IconButton
+
+                  aria-label="show 17 new notifications"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  onClick={handleMessageClick}
+                  color="inherit"
+                >
+                  <Badge badgeContent={''} color="secondary">
+                    <MailIcon />
+                  </Badge>
+
+                </IconButton>
 
 
 

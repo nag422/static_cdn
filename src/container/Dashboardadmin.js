@@ -154,10 +154,25 @@ const Dashboardadmin = () => {
 
                 <Grid item xs={12} sm={3}>
                     <Paper className={classes.paper}>
+
+                   
                         <Box display="flex" alignItems="flex-start" flexDirection="column">
+                        <Link
+                            to={{
+                                pathname: "/admin/dasboard/users",
+                                // search: "?sort=name",
+                                // hash: "#the-hash",
+                                state: { fromDashboard: true, contentype:'creator' }
+                            }}
+                        >
+                            
                             <Typography component='p' className={classes.headingtext}>
                                 SELLERS
-                        </Typography>
+                            </Typography>
+                            </Link>
+
+
+
                             <Box component='div' className={classes.pricetext}>
                                 {responsedata.sellers} 
 
@@ -181,9 +196,19 @@ const Dashboardadmin = () => {
                 <Grid item xs={12} sm={3}>
                     <Paper className={classes.paper}>
                         <Box display="flex" alignItems="flex-start" flexDirection="column">
+                        <Link
+                            to={{
+                                pathname: "/admin/dasboard/users",
+                                // search: "?sort=name",
+                                // hash: "#the-hash",
+                                state: { fromDashboard: true, contentype:'producer' }
+                            }}
+                        >
+                            
                             <Typography component='p' className={classes.headingtext}>
                                 BUYERS
                         </Typography>
+                        </Link>
                             <Box component='div' className={classes.pricetext}>
                             {responsedata.buyers}    
                             {/* <Box component="p"
@@ -205,9 +230,18 @@ const Dashboardadmin = () => {
                 <Grid item xs={12} sm={3}>
                     <Paper className={classes.paper}>
                         <Box display="flex" alignItems="flex-start" flexDirection="column">
+                        <Link
+                            to={{
+                                pathname: "/admin/backend/message",
+                                // search: "?sort=name",
+                                // hash: "#the-hash",
+                                state: { fromDashboard: true, contentype:'creator' }
+                            }}
+                        >
                             <Typography component='p' className={classes.headingtext}>
                                SELLER ENQUIRIES
                         </Typography>
+                        </Link>
                             <Box component='div' className={classes.pricetext}>
                             {responsedata.sellerenquiries} 
                                 {/* <Box component="div"
@@ -230,9 +264,18 @@ const Dashboardadmin = () => {
                 <Grid item xs={12} sm={3}>
                     <Paper className={classes.paper}>
                         <Box display="flex" alignItems="flex-start" flexDirection="column">
+                        <Link
+                            to={{
+                                pathname: "/admin/backend/message",
+                                // search: "?sort=name",
+                                // hash: "#the-hash",
+                                state: { fromDashboard: true, contentype:'producer' }
+                            }}
+                        >
                             <Typography component='p' className={classes.headingtext}>
                             BUYER ENQUIRIES
                         </Typography>
+                        </Link>
                             <Box component='div' className={classes.pricetext}>
                             {responsedata.buyerenquiries} 
                                 {/* <Box component="div"

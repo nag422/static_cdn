@@ -29,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
   media: {
     height: 0,
     paddingTop: '56.25%', // 16:9
+    '&:hover':{
+      cursor:'pointer'
+    }
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -46,6 +49,11 @@ const useStyles = makeStyles((theme) => ({
   small: {
     width: theme.spacing(3),
     height: theme.spacing(3)
+  },
+  title:{
+    '&:hover':{
+      cursor:'pointer'
+    }
   }
 }));
 
@@ -140,8 +148,9 @@ export default function ContentExplorecardAdmin(props) {
             </Menu>
           </>
         }
+        className={classes.title}
         title={props.val.title.substring(0,48)}
-        subheader={<Moment format="YYYY/MM/DD HH:MM:SS">{props.val.created.toLocaleString()}</Moment>}
+        subheader={<Moment format="D MMM YYYY hh:mm a">{props.val.created}</Moment>}
         onClick={(e)=>detailPagenavigator(props.val.id,props.val.isfavored)}
       />
       <CardMedia

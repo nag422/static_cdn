@@ -133,9 +133,9 @@ export class Profiledynamic extends Component {
               {this.props.updateprops.updaterror &&
                 <Alert severity="error">Update is Failed!</Alert>
               }
-              <CardHeader title="Profile">
+              {/* <CardHeader title="Profile">
 
-              </CardHeader>
+              </CardHeader> */}
               <CardContent>
 
 
@@ -245,7 +245,7 @@ export class Profiledynamic extends Component {
           <Grid item md={4} xs={12} sm={12}>
 
             <Card>
-              <CardHeader subheader={
+              {/* <CardHeader subheader={
                 <Box display="flex" justifyContent="space-between">
                   <Button
                     variant="contained"
@@ -268,14 +268,14 @@ export class Profiledynamic extends Component {
                 </Box>
               }>
 
-              </CardHeader>
+              </CardHeader> */}
               <CardContent>
-                <Box display="flex" justifyContent="center" style={{ position: 'relative' }}>
+                {/* <Box display="flex" justifyContent="center" style={{ position: 'relative' }}>
                   <Box component="img" alt="profile" src={require('../assets/img/user-4.jpg').default} style={{ borderRadius: '50%', height: '150px', width: '150px' }} />
-                </Box>
+                </Box> */}
                 <Box display="flex" flexDirection="row" justifyContent="space-between" p={3}>
                   <Typography component='p' variant='body2' >Joined On:  <br></br>{JSON.stringify(Date())}</Typography>
-                  <Typography component='p' variant='body2' >Category:  {this.state.content}</Typography>
+                  <Typography component='p' variant='body2' >Category:  {this.state.content == "creator"?"Seller":"Buyer"}</Typography>
 
                 </Box>
 

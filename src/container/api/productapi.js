@@ -48,7 +48,18 @@ export const addProductwithApiRequest = async (productData) => {
     form_data.append('category', productData.category)
     form_data.append('description', productData.description)
     form_data.append('price', productData.price)
+    
+    // form_data.append('user', productData.user)
     form_data.append('rights', productData.rights)
+    form_data.append('language', productData.language)
+    form_data.append('genre', productData.genre)
+    form_data.append('keywords', productData.keywords)
+    form_data.append('country', productData.country)
+    form_data.append('rightsregion', productData.rightsregion)
+    form_data.append('termsconditions', productData.termsconditions)
+    form_data.append('runtime', productData.runtime)
+    form_data.append('numbofvideos', productData.numbofvideos)
+
     form_data.append('thumbnail', productData.thumbnail)
     form_data.append('thumbnail1', productData.thumbnail1)
     form_data.append('thumbnail2', productData.thumbnail2)
@@ -173,3 +184,20 @@ export const addProductwithApiRequest = async (productData) => {
   
     return statuscode
   }
+
+// export  const ProducerRequestapi = async (payload) => {
+
+//     let productData = payload;
+//     let statuscode = ''
+//     const config = {
+//       headers: {
+//         'content-type': 'multipart/form-data',
+//         'X-CSRFToken': getCookie('csrftoken'),
+//         'Authorization': 'Token b3ca630db1d487224dad3a90251e186b9c699d40'
+//       }
+//     }
+
+//     const form_data = new FormData();
+//     console.log(payload)
+
+//   }

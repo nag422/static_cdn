@@ -19,6 +19,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 
+import EmailIcon from '@material-ui/icons/Email';
 import ReplyIcon from '@material-ui/icons/Reply';
 
 import axios from 'axios';
@@ -228,7 +229,7 @@ const EnhancedTableToolbar = (props) => {
         </Typography>
       ) : (
         <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-          Seller Messages
+          {/* Seller Messages */}
         </Typography>
       )}
 
@@ -251,10 +252,27 @@ const EnhancedTableToolbar = (props) => {
 
         </>
       ) : (
-        <Tooltip title="Filter list">
-          <IconButton aria-label="filter list" onClick={props.handleClickOpen}>
-            <FilterListIcon />
-          </IconButton>
+        // <Tooltip title="Filter list">
+        //   <IconButton aria-label="filter list" onClick={props.handleClickOpen}>
+        //     <FilterListIcon />
+        //   </IconButton>
+        // </Tooltip>
+
+        <Tooltip title="Compose">
+          {/* <IconButton aria-label="Compose" onClick={props.handleClickOpen}>
+            <EmailIcon />  Compose Message
+          </IconButton> */}
+
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            startIcon={<EmailIcon />}
+            onClick={props.handleClickOpen}
+          >
+            Compose
+          </Button>
+
         </Tooltip>
       )}
     </Toolbar>
@@ -365,7 +383,7 @@ export default function TableMaterialMessagesBuyer(props) {
   };
 
   const getallusers = async () => {
-    axios.get(url + 'admin/getbuyermessages/?q='+togroup, config).then(res => {
+    axios.get(url + 'admin/getbuyermessages/?q=' + togroup, config).then(res => {
       if (!res.data.error) {
 
         setRows(res.data.mesgs)
@@ -407,11 +425,11 @@ export default function TableMaterialMessagesBuyer(props) {
   }
 
 
-  
+
 
   const handleMessageReply = async (e) => {
 
-    
+
 
     const form_data = new FormData();
     form_data.append('message', queryfromodel)
@@ -585,7 +603,7 @@ export default function TableMaterialMessagesBuyer(props) {
             To Sellers or Buyers
         </DialogContentText> */}
 
-         
+
 
           <TextField
             onChange={(e) => setQueryfromodel(e.target.value)}
@@ -641,7 +659,7 @@ export default function TableMaterialMessagesBuyer(props) {
             Reply Message
         </DialogContentText>
 
-         
+
 
           <TextField
             onChange={(e) => setQueryfromodel(e.target.value)}
@@ -658,7 +676,7 @@ export default function TableMaterialMessagesBuyer(props) {
 
         </DialogContent>
         <DialogActions>
-          <Button onClick={()=>setReplymodelopen(false)} color="primary">
+          <Button onClick={() => setReplymodelopen(false)} color="primary">
             Cancel
           </Button>
           <Button onClick={handleMessageReply} color="primary">
@@ -683,15 +701,15 @@ export default function TableMaterialMessagesBuyer(props) {
 
 
       {/* <Button color="primary" variant="contained">Add Message</Button> */}
-      
+
       <TextField
-            
-            id="select" name="togroup" label="Category"
-            value={togroup} onChange={(e) => setTogroup(e.target.value)}
-            select variant="standard">
-            <MenuItem value="producer">My Messages</MenuItem>
-            
-            <MenuItem value="all">Other</MenuItem>
+
+        id="select" name="togroup" label=""
+        value={togroup} onChange={(e) => setTogroup(e.target.value)}
+        select variant="standard">
+        <MenuItem value="producer">My Messages</MenuItem>
+        <MenuItem value="requests">Requests</MenuItem>
+        <MenuItem value="all">Platform Messages</MenuItem>
       </TextField>
       <Paper className={classes.paper}>
 
@@ -702,7 +720,7 @@ export default function TableMaterialMessagesBuyer(props) {
           handleClickOpen={handleClickOpen}
           handleuserClickOpen={handleuserClickOpen}
           replymodelopen={replymodelopen}
-          handleReplyOpen ={handleReplyOpen}
+          handleReplyOpen={handleReplyOpen}
 
         />
 
@@ -751,7 +769,7 @@ export default function TableMaterialMessagesBuyer(props) {
                       {/* <TableCell align="left">{row.sendername}</TableCell>
                       <TableCell align="left">{row.receivername}</TableCell> */}
                       <TableCell align="left">{row.msg ? row.msg : '-------'}</TableCell>
-                      <TableCell align="left"><Moment format="YYYY/MM/DD">{row.created}</Moment></TableCell>
+                      <TableCell align="left"><Moment format="YYYY/MM/DD h:mm a">{row.created}</Moment></TableCell>
 
 
                     </TableRow>

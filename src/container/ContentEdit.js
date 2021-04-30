@@ -52,6 +52,14 @@ const ContentEdit = (props) => {
         thumbnail3: "",
         title: "",
         videofile: "",
+        runtime: 0,
+        numbofvideos: 0,
+        language: '',
+        genre: '',
+        keywords: '',
+        country: '',
+        rightsregion: '',
+        termsconditions: '',
     })
 
     function Alert(props) {
@@ -86,7 +94,16 @@ const ContentEdit = (props) => {
                     videofile: data.obs[0].videofile,
                     rights:data.obs[0].rights,
                     castncrew:data.obs[0].castncrew,
-                    price:data.obs[0].price
+                    price:data.obs[0].price,
+                    runtime:data.obs[0].runtime,
+                    numbofvideos: data.obs[0].numbofvideos,
+                    language: data.obs[0].language,
+                    genre: data.obs[0].genre,
+                    keywords: data.obs[0].keywords,
+                    country: data.obs[0].country,
+                    rightsregion: data.obs[0].rightsregion,
+                    termsconditions: data.obs[0].termsconditions,
+
                     
 
                 })
@@ -148,8 +165,9 @@ const ContentEdit = (props) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(post)
-        const resp =  await editProductsave(post)
-        console.log(resp)
+        // const resp =  await editProductsave(post)
+        alert('something is went wrong')
+        // console.log(resp)
         
     }
 
@@ -220,7 +238,7 @@ const ContentEdit = (props) => {
                                                         fullWidth
 
                                                     /><br></br>
-                                                    <TextField
+                                                    {/* <TextField
                                                         value= {post.castncrew}
                                                         name="castncrew"
                                                         onChange={handleChnage}
@@ -231,7 +249,7 @@ const ContentEdit = (props) => {
                                                         style={{marginBottom:15}}
                                                         InputLabelProps = {{shrink:true}}
                                                         fullWidth
-                                                    /><br></br>
+                                                    /><br></br> */}
                                                     <TextField
                                                         value= {post.price}
                                                         name="price"
@@ -243,6 +261,97 @@ const ContentEdit = (props) => {
                                                         style={{marginBottom:15}}
                                                         InputLabelProps = {{shrink:true}}
                                                         fullWidth
+                                                    /><br></br>
+                                                    <TextField
+                                                        value= {post.runtime}
+                                                        onChange={handleChnage}
+                                                        name="runtime"
+                                                        label="Runtime in (minuts)"
+                                                        type="text"
+                                                        variant="outlined"
+                                                        fullWidth
+                                                        style={{marginBottom:15}}
+                                                        InputLabelProps = {{shrink:true}}
+                                                    /><br></br>
+                                                    <TextField
+                                                        value= {post.numbofvideos}
+                                                        onChange={handleChnage}
+                                                        name="numbofvideos"
+                                                        label="Number of Videos"
+                                                        type="text"
+                                                        variant="outlined"
+                                                        fullWidth
+                                                        style={{marginBottom:15}}
+                                                        InputLabelProps = {{shrink:true}}
+                                                    /><br></br>
+                                                    <TextField
+                                                        value= {post.language}
+                                                        onChange={handleChnage}
+                                                        name="language"
+                                                        label="Language"
+                                                        type="text"
+                                                        variant="outlined"
+                                                        fullWidth
+                                                        style={{marginBottom:15}}
+                                                        InputLabelProps = {{shrink:true}}
+                                                    /><br></br>
+                                                    <TextField
+                                                        value= {post.genre}
+                                                        onChange={handleChnage}
+                                                        name="genre"
+                                                        label="Genre"
+                                                        type="text"
+                                                        variant="outlined"
+                                                        fullWidth
+                                                        style={{marginBottom:15}}
+                                                        InputLabelProps = {{shrink:true}}
+                                                    /><br></br>
+                                                    <TextField
+                                                        value= {post.keywords}
+                                                        onChange={handleChnage}
+                                                        name="keywords"
+                                                        label="Keywords"
+                                                        type="text"
+                                                        variant="outlined"
+                                                        fullWidth
+                                                        style={{marginBottom:15}}
+                                                        InputLabelProps = {{shrink:true}}
+                                                    /><br></br>
+                                                    <TextField
+                                                        value= {post.country}
+                                                        onChange={handleChnage}
+                                                        name="country"
+                                                        label="Country"
+                                                        type="text"
+                                                        variant="outlined"
+                                                        fullWidth
+                                                        style={{marginBottom:15}}
+                                                        InputLabelProps = {{shrink:true}}
+                                                    /><br></br>
+                                                    <TextField
+                                                        value= {post.rightsregion}
+                                                        onChange={handleChnage}
+                                                        name="rightsregion"
+                                                        label="Rights Region"
+                                                        type="text"
+                                                        variant="outlined"
+                                                        fullWidth
+                                                        style={{marginBottom:15}}
+                                                        InputLabelProps = {{shrink:true}}
+                                                    /><br></br>
+                                                    <TextField
+                                                        value= {post.termsconditions}
+                                                        onChange={handleChnage}
+                                                        name="termsconditions"
+                                                        label="Terms and Conditions"
+                                                        type="text"
+                                                        variant="outlined"
+                                                        fullWidth
+                                                        multiline={true}
+                                                        rows={6}
+                                                        style={{marginBottom:15}}
+                                                        InputLabelProps = {{shrink:true}}
+
                                                     /><br></br>
                                                     {/* <Input type="file" id="thumbnail" name="thumbnail" onChange={handlefileChange}></Input>
                                                  <Input type="file" id="video" name="video" onChange={handlefileChange}></Input> */}

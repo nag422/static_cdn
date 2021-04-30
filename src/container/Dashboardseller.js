@@ -10,8 +10,8 @@ import MoneyIcon from '@material-ui/icons/Money';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { amber, green, red, pink } from '@material-ui/core/colors';
 import { Doughnut, Bar } from 'react-chartjs-2';
-import Apexchartdemo from './Apexchartdemo'
-import TrafficByDevice from './TrafficByDevice';
+import Apexchartdemo from './Apexchartdemobuyerseller'
+import TrafficByDeviceseller from './TrafficByDeviceseller';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link,useHistory } from 'react-router-dom';
 import axios from 'axios';
@@ -242,18 +242,18 @@ const Dashboardseller = () => {
             </Grid>
                
 
-            {/* <Grid container spacing={3}>
+            <Grid container spacing={3}>
 
                 <Grid item xs={12} sm={8}>
-                    <Apexchartdemo />
+                    <Apexchartdemo respdataseller={responsedata} />
                 </Grid>
                 <Grid item xs={12} sm={4}>
 
-                    <TrafficByDevice />
+                    <TrafficByDeviceseller userdata={responsedata} />
 
                 </Grid>
 
-            </Grid> */}
+            </Grid>
         </div>
     )
 }

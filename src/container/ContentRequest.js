@@ -1,4 +1,4 @@
-import { Box, Button, Card, FormControl, FormControlLabel, Grid, Input, Paper, Typography } from '@material-ui/core'
+import { Box, Button, Card, FormControl, FormControlLabel, Grid, Input, MenuItem, Paper, TextField, Typography } from '@material-ui/core'
 import React from 'react'
 import CustomizedDate from '../components/ModelDialogue/CustomizedDate'
 import CustomizedInputs from '../components/ModelDialogue/CustomizedInputs'
@@ -20,10 +20,10 @@ const creatorSchema = Yup.object().shape({
         .required("Title is should not be empty"),
     description: Yup.string()
         .required("Description is should not be empty"),
-    rights: Yup.string()
-        .required("Rights is should not be empty"),
-    castncrew: Yup.string()
-        .required("CastnCrew is should not be empty"),
+    // rights: Yup.string()
+    //     .required("Rights is should not be empty"),
+    // castncrew: Yup.string()
+    //     .required("CastnCrew is should not be empty"),
     price: Yup.number()
         .required("Price is should not be empty"),
     // createdat:Yup.date().required("Date Should not be empty"),
@@ -46,9 +46,15 @@ const creatorequestschema = Yup.object().shape({
 const initialValues = {
     title: "",
     description: "",
-    rights: "",
-    castncrew: "",
-    price: 0
+    price: 0,
+    runtime: 0,
+    numbofvideos: 0,
+    language: '',
+    genre: '',
+    keywords: '',
+    country: '',
+    rightsregion: '',
+    termsconditions: '',
 };
 const initialcreatorValues = {
     title: ""
@@ -60,11 +66,11 @@ const ContentRequest = (props) => {
     // const selectcategoryFields = [{ label: 'Creator', value: 'creator' }, { label: 'Producer', value: 'Producer' }, { label: 'Hybrid', value: 'hybrid' }, { label: 'None of the above', value: 'none' }]
     // const [requestfields, setRequestfields] = React.useState([{ label: 'Title' }, { label: 'Description' }, { label: 'Thumbnail' }, { label: 'Video File' }, { label: 'Rights Details' }, { label: 'Cast and Crew' }, { label: 'Cost of the project' }, { label: 'Date of Creation' }, { label: 'Cost' }])
     // const [issubmitting, setIssubmitting] = React.useState(false);
-
+    
     const [open, setOpen] = React.useState(false)
     const [alertseverity, setAlertseverity] = React.useState('success')
     const [productmessage, setProductmessage] = React.useState('')
-
+    const [rights, setRights] = React.useState('exclusive');
     const [selectedDate, setSelectedDate] = React.useState(new Date());
     const [selectedCategory, setSelectedCategory] = React.useState('');
 
@@ -91,17 +97,32 @@ const ContentRequest = (props) => {
 
         const finvalues = {
             ...values,
-            author_type: 'producer',
+            author_type: 'creator',
             category: selectedCategory
 
         }
 
-        // return await dispatch(
+        const saverequestProductResponse = await saverequestProductwithApiRequest(finvalues)
+
+        // return dispatch(
         //     requestProduct(
         //         finvalues,
         //         history
         //     )
         // );
+
+        if (saverequestProductResponse === 200) {
+
+            setProductmessage("Successfully request has been sent.")
+            setOpen(true);
+            setAlertseverity('success')
+
+        } else {
+            setProductmessage("Something is went wrong")
+            setOpen(true);
+            setAlertseverity('success')
+
+        }
 
     };
 
@@ -151,7 +172,8 @@ const ContentRequest = (props) => {
             thumbnail2: selectedfile.thumbnail2,
             thumbnail3: selectedfile.thumbnail3,
             category: selectedCategory,
-            createdat: selectedDate
+            createdat: selectedDate,            
+            rights:rights,
         };
 
         const saveProductResponse = await addProductwithApiRequest(finvalues)
@@ -223,14 +245,14 @@ const ContentRequest = (props) => {
 
             {userresponse.content == "creator" && !userresponse.user_ptr.is_superuser ?
                 <Grid container spacing={1}>
-
+                    {props.match.path == "/admin/contentrequest" ? 
                     <Grid item md={6} sm={12} xs={12}>
                         <Card>
-                            <Box p={1}>
+                            {/* <Box p={1}>
                                 <Typography>
                                     Requirements (Seller)
                    </Typography>
-                            </Box>
+                            </Box> */}
                             <Box p={2}>
                                 <Formik
                                     initialValues={initialcreatorValues}
@@ -246,6 +268,8 @@ const ContentRequest = (props) => {
                                                     type="text"
                                                     required
                                                     textvariant="outlined"
+                                                    multiline={true}
+                                                    rows="5"
                                                 />
                                                 <Box style={{ marginLeft: '-1%' }}>
                                                     <CustomizedSelect
@@ -268,8 +292,8 @@ const ContentRequest = (props) => {
                             </Box>
                         </Card>
                     </Grid>
-
-
+                    :null}
+{props.match.path == "/admin/upload" ? 
                     <Grid item md={6} sm={12} xs={12}>
                         <Card>
                             <Box p={1}>
@@ -288,43 +312,81 @@ const ContentRequest = (props) => {
 
                                             <Form>
                                                 <Grid item md={12} sm={12} lg={12} spacing={2}>
-                                                    <FormikField
+                                                <FormikField
                                                         name="title"
-                                                        label="title"
+                                                        label="Title"
                                                         type="text"
                                                         required
                                                         textvariant="outlined"
                                                     /><br></br>
                                                     <FormikField
                                                         name="description"
-                                                        label="description"
+                                                        label="Description"
                                                         type="text"
                                                         required
                                                         textvariant="outlined"
+                                                        multiline={true}
+                                                        rows={6}
                                                     /><br></br>
-                                                    <FormikField
-                                                        name="rights"
-                                                        label="rights"
-                                                        type="text"
-                                                        required
-                                                        textvariant="outlined"
-                                                        style={{ backgroundColor: "#fff" }}
 
-
-                                                    /><br></br>
-                                                    <FormikField
-                                                        name="castncrew"
-                                                        label="castncrew"
-                                                        type="text"
-                                                        required
-                                                        textvariant="outlined"
-                                                    /><br></br>
                                                     <FormikField
                                                         name="price"
-                                                        label="price"
+                                                        label="Cost"
                                                         type="text"
                                                         required
                                                         textvariant="outlined"
+                                                    /><br></br>
+
+                                                    <FormikField
+                                                        name="runtime"
+                                                        label="Runtime in (minuts)"
+                                                        type="text"
+                                                        textvariant="outlined"
+                                                    /><br></br>
+                                                    <FormikField
+                                                        name="numbofvideos"
+                                                        label="Number of Videos"
+                                                        type="text"
+                                                        textvariant="outlined"
+                                                    /><br></br>
+                                                    <FormikField
+                                                        name="language"
+                                                        label="Language"
+                                                        type="text"
+                                                        textvariant="outlined"
+                                                    /><br></br>
+                                                    <FormikField
+                                                        name="genre"
+                                                        label="Genre"
+                                                        type="text"
+                                                        textvariant="outlined"
+                                                    /><br></br>
+                                                    <FormikField
+                                                        name="keywords"
+                                                        label="Keywords"
+                                                        type="text"
+                                                        textvariant="outlined"
+                                                    /><br></br>
+                                                    <FormikField
+                                                        name="country"
+                                                        label="Country"
+                                                        type="text"
+                                                        textvariant="outlined"
+                                                    /><br></br>
+                                                    <FormikField
+                                                        name="rightsregion"
+                                                        label="Rights Region"
+                                                        type="text"
+                                                        textvariant="outlined"
+                                                    /><br></br>
+                                                    <FormikField
+                                                        name="termsconditions"
+                                                        label="Terms and Conditions"
+                                                        type="text"
+                                                        textvariant="outlined"
+                                                        multiline={true}
+                                                        rows={6}
+
                                                     /><br></br>
                                                     {/* <Input type="file" id="thumbnail" name="thumbnail" onChange={handlefileChange}></Input>
                                                  <Input type="file" id="video" name="video" onChange={handlefileChange}></Input> */}
@@ -429,6 +491,17 @@ const ContentRequest = (props) => {
                                                         />
                                                     </Box>
 
+                                                    <Box style={{ maTextFieldrginTop: '30px' }}>
+
+
+
+                                                        <TextField id="select" name="rights" label="Rights" value={rights} onChange={(e)=> setRights(e.target.value)} select variant="outlined">
+                                                            <MenuItem value="exclusive">Exclusive</MenuItem>
+                                                            <MenuItem value="nonexclusive">Non-Exclusive</MenuItem>
+                                                        </TextField>
+
+                                                    </Box>
+
                                                     {/* <CustomizedDate
                                                 label="createdat"
                                                 handleDateChange={handleDateChange}
@@ -450,7 +523,7 @@ const ContentRequest = (props) => {
                             </Box>
                         </Card>
                     </Grid>
-
+:null}
 
                 </Grid>
 
@@ -459,11 +532,11 @@ const ContentRequest = (props) => {
 
                         <Grid item md={6} sm={12} xs={12}>
                             <Card>
-                                <Box p={1}>
+                                {/* <Box p={1}>
                                     <Typography>
                                         Requirements (Buyer)
                    </Typography>
-                                </Box>
+                                </Box> */}
                                 <Box p={2}>
                                     <Formik
                                         initialValues={initialcreatorValues}
@@ -473,18 +546,23 @@ const ContentRequest = (props) => {
                                         {({ dirty, isValid }) => {
                                             return (
                                                 <Form>
+                                                    <Box pl={1}>
                                                     <FormikField
                                                         name="title"
                                                         label="title"
                                                         type="text"
                                                         required
                                                         textvariant="outlined"
+                                                        multiline={true}
+                                                        rows="5"
                                                     />
+                                                    </Box>
                                                     <CustomizedSelect
                                                         fieldname={'Type'}
                                                         label="category"
                                                         handlecategoryChange={handlecategoryChange}
                                                         selectedCategory={selectedCategory}
+                                                        
                                                     />
                                                     <Box pl={1} pt={2}>
                                                         <Button

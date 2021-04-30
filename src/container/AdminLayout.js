@@ -80,7 +80,12 @@ const styles = {
     },
     typography:{
         fontFamily: "Lato, sans-serif"
-    }
+    },
+    // backtitle:{
+    //   '&:hover':{
+    //     cursor:"pointer"
+    //   }
+    // }
   });
 
 class AdminLayout extends Component {
@@ -128,6 +133,33 @@ class AdminLayout extends Component {
     if(pagetitle == "Contentadmin"){
       pagetitle = "Explore";
     }
+    if(pagetitle == "Contentrequest"){
+      pagetitle = "Content Request";
+    }
+    if(pagetitle == "Section"){
+      pagetitle = <span style={{cursor:"pointer"}} onClick={() => this.props.history.goBack()}>{"Back"}</span>;
+    }
+    if(pagetitle == "Backend"){
+      pagetitle = "Messages (Admin)";
+    }
+
+    if(location.pathname == "/admin/buyer/message"){
+      pagetitle = "Messages";
+    }
+    if(location.pathname == "/admin/seller/message"){
+      pagetitle = "Messages";
+    }
+    if(location.pathname == "/admin/buyer/dashboard"){
+      pagetitle = "Buyer Dashboard";
+    }
+    if(location.pathname == "/admin/seller/dashboard"){
+      pagetitle = "Seller Dashboard";
+    }
+    if(location.pathname == "/admin/content"){
+      pagetitle = "Explore Contnet";
+    }
+    // onClick={() => props.history.goBack()}>Back</Button>
+
     return pagetitle
    }
 

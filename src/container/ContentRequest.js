@@ -264,7 +264,7 @@ const ContentRequest = (props) => {
                                             <Form>
                                                 <FormikField
                                                     name="title"
-                                                    label="title"
+                                                    label="Title"
                                                     type="text"
                                                     required
                                                     textvariant="outlined"
@@ -296,11 +296,11 @@ const ContentRequest = (props) => {
 {props.match.path == "/admin/upload" ? 
                     <Grid item md={6} sm={12} xs={12}>
                         <Card>
-                            <Box p={1}>
+                            {/* <Box p={1}>
                                 <Typography>
                                     Submit Content (Seller)
                    </Typography>
-                            </Box>
+                            </Box> */}
                             <Box p={2}>
                                 <Formik
                                     initialValues={initialValues}
@@ -549,7 +549,7 @@ const ContentRequest = (props) => {
                                                     <Box pl={1}>
                                                     <FormikField
                                                         name="title"
-                                                        label="title"
+                                                        label="Title"
                                                         type="text"
                                                         required
                                                         textvariant="outlined"

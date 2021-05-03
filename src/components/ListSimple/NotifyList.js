@@ -8,6 +8,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
+import { useHistory } from 'react-router';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -23,6 +24,7 @@ export default function NotifyList() {
   const classes = useStyles();
   const [pagenumber,setPagenumber] = React.useState(1);
   const [chat,setChat] = React.useState([]);
+  const history = useHistory()
 
   const getToken = () => {
   
@@ -69,13 +71,16 @@ export default function NotifyList() {
     .catch(error => error);
 
   }, [])
+  const detailPagenavigator = async(id,isinterested,islikes) => {
+    history.push('/admin/section/'+id+'?interest='+isinterested+'&likes='+islikes)
+  }
 
   return (
     <List className={classes.root}>
 
 {chat.map((val,index) => {
     return <>
-    <ListItem alignItems="flex-start">            
+    <ListItem alignItems="flex-start" onClick={(e)=>detailPagenavigator(val.id,val.isfavored,val.isliked)}>            
             <ListItemText
                 primary={val.productname}          
             />

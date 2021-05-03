@@ -590,6 +590,7 @@ export default function TableMaterialMessages(props) {
         modelopen={modelopen}
 
         handleClickOpen={handleClickOpen}
+        
 
       >
 
@@ -598,6 +599,7 @@ export default function TableMaterialMessages(props) {
           {/* <DialogContentText>
             To Sellers or Buyers
         </DialogContentText> */}
+           
 
          
 
@@ -611,7 +613,8 @@ export default function TableMaterialMessages(props) {
             placeholder="Enter Message"
             fullWidth
             multiline={true}
-            rows="5"
+            rows="7"
+            
           />
 
         </DialogContent>
@@ -620,7 +623,7 @@ export default function TableMaterialMessages(props) {
             Cancel
           </Button>
           <Button onClick={handleMessagesubmit} color="primary">
-            SendMessage
+            Send Message
           </Button>
         </DialogActions>
         {/* <TextField

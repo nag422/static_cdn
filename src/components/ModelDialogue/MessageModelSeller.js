@@ -6,16 +6,21 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
+import { max } from 'date-fns';
 export default function MessageModelSeller(props) {
-  
+  const theme = useTheme();
+  const [maxWidth, setMaxWidth] = React.useState('md');
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <div>
+    <div style={{width:'100%'}}>
       {/* <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         Open form dialog
       </Button> */}
-      <Dialog open={props.modelopen} onClose={props.handleClose} aria-labelledby="form-dialog-title">
+      <Dialog open={props.modelopen} onClose={props.handleClose} 
+      aria-labelledby="form-dialog-title" fullScreen={fullScreen} maxWidth={maxWidth} fullWidth={true}>
         <DialogTitle id="form-dialog-title">Message</DialogTitle>
         {props.children}
         {/* <DialogContent>

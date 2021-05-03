@@ -106,9 +106,9 @@ class AdminLayout extends Component {
 
     componentDidMount(){
         // alert('stoppedn in component did mount Admin layout')
-        // if(!this.props.isAuthenticated){
-        //     return this.props.history.push('/auth/signin')
-        // } 
+        if(!this.props.isAuthenticated){
+            return this.props.history.push('/auth/signin')
+        } 
 
         // alert('checking auth',this.props.isAuthenticated)
         
@@ -133,9 +133,17 @@ class AdminLayout extends Component {
     if(pagetitle == "Contentadmin"){
       pagetitle = "Explore";
     }
+    if(pagetitle == "Upload"){
+      pagetitle = "Upload Content";
+    }
     if(pagetitle == "Contentrequest"){
       pagetitle = "Content Request";
     }
+    if(pagetitle == "Requests"){
+      pagetitle = "Buyer Requests";
+    }
+
+    
     if(pagetitle == "Section"){
       pagetitle = <span style={{cursor:"pointer"}} onClick={() => this.props.history.goBack()}>{"Back"}</span>;
     }
@@ -146,6 +154,10 @@ class AdminLayout extends Component {
     if(location.pathname == "/admin/buyer/message"){
       pagetitle = "Messages";
     }
+    if(location.pathname == "/admin/buyer/notification"){
+      pagetitle = "Buyer Notification";
+    }
+    
     if(location.pathname == "/admin/seller/message"){
       pagetitle = "Messages";
     }

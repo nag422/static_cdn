@@ -31,6 +31,7 @@ import * as authapi from '../../container/api/userapi'
 
 import Moment from 'react-moment';
 import { useHistory } from 'react-router';
+import { Button } from '@material-ui/core';
 function createData(id,role, category, name, email, created) {
   return { id,role, category, name, email, created };
 }
@@ -649,7 +650,7 @@ export default function TableMaterialuser(props) {
                       <TableCell align="left">{row.is_active?'active':'deactivte'}</TableCell>
                       <TableCell align="left"><Moment format="YYYY/MM/DD">{row.date_joined}</Moment></TableCell>
                       <TableCell align="left">{row.group?row.group:'---------'}</TableCell>
-                      <TableCell align="left" onClick={(e) => history.push(`/admin/profile/${row.id}`)}>View Profile</TableCell>
+                      <TableCell align="left" onClick={(e) => history.push(`/admin/profile/${row.id}`)}><Button variant="contained" color="primary" style={{cursor:"pointer"}}>View Profile</Button></TableCell>
                      
                     </TableRow>
                   );

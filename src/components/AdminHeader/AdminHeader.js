@@ -61,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     // display: 'none',
+    paddingRight:theme.spacing(2),
     [theme.breakpoints.up('sm')]: {
       display: 'block',
       wrap: 'noWrap'
@@ -290,7 +291,7 @@ const AdminHeader = (props) => {
         history.push('/admin/seller/message')
       }
       if (profileresponse.content == "producer") {
-        history.push('/admin/producer/message')
+        history.push('/admin/buyer/message')
       }
 
     }
@@ -304,7 +305,7 @@ const AdminHeader = (props) => {
         history.push('/admin/seller/notification')
       }
       if (profileresponse.content == "producer") {
-        history.push('/admin/producer/notification')
+        history.push('/admin/buyer/notification')
       }
 
     }
@@ -720,7 +721,7 @@ const AdminHeader = (props) => {
                 className={classes.menuButton}
                 color="inherit"
                 aria-label="open drawer"
-                style={{ border: '1px solid gray', marginLeft: `${drawerWidth - 240}px` }}
+                style={{ border: '1px solid gray', marginLeft: `${drawerWidth - 255}px` }}
 
               >
                 <MenuIcon fontSize="small" />
@@ -753,7 +754,7 @@ const AdminHeader = (props) => {
               <div className={classes.grow} />
               <div className={classes.sectionDesktop}>
 
-
+{profileresponse.content !== "creator"?<>
                 <IconButton
                   aria-label="show 4 new mails"
                   color="inherit"
@@ -763,8 +764,8 @@ const AdminHeader = (props) => {
                     <NotificationsIcon />
                   </Badge>
                 </IconButton>
-
-
+</>
+        :null}
 
                 <IconButton
 
@@ -774,7 +775,9 @@ const AdminHeader = (props) => {
                   onClick={handleMessageClick}
                   color="inherit"
                 >
-                  <Badge badgeContent={''} color="secondary">
+                  <Badge 
+                  // badgeContent={''}
+                   color="secondary">
                     <MailIcon />
                   </Badge>
 

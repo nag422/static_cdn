@@ -68,8 +68,8 @@ export default function UserEditModel(props) {
                             value={props.userupdateform.category}
                             onChange={props.handleChangeeditForm}
                         >
-                            <MenuItem value='creator'>Creator</MenuItem>
-                            <MenuItem value='producer'>Producer</MenuItem>
+                            <MenuItem value='creator'>Seller</MenuItem>
+                            <MenuItem value='producer'>Buyer</MenuItem>
 
                         </Select>
                     </FormControl>

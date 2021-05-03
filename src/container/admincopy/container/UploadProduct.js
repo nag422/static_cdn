@@ -236,11 +236,11 @@ const UploadProduct = (props) => {
 
                     <Grid item md={10} sm={12} xs={12}>
                         <Card>
-                            <Box p={1}>
+                            {/* <Box p={1}>
                                 <Typography>
                                     Upload Content
                    </Typography>
-                            </Box>
+                            </Box> */}
                             <Box p={2}>
                                 <Formik
                                     initialValues={initialValues}

@@ -141,7 +141,7 @@ const TrafficByDeviceseller = ({ className,userdata, ...rest }) => {
                 style={{ color }}
                 variant="h5"
               >
-                {value}
+                {isNaN(value)? 0:value}
                 %
               </Typography>
             </Box>

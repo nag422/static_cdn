@@ -234,12 +234,12 @@ export default [
         layout:'admin'
     },
     
-    {
-        path: "seller/notification",
-        component: NotifyExpore,
-        exact: true,
-        layout:'admin'
-    },
+    // {
+    //     path: "seller/notification",
+    //     component: NotifyExpore,
+    //     exact: true,
+    //     layout:'admin'
+    // },
     {
         path: "buyer/notification",
         component: NotifyExpore,

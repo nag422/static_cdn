@@ -290,7 +290,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function TableMaterialMessagesSeller(props) {
-  const classes = useStyles();
+  const classes = useStyles();  
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   const [selected, setSelected] = React.useState([]);
@@ -378,9 +378,15 @@ export default function TableMaterialMessagesSeller(props) {
     })
   }
   
-  React.useEffect(() => {
-    const cont = history.location.state.contentype
-    setTogroup(cont)
+  React.useEffect(() => {    
+    try{
+      var cont = history.location.state.contentype?history.location.state.contentype:"creator";
+    setTogroup(cont?cont:'creator')
+
+    }catch{
+      setTogroup('creator')
+    }
+    
   }, [])
 
   React.useEffect(() => {

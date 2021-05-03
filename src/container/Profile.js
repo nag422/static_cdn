@@ -258,9 +258,9 @@ export class Profile extends Component {
 
               </CardHeader> */}
               <CardContent>
-                <Box display="flex" justifyContent="center" style={{ position: 'relative' }}>
+                {/* <Box display="flex" justifyContent="center" style={{ position: 'relative' }}>
                   <Box component="img" alt="profile" src={require('../assets/img/user-4.jpg').default} style={{ borderRadius: '50%', height: '150px', width: '150px' }} />
-                </Box>
+                </Box> */}
                 <Box display="flex" flexDirection="row" justifyContent="space-between" p={3}>
                   <Typography component='p' variant='body2' >Joined On:  <br></br>{<Moment format="YYYY/MM/DD">{this.state.date_joined}</Moment>}</Typography>
                   <Typography component='p' variant='body2' >Category:  <br></br>{this.state.content === "creator" ? "Seller":"Buyer"}</Typography>

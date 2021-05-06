@@ -10,6 +10,8 @@ import * as cardapi from './api/cardactionsapi';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
+import Productskeleton from '../components/skeletons/Productskeleton'
+
 const ContentExploreSeller = (props) => {
 
     const response = useSelector((state) => state.productSave);
@@ -19,15 +21,19 @@ const ContentExploreSeller = (props) => {
     const [open, setOpen] = React.useState(false)
     const [alertseverity, setAlertseverity] = React.useState('success')
     const [productmessage, setProductmessage] = React.useState('')
+    const [loading, setLoading] = React.useState(false)
 
     
 
     useEffect(() => {
         const setprod = async () => {
-
+            setLoading(true)
             const allprod = await apirequest.getsellerproducts({ 'pageNumber': pageNumber })
             console.log('allprod',allprod)
             setAllproducts(allprod)
+            setLoading(false)
+            
+            
 
         }
         setprod()
@@ -180,6 +186,7 @@ const ContentExploreSeller = (props) => {
     const horizontal = "right"
     return (
         <>
+        {loading && <Productskeleton />}
             <Snackbar anchorOrigin={{ vertical, horizontal }} open={open} autoHideDuration={4000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity={alertseverity}>
                     {productmessage}

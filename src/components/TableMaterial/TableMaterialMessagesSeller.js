@@ -390,7 +390,7 @@ export default function TableMaterialMessages(props) {
 
   const getallusers = async () => {
     setIsbackdrop(true)
-    axios.get(url + 'admin/getsellermessages/?q='+togroup+'&currentpage='+page+'&perpages='+rowsPerPage, config).then(res => {
+    axios.get(url + 'admin/getsellermessages/?q='+togroup+'&currentpage='+(+page+1)+'&perpages='+rowsPerPage, config).then(res => {
       if (!res.data.error) {
 
         setRows(res.data.mesgs)
@@ -599,19 +599,25 @@ export default function TableMaterialMessages(props) {
   };
 
   const handleChangePage = (event, newPage) => {
+    
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+    
   };
 
-
+  const handletogroupchanger=(event) => {
+    setTogroup(event.target.value)
+    setPage(0);
+  }
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  // const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  const emptyRows = 0
   const vertical = "top"
   const horizontal = "right"
 
@@ -759,7 +765,7 @@ export default function TableMaterialMessages(props) {
       <TextField
             
             id="select" name="togroup" label=""
-            value={togroup} onChange={(e) => setTogroup(e.target.value)}
+            value={togroup} onChange={handletogroupchanger}
             select variant="standard">
             <MenuItem value="creator">My Messages</MenuItem>
             <MenuItem value="inbox">Sent Items</MenuItem>
@@ -797,7 +803,8 @@ export default function TableMaterialMessages(props) {
             />
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .slice(0, rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;

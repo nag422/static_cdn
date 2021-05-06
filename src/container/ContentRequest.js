@@ -109,7 +109,7 @@ const ContentRequest = (props) => {
 
     React.useEffect(() => {
         const history = props.history
-        alert('request content')
+        
         if(!isAuthuserloggedin){
             history.push('/auth/signin')
 
@@ -217,8 +217,6 @@ const ContentRequest = (props) => {
             setAlertseverity('success')
 
         }
-
-
 
 
     };

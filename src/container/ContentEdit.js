@@ -1,4 +1,4 @@
-import { Box, Button, Card, FormControl, FormControlLabel, Grid, Input, Paper, TextField, Typography } from '@material-ui/core'
+import { Box, Button, Card, CircularProgress, FormControl, FormControlLabel, Grid, Input, makeStyles, MenuItem, Paper, TextField, Typography } from '@material-ui/core'
 import React from 'react'
 import CustomizedDate from '../components/ModelDialogue/CustomizedDate'
 import CustomizedInputs from '../components/ModelDialogue/CustomizedInputs'
@@ -12,17 +12,24 @@ import Fileuploadbutton from '../components/button/Fileuploadbutton'
 import BackupIcon from '@material-ui/icons/Backup';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import Backdrop from '@material-ui/core/Backdrop';
 import { AlertTitle } from '@material-ui/lab';
 import { addProductwithApiRequest, saverequestProductwithApiRequest,editProductsave } from './api/productapi.js';
 import { getProductById } from 'sagas/api/api';
 
+const useStyles = makeStyles((theme) => ({
+    backdrop: {
+      zIndex: theme.zIndex.drawer + 1,
+      color: '#fff',
+    },
+  }));
 const ContentEdit = (props) => {
     // const [fields, setFields] = React.useState([{ label: 'Cost' }])
     // const [selectFields] = React.useState([{ label: 'SuperAdmin', value: 'superuser' }, { label: 'Admin', value: 'Author' }, { label: 'User', value: 'user' }])
     // const selectcategoryFields = [{ label: 'Creator', value: 'creator' }, { label: 'Producer', value: 'Producer' }, { label: 'Hybrid', value: 'hybrid' }, { label: 'None of the above', value: 'none' }]
     // const [requestfields, setRequestfields] = React.useState([{ label: 'Title' }, { label: 'Description' }, { label: 'Thumbnail' }, { label: 'Video File' }, { label: 'Rights Details' }, { label: 'Cast and Crew' }, { label: 'Cost of the project' }, { label: 'Date of Creation' }, { label: 'Cost' }])
     // const [issubmitting, setIssubmitting] = React.useState(false);
-
+    const classes = useStyles();    
     const [open, setOpen] = React.useState(false)
     const [alertseverity, setAlertseverity] = React.useState('success')
     const [productmessage, setProductmessage] = React.useState('')
@@ -31,7 +38,7 @@ const ContentEdit = (props) => {
     const [selectedCategory, setSelectedCategory] = React.useState('');
 
     const [authortype, setAuthortype] = React.useState('creator')
-   
+    const [isbackdrop, setIsbackdrop] = React.useState(false);
     const [post, setPost] = React.useState({
         author_id: 0,
         castncrew: "",
@@ -93,6 +100,7 @@ const ContentEdit = (props) => {
                     description:data.obs[0].description,
                     videofile: data.obs[0].videofile,
                     rights:data.obs[0].rights,
+                    category:data.obs[0].category,
                     castncrew:data.obs[0].castncrew,
                     price:data.obs[0].price,
                     runtime:data.obs[0].runtime,
@@ -165,9 +173,23 @@ const ContentEdit = (props) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(post)
-        // const resp =  await editProductsave(post)
-        alert('something is went wrong')
-        // console.log(resp)
+        const resp =  await editProductsave(post)
+        setIsbackdrop(true)
+        if(resp == 200){
+            setIsbackdrop(false)
+            setProductmessage("Successfully Updated")
+            setOpen(true);
+            setAlertseverity('success')
+        }else{
+            setIsbackdrop(false)
+            setProductmessage("Something is went wrong")
+            setOpen(true);
+            setAlertseverity('error')
+            
+        }
+        
+        
+        
         
     }
 
@@ -183,6 +205,9 @@ const ContentEdit = (props) => {
                     {productmessage}
                 </Alert>
             </Snackbar>
+            <Backdrop className={classes.backdrop} open={isbackdrop}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
 
             {userresponse.content == "creator" && !userresponse.user_ptr.is_superuser ?
                 <Grid container spacing={1}>
@@ -192,11 +217,11 @@ const ContentEdit = (props) => {
 
                     <Grid item md={8} sm={12} xs={12}>
                         <Card>
-                            <Box p={1}>
+                            {/* <Box p={1}>
                                 <Typography>
                                     Submit Content (Seller)
                    </Typography>
-                            </Box>
+                            </Box> */}
                             <Box p={2}>
                                 
                                             <form onSubmit={handleSubmit}>
@@ -205,7 +230,7 @@ const ContentEdit = (props) => {
                                                         value= {post.title}
                                                         name="title"
                                                         onChange={handleChnage}
-                                                        label="title"
+                                                        label="Title"
                                                         type="text"
                                                         required
                                                         variant="outlined"
@@ -217,15 +242,17 @@ const ContentEdit = (props) => {
                                                         value= {post.description}
                                                         name="description"
                                                         onChange={handleChnage}
-                                                        label="description"
+                                                        label="Description"
                                                         type="text"
                                                         required
                                                         variant="outlined"
                                                         fullWidth
                                                         style={{marginBottom:15}}
                                                         InputLabelProps = {{shrink:true}}
+                                                        multiline={true}
+                                                        rows="5"
                                                     /><br></br>
-                                                    <TextField
+                                                    {/* <TextField
                                                         value= {post.rights}
                                                         name="rights"
                                                         onChange={handleChnage}
@@ -237,7 +264,8 @@ const ContentEdit = (props) => {
                                                         InputLabelProps = {{shrink:true}}
                                                         fullWidth
 
-                                                    /><br></br>
+                                                    /> */}
+                                                    <br></br>
                                                     {/* <TextField
                                                         value= {post.castncrew}
                                                         name="castncrew"
@@ -254,7 +282,7 @@ const ContentEdit = (props) => {
                                                         value= {post.price}
                                                         name="price"
                                                         onChange={handleChnage}
-                                                        label="price"
+                                                        label="Cost"
                                                         type="text"
                                                         required
                                                         variant="outlined"
@@ -379,7 +407,7 @@ const ContentEdit = (props) => {
                                                     </div>
 
                                                     <br></br>
-                                                    <img src={`https://app.contentbond.com/media/${post.videofile}`} 
+                                                    {/* <img src={`https://app.contentbond.com/media/${post.videofile}`} 
                                                     alt="tumbnail title"
                                                     width="320"
                                                     height="160"                                                    
@@ -400,7 +428,7 @@ const ContentEdit = (props) => {
                                                         </label>
                                                         {JSON.stringify(post.videofile.name)}
                                                     </div>
-                                                    <br></br>
+                                                    <br></br> */}
                                                     <img src={`https://app.contentbond.com/media/${post.thumbnail1}`} 
                                                     alt="tumbnail title"
                                                     width="320"
@@ -478,7 +506,7 @@ const ContentEdit = (props) => {
                                                             fieldname={'Type'}
                                                             label="category"
                                                             handlecategoryChange={handlecategoryChange}
-                                                            selectedCategory={selectedCategory}
+                                                            selectedCategory={post.category}
                                                         />
                                                     </Box>
 
@@ -487,6 +515,17 @@ const ContentEdit = (props) => {
                                                 handleDateChange={handleDateChange}
                                                 selectedDate={selectedDate}
                                             /> */}
+
+                                                <Box style={{ maTextFieldrginTop: '30px' }}>
+
+
+
+                                                <TextField id="select" name="rights" label="Rights" value={post.rights} onChange={handleChnage} select variant="outlined">
+                                                    <MenuItem value="exclusive">Exclusive</MenuItem>
+                                                    <MenuItem value="nonexclusive">Non-Exclusive</MenuItem>
+                                                </TextField>
+
+                                                </Box>
 
                                                     <Box pl={1} pt={2}>
                                                         <Button type="submit" color="primary" variant="contained"

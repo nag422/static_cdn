@@ -59,7 +59,8 @@ export const addinterest = async (payload) =>{
     const config = {
       headers: {
           'content-type': 'multipart/form-data',          
-          'X-CSRFToken': getCookie('csrftoken')
+          'X-CSRFToken': getCookie('csrftoken'),
+          'Authorization': 'Token '+ getToken()
       }
     }
   
@@ -74,7 +75,28 @@ export const addinterest = async (payload) =>{
 
       return statuscode
     }
-
+    
+    export const deleteproduct = async (payload) =>{
+      let statuscode = ''
+      const config = {
+        headers: {
+            'content-type': 'multipart/form-data',          
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Authorization': 'Token '+ getToken()
+        }
+      }
+    
+      const form_data = new FormData();
+      form_data.append('id', payload)
+      
+   
+      await axios
+        .post(url+"admin/deleteproduct/", form_data,config)
+        .then(resp => {statuscode=resp.data})
+        .catch(error => error);
+  
+        return statuscode
+      }
     
 export const getallproducts = async (payload) =>{
   
@@ -96,6 +118,27 @@ export const getallproducts = async (payload) =>{
       
           
           }
+
+export const getsellerproducts = async (payload) =>{
+
+  let statuscode = ''
+  const config = {
+    headers: {
+        'content-type': 'application/json',          
+        'X-CSRFToken': getCookie('csrftoken'),
+        'Authorization': 'Token '+getToken()
+    }
+  }
+
+  
+  console.log('pagenumber',payload.pageNumber)
+  return await axios
+    .get(`${url}admin/getproductsofcreator/?page=${payload.pageNumber}`,config)
+    .then(resp => resp.data.obs)
+    .catch(error => []);
+
+    
+    }
 
 
 export const getalllikedproducts = async (payload) =>{

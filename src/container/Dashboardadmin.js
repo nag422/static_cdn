@@ -301,7 +301,7 @@ const Dashboardadmin = () => {
             <Grid container spacing={3}>
 
                 <Grid item xs={12} sm={8}>
-                    <Apexchartdemo />
+                    <Apexchartdemo userdata = {responsedata} />
                 </Grid>
                 <Grid item xs={12} sm={4}>
 

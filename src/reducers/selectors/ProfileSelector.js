@@ -10,7 +10,7 @@ export const adminProfileupdaterror = (state) => state.updaterror;
 export const adminProfileState = createSelector(
     [adminProfile,adminLoading],
     (profile,profileloading) => {
-        debugger;
+        
         switch(profileloading){
             case true:
                 return profile;
@@ -25,7 +25,7 @@ export const adminProfileState = createSelector(
 export const adminProfileUpdateState = createSelector(
     [adminProfileupdatestatus,adminProfileupdaterror],
     (updatestatus,updaterror) => {
-        debugger;
+        
         console.log({updatestatus:updatestatus,updaterror:updaterror})
         switch(updatestatus){
             case true:

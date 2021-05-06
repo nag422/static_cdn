@@ -520,16 +520,26 @@ const AdminHeader = (props) => {
           </Link>
         }
 
-        {!response.is_superuser &&
+        {!response.is_superuser && profileresponse.content == "producer" ?
           <Link to="/admin/content" style={{ textDecoration: 'none', color: 'inherit' }}>
             <ListItem button>
               <ListItemIcon>
                 <MenuBookIcon />
               </ListItemIcon>
-              <ListItemText primary={profileresponse.content == "creator" ? "My Uploads" : "Explore"} />
+              <ListItemText primary="Explore" />
             </ListItem>
           </Link>
-        }
+        :null}
+        {!response.is_superuser && profileresponse.content == "creator" ?
+          <Link to="/admin/seller/content" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <ListItem button>
+              <ListItemIcon>
+                <MenuBookIcon />
+              </ListItemIcon>
+              <ListItemText primary="My Uploads" />
+            </ListItem>
+          </Link>
+        :null}
         {profileresponse.content == "producer" && !response.is_superuser ?
           <>
             <Link to="/admin/favorite" style={{ textDecoration: 'none', color: 'inherit' }}>

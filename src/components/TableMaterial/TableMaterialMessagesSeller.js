@@ -33,7 +33,8 @@ import * as authapi from '../../container/api/userapi'
 
 import Moment from 'react-moment';
 import { useHistory } from 'react-router';
-import { Button, DialogActions, DialogContent, DialogContentText, MenuItem, TextField } from '@material-ui/core';
+import { Backdrop, Button, CircularProgress, DialogActions, DialogContent, DialogContentText, MenuItem, Snackbar, TextField } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 function createData(id, role, category, name, email, created) {
   return { id, role, category, name, email, created };
 }
@@ -75,8 +76,6 @@ const config = {
     'Authorization': 'Token ' + getToken()
   }
 }
-
-
 
 
 
@@ -301,6 +300,10 @@ const useStyles = makeStyles((theme) => ({
     top: 20,
     width: 1,
   },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
 }));
 
 export default function TableMaterialMessages(props) {
@@ -313,6 +316,7 @@ export default function TableMaterialMessages(props) {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [queryfromodel, setQueryfromodel] = React.useState('');
   const [togroup, setTogroup] = React.useState('creator');
+  const [rowlength, setRowlength] = React.useState(0);
 
 
   const history = useHistory()
@@ -329,6 +333,12 @@ export default function TableMaterialMessages(props) {
     role: 'user',
     category: 'producer'
   })
+
+
+  const [open, setOpen] = React.useState(false)
+  const [alertseverity, setAlertseverity] = React.useState('success')
+  const [productmessage, setProductmessage] = React.useState('')
+  const [isbackdrop, setIsbackdrop] = React.useState(false);
 
 
 
@@ -379,27 +389,34 @@ export default function TableMaterialMessages(props) {
   };
 
   const getallusers = async () => {
-    axios.get(url + 'admin/getsellermessages/?q='+togroup, config).then(res => {
+    setIsbackdrop(true)
+    axios.get(url + 'admin/getsellermessages/?q='+togroup+'&currentpage='+page+'&perpages='+rowsPerPage, config).then(res => {
       if (!res.data.error) {
 
         setRows(res.data.mesgs)
+        setRowlength(res.data.totalrecords)
+        setIsbackdrop(false)
 
       }
     }).catch(err => {
 
-      alert(err.message)
+      
+      setIsbackdrop(false)
+      setProductmessage(err.message.toString())
+      setOpen(true);
+      setAlertseverity('error')
 
     })
   }
 
   React.useEffect(() => {
     getallusers()
-  }, [togroup])
+  }, [togroup,page,rowsPerPage])
 
   const handleMessagesubmit = async (e) => {
 
     setModelopen(false)
-
+    setIsbackdrop(true)
     const form_data = new FormData();
     form_data.append('message', queryfromodel)
     form_data.append('to', 'producer')
@@ -408,12 +425,20 @@ export default function TableMaterialMessages(props) {
       if (!res.data.error) {
 
         // setRows(res.data.GETmethodData)
-        alert('Message has been sent')
+        
+        setIsbackdrop(false)
+        setProductmessage("Message has been sent")
+        setOpen(true);
+        setAlertseverity('success')
 
       }
     }).catch(err => {
 
-      alert(err.message)
+      
+      setIsbackdrop(false)
+      setProductmessage(err.message.toString())
+      setOpen(true);
+      setAlertseverity('error')
 
     })
 
@@ -477,40 +502,59 @@ export default function TableMaterialMessages(props) {
 
   const deleteUsers = async () => {
 
-    // const form_data = new FormData();
-    // form_data.append('itemlist',selected)
-
-    //   axios.post(url+'auth/admin/deleteusers/',form_data,config).then(res=>{
-    //     if(!res.data.error){
-
-    //       alert('Successfully Deleted')
-
-    //     }
-    // }).catch(err=>{
-
-    //     alert(err.message)
-
-    // })
-
-  }
-  const replyTouser = async () => {
-
     const form_data = new FormData();
     form_data.append('itemlist', selected)
+    console.log(selected)
+    setIsbackdrop(true)
+    axios.post(url + 'admin/deletemessages/', form_data, config).then(res => {
+      if (res.data.status == 200) {
 
-    axios.post(url + 'auth/admin/deletemessages/', form_data, config).then(res => {
-      if (!res.data.error) {
+       
+        setIsbackdrop(false)
+        setProductmessage("Successfully Deleted")
+        setOpen(true);
+        setAlertseverity('success')
 
-        alert('Successfully Deleted')
+        const updatedusers = rows.filter((val, key) => (!selected.includes(+val.id)))
+        setRows(updatedusers);
+
+      }
+      else{
+      setIsbackdrop(false)
+      setProductmessage("Something is went wrong")
+      setOpen(true);
+      setAlertseverity('error')
 
       }
     }).catch(err => {
 
-      alert(err.message)
+      
+      setIsbackdrop(false)
+      setProductmessage(err.message.toString())
+      setOpen(true);
+      setAlertseverity('error')
 
     })
 
   }
+  // const replyTouser = async () => {
+
+  //   const form_data = new FormData();
+  //   form_data.append('itemlist', selected)
+
+  //   axios.post(url + 'auth/admin/deletemessages/', form_data, config).then(res => {
+  //     if (!res.data.error) {
+
+  //       alert('Successfully Deleted')
+
+  //     }
+  //   }).catch(err => {
+
+  //     alert(err.message)
+
+  //   })
+
+  // }
 
 
 
@@ -568,6 +612,8 @@ export default function TableMaterialMessages(props) {
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  const vertical = "top"
+  const horizontal = "right"
 
   return (
     <div className={classes.root}>
@@ -584,6 +630,15 @@ export default function TableMaterialMessages(props) {
         
       
       /> */}
+
+<Snackbar anchorOrigin={{ vertical, horizontal }} open={open} autoHideDuration={4000} onClose={() =>setOpen(false)}>
+                <Alert onClose={() =>setOpen(false)} severity={alertseverity}>
+                    {productmessage}
+                </Alert>
+            </Snackbar>
+            <Backdrop className={classes.backdrop} open={isbackdrop}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
 
       <MessageModelSeller
 
@@ -707,6 +762,7 @@ export default function TableMaterialMessages(props) {
             value={togroup} onChange={(e) => setTogroup(e.target.value)}
             select variant="standard">
             <MenuItem value="creator">My Messages</MenuItem>
+            <MenuItem value="inbox">Sent Items</MenuItem>
             <MenuItem value="requests">Requests</MenuItem>
             <MenuItem value="all">Platform Messages</MenuItem>
       </TextField>
@@ -714,7 +770,7 @@ export default function TableMaterialMessages(props) {
 
         <EnhancedTableToolbar
           deleteUsersclick={deleteUsers}
-          replyTouser={replyTouser}
+          // replyTouser={replyTouser}
           numSelected={selected.length}
           handleClickOpen={handleClickOpen}
           handleuserClickOpen={handleuserClickOpen}
@@ -785,12 +841,13 @@ export default function TableMaterialMessages(props) {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={rowlength}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
+        
       </Paper>
       {/* <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}

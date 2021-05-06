@@ -136,6 +136,9 @@ class AdminLayout extends Component {
     if(pagetitle == "Upload"){
       pagetitle = "Upload Content";
     }
+    if(pagetitle == "Seller"){
+      pagetitle = "Content";
+    }
     if(pagetitle == "Contentrequest"){
       pagetitle = "Content Request";
     }

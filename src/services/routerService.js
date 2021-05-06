@@ -30,6 +30,7 @@ import MessageSeller from '../container/MessageSeller'
 import MessageBuyer from '../container/MessageBuyer'
 import NotifyExpore from '../container/NotifyExpore'
 import UsersListDashboard from '../container/UsersListDashboard'
+import ContentExploreSeller from '../container/ContentExploreSeller'
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
     //Auth url
@@ -125,6 +126,12 @@ export default [
     {
         path: "content",
         component: ContentExplore,
+        exact: true,
+        layout:'admin'
+    },
+    {
+        path: "seller/content",
+        component: ContentExploreSeller,
         exact: true,
         layout:'admin'
     },

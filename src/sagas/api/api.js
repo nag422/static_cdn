@@ -116,7 +116,7 @@ export const getProductById = async (payload) => {
         .post(url + "admin/getproductbyid/", body, config)
         .then(resp => { statuscode = resp.data })
         .catch(e => {
-            if (axios.isCancel(e)) return
+            return []
 
         })
 

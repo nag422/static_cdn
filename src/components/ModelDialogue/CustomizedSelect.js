@@ -34,7 +34,7 @@ export default function CustomizedSelect(props) {
      
       <FormControl className={classes.formControl}>
         <InputLabel htmlFor="grouped-select">{props.fieldname}</InputLabel>
-        <Select defaultValue="" id="grouped-select" value={props.selectedCategory} variant="outlined" name={props.label} onChange={props.handlecategoryChange}>
+        <Select defaultValue={props.value?+props.value:''} id="grouped-select" value={props.selectedCategory} variant="outlined" name={props.label} onChange={props.handlecategoryChange}>
           <MenuItem value="">
             <em>Choose Option</em>
           </MenuItem>

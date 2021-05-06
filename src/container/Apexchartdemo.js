@@ -20,7 +20,7 @@ const useStyles = makeStyles(() => ({
   root: {}
 }));
 
-const Sales = ({ className, ...rest }) => {
+const Sales = ({ className,userdata, ...rest }) => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -28,16 +28,16 @@ const Sales = ({ className, ...rest }) => {
     datasets: [
       {
         backgroundColor: colors.indigo[500],
-        data: [18, 5, 19, 27, 29, 19, 20],
-        label: 'This year'
+        data: userdata.contentarray,
+        label: 'Product'
       },
       {
         backgroundColor: colors.grey[200],
-        data: [11, 20, 12, 29, 30, 25, 13],
-        label: 'Last year'
+        data: userdata.usersarray,
+        label: 'Users'
       }
     ],
-    labels: ['1 Aug', '2 Aug', '3 Aug', '4 Aug', '5 Aug', '6 Aug']
+    labels: userdata.weekdays
   };
 
   const options = {

@@ -179,7 +179,7 @@ export default function ContentExplorecard(props) {
         
         <CreateIcon onClick={() => props.editProduct(props.val.id)} />
        
-        <DeleteOutlineIcon />
+        <DeleteOutlineIcon onClick={() => props.deleteProduct(props.val.id)} />
        
         
         

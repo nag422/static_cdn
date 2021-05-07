@@ -786,7 +786,7 @@ const AdminHeader = (props) => {
                   color="inherit"
                 >
                   <Badge 
-                  // badgeContent={''}
+                  badgeContent={profileresponse.messagecount}
                    color="secondary">
                     <MailIcon />
                   </Badge>

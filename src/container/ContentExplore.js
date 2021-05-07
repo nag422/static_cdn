@@ -6,7 +6,7 @@ import Pagination from '@material-ui/lab/Pagination';
 import { useSelector } from 'react-redux';
 import * as apirequest from './api/api';
 import * as cardapi from './api/cardactionsapi';
-
+import Productskeleton from '../components/skeletons/Productskeleton'
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
@@ -20,14 +20,15 @@ const ContentExplore = (props) => {
     const [alertseverity, setAlertseverity] = React.useState('success')
     const [productmessage, setProductmessage] = React.useState('')
 
-    
-
+    const [loading, setLoading] = React.useState(false)
+    const [totalrecords,setTotalrecords] = React.useState(0)
     useEffect(() => {
         const setprod = async () => {
-
+            setLoading(true)
             const allprod = await apirequest.getallproducts({ 'pageNumber': pageNumber })
-
-            setAllproducts(allprod)
+            setAllproducts(allprod.obs)
+            setTotalrecords(allprod.totalrecords)
+            setLoading(false)
 
         }
         setprod()
@@ -156,20 +157,21 @@ const ContentExplore = (props) => {
     const horizontal = "right"
     return (
         <>
+        {loading && <Productskeleton />}
             <Snackbar anchorOrigin={{ vertical, horizontal }} open={open} autoHideDuration={4000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity={alertseverity}>
                     {productmessage}
                 </Alert>
             </Snackbar>
             <Grid container spacing={2}>
-                {allproducts.map((val, index) => {
+                {(allproducts?allproducts:[]).map((val, index) => {
                     return <Grid item md={4} sm={12} xs={12} lg={4} key={index}><ContentExplorecard editProduct={editProduct} val={val} likefun={addlikes} interestfun={addfavorites}
                        profilerestrict={profileresponse}
                     /></Grid>
                 })}
             </Grid>
             <Box display="flex" justifyContent="center" alignItems="center" mt={5} mb={5}>
-                <Pagination onChange={handlePagechange} count={10} color="primary" />
+                <Pagination onChange={handlePagechange} count={Math.floor(totalrecords/8)} color="primary" />
             </Box>
 
         </>

@@ -6,7 +6,7 @@ import Pagination from '@material-ui/lab/Pagination';
 import * as apirequest from './api/api';
 
 // import { useSelector } from 'react-redux';
-
+import Productskeleton from '../components/skeletons/Productskeleton'
 
 const ContentExploreFavorite = () => {
 
@@ -14,12 +14,17 @@ const ContentExploreFavorite = () => {
     const [allproducts, setAllproducts] = useState([])
     const [pageNumber, setPageNumber] = useState(1)
 
+    const [loading, setLoading] = React.useState(false)
+    const [totalrecords,setTotalrecords] = React.useState(0)
+    
     useEffect(() => {
         const setprod = async () => {
-
+            setLoading(true)
             const allprod = await apirequest.getalllikedproducts({ 'pageNumber': pageNumber })
 
-            setAllproducts(allprod)
+            setAllproducts(allprod.obs)
+            setTotalrecords(allprod.totalrecords)
+            setLoading(false)
 
         }
         setprod()
@@ -48,16 +53,22 @@ const ContentExploreFavorite = () => {
 
     }
 
+    const handlePagechange = (event, number) => {
+        // alert(number)
+        setPageNumber(number)
+    }
+
 
     return (
         <>
+        {loading && <Productskeleton />}
             <Grid container spacing={2}>
                 {allproducts.map((val, index) => {
                     return <Grid item md={4} sm={12} xs={12} lg={4} key={index}><ContentExplorecard val={val} likefun={addlikes} /></Grid>
                 })}
             </Grid>
             <Box display="flex" justifyContent="center" alignItems="center" mt={5} mb={5}>
-                <Pagination count={10} color="primary" />
+                <Pagination onChange={handlePagechange} count={Math.floor(totalrecords/8)} color="primary" />
             </Box>
 
         </>

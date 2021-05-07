@@ -33,7 +33,8 @@ import * as authapi from '../../container/api/userapi'
 
 import Moment from 'react-moment';
 import { useHistory } from 'react-router';
-import { Button, DialogActions, DialogContent, DialogContentText, MenuItem, TextField } from '@material-ui/core';
+import { Backdrop, Button, CircularProgress, DialogActions, DialogContent, DialogContentText, MenuItem, Snackbar, TextField } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 function createData(id, role, category, name, email, created) {
   return { id, role, category, name, email, created };
 }
@@ -305,6 +306,10 @@ const useStyles = makeStyles((theme) => ({
     top: 20,
     width: 1,
   },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
 }));
 
 export default function TableMaterialMessagesBuyer(props) {
@@ -317,7 +322,7 @@ export default function TableMaterialMessagesBuyer(props) {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [queryfromodel, setQueryfromodel] = React.useState('');
   const [togroup, setTogroup] = React.useState('producer');
-
+  const [rowlength, setRowlength] = React.useState(0);
 
   const history = useHistory()
 
@@ -334,7 +339,10 @@ export default function TableMaterialMessagesBuyer(props) {
     category: 'producer'
   })
 
-
+  const [open, setOpen] = React.useState(false)
+  const [alertseverity, setAlertseverity] = React.useState('success')
+  const [productmessage, setProductmessage] = React.useState('')
+  const [isbackdrop, setIsbackdrop] = React.useState(false);
 
   const handleChangeeditForm = (e) => {
     setUserupdateform({
@@ -383,15 +391,21 @@ export default function TableMaterialMessagesBuyer(props) {
   };
 
   const getallusers = async () => {
-    axios.get(url + 'admin/getbuyermessages/?q=' + togroup, config).then(res => {
-      if (!res.data.error) {
+    setIsbackdrop(true)
+    axios.get(url + 'admin/getbuyermessages/?q=' + togroup+'&currentpage='+(+page+1)+'&perpages='+rowsPerPage, config).then(res => {
+      if (res.data.status == 200) {
 
         setRows(res.data.mesgs)
+        setRowlength(res.data.totalrecords)
+        setIsbackdrop(false)
 
       }
     }).catch(err => {
 
-      alert(err.message)
+      setIsbackdrop(false)
+      setProductmessage(err.message.toString())
+      setOpen(true);
+      setAlertseverity('error')
 
     })
   }
@@ -403,21 +417,35 @@ export default function TableMaterialMessagesBuyer(props) {
   const handleMessagesubmit = async (e) => {
 
     setModelopen(false)
+    setIsbackdrop(true)
 
     const form_data = new FormData();
     form_data.append('message', queryfromodel)
     form_data.append('to', 'creator')
 
     axios.post(url + 'admin/getbuyermessages/', form_data, config).then(res => {
-      if (!res.data.error) {
+      if (res.data.status == 200) {
 
         // setRows(res.data.GETmethodData)
-        alert('Message has been sent')
+        
+        setIsbackdrop(false)
+        setProductmessage("Message has been sent")
+        setOpen(true);
+        setAlertseverity('success')
+
+      }else{
+        setIsbackdrop(false)
+        setProductmessage('Something is went wrong')
+        setOpen(true);
+        setAlertseverity('error')
 
       }
     }).catch(err => {
 
-      alert(err.message)
+      setIsbackdrop(false)
+      setProductmessage(err.message.toString())
+      setOpen(true);
+      setAlertseverity('error')
 
     })
 
@@ -479,7 +507,7 @@ export default function TableMaterialMessagesBuyer(props) {
 
 
 
-  const deleteUsers = async () => {
+  const replyTouser = async () => {
 
     // const form_data = new FormData();
     // form_data.append('itemlist',selected)
@@ -497,20 +525,42 @@ export default function TableMaterialMessagesBuyer(props) {
     // })
 
   }
-  const replyTouser = async () => {
+  
+  
+  const deleteUsers = async () => {
 
     const form_data = new FormData();
     form_data.append('itemlist', selected)
+    form_data.append('q', togroup)
+    console.log(selected)
+    setIsbackdrop(true)
+    axios.post(url + 'admin/deletemessages/', form_data, config).then(res => {
+      if (res.data.status == 200) {
 
-    axios.post(url + 'auth/admin/deletemessages/', form_data, config).then(res => {
-      if (!res.data.error) {
+       
+        setIsbackdrop(false)
+        setProductmessage("Successfully Deleted")
+        setOpen(true);
+        setAlertseverity('success')
 
-        alert('Successfully Deleted')
+        const updatedusers = rows.filter((val, key) => (!selected.includes(+val.id)))
+        setRows(updatedusers);
+
+      }
+      else{
+      setIsbackdrop(false)
+      setProductmessage("Something is went wrong")
+      setOpen(true);
+      setAlertseverity('error')
 
       }
     }).catch(err => {
 
-      alert(err.message)
+      
+      setIsbackdrop(false)
+      setProductmessage(err.message.toString())
+      setOpen(true);
+      setAlertseverity('error')
 
     })
 
@@ -567,11 +617,18 @@ export default function TableMaterialMessagesBuyer(props) {
     setPage(0);
   };
 
+  const handletogroupchanger=(event) => {
+    setTogroup(event.target.value)
+    setPage(0);
+  }
+
 
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  const emptyRows = 0
+  const vertical = "top"
+  const horizontal = "right"
 
   return (
     <div className={classes.root}>
@@ -588,6 +645,15 @@ export default function TableMaterialMessagesBuyer(props) {
         
       
       /> */}
+
+<Snackbar anchorOrigin={{ vertical, horizontal }} open={open} autoHideDuration={4000} onClose={() =>setOpen(false)}>
+                <Alert onClose={() =>setOpen(false)} severity={alertseverity}>
+                    {productmessage}
+                </Alert>
+            </Snackbar>
+            <Backdrop className={classes.backdrop} open={isbackdrop}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
 
       <MessageModelSeller
 
@@ -624,7 +690,7 @@ export default function TableMaterialMessagesBuyer(props) {
             Cancel
           </Button>
           <Button onClick={handleMessagesubmit} color="primary">
-            SendMessage
+            Send Message
           </Button>
         </DialogActions>
         {/* <TextField
@@ -705,9 +771,10 @@ export default function TableMaterialMessagesBuyer(props) {
       <TextField
 
         id="select" name="togroup" label=""
-        value={togroup} onChange={(e) => setTogroup(e.target.value)}
+        value={togroup} onChange={handletogroupchanger}
         select variant="standard">
         <MenuItem value="producer">My Messages</MenuItem>
+        <MenuItem value="inbox">Sent Items</MenuItem>
         <MenuItem value="requests">Requests</MenuItem>
         <MenuItem value="all">Platform Messages</MenuItem>
       </TextField>
@@ -715,7 +782,7 @@ export default function TableMaterialMessagesBuyer(props) {
 
         <EnhancedTableToolbar
           deleteUsersclick={deleteUsers}
-          replyTouser={replyTouser}
+          // replyTouser={replyTouser}
           numSelected={selected.length}
           handleClickOpen={handleClickOpen}
           handleuserClickOpen={handleuserClickOpen}
@@ -742,7 +809,8 @@ export default function TableMaterialMessagesBuyer(props) {
             />
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .slice(0, rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
@@ -786,7 +854,7 @@ export default function TableMaterialMessagesBuyer(props) {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={rowlength}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}

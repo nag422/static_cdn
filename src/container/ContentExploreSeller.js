@@ -11,6 +11,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
 import Productskeleton from '../components/skeletons/Productskeleton'
+import Deleteconfirmdialogue from '../components/ModelDialogue/Deleteconfirmdialogue';
 
 const ContentExploreSeller = (props) => {
 
@@ -22,15 +23,19 @@ const ContentExploreSeller = (props) => {
     const [alertseverity, setAlertseverity] = React.useState('success')
     const [productmessage, setProductmessage] = React.useState('')
     const [loading, setLoading] = React.useState(false)
-
+    const [totalrecords,setTotalrecords] = React.useState(0)
+    
+    const [deleteid, setDeleteid] = React.useState(0);
+    const [deleteopen, setDeleteopen] = React.useState(false);
     
 
     useEffect(() => {
         const setprod = async () => {
             setLoading(true)
             const allprod = await apirequest.getsellerproducts({ 'pageNumber': pageNumber })
-            console.log('allprod',allprod)
-            setAllproducts(allprod)
+            console.log('allprod',allprod.obs)
+            setAllproducts(allprod.obs)
+            setTotalrecords(allprod.totalrecords)
             setLoading(false)
             
             
@@ -151,11 +156,27 @@ const ContentExploreSeller = (props) => {
 
     const deleteProduct = async(id) => {
 
-        const response = await apirequest.deleteproduct(id)
+        setDeleteopen(true);
+        setDeleteid(id)
+
+
+    }
+
+    const editProduct = async (id) => {
+        // const response = await apirequest.editCreatorproduct(id);
+        props.history.push('/admin/contentedit/'+id)
+    }
+
+
+    
+    
+      const handleDeleteCloseYes = async () => {
+        setDeleteopen(false);
+        const response = await apirequest.deleteproduct(deleteid)
 
         if (+response.status === 200) {
             const updatedproducts = allproducts.filter((val, key) => {
-                return [...allproducts, +val.id != +id]
+                return [...allproducts, +val.id != +deleteid]
             })
             setAllproducts(updatedproducts);
             
@@ -169,13 +190,12 @@ const ContentExploreSeller = (props) => {
             setOpen(true);
             setAlertseverity('error')
         }
-
-    }
-
-    const editProduct = async (id) => {
-        // const response = await apirequest.editCreatorproduct(id);
-        props.history.push('/admin/contentedit/'+id)
-    }
+        
+      };
+      const handleDeleteCloseNo = () => {
+        setDeleteopen(false);
+        
+      };
 
 
 
@@ -192,15 +212,18 @@ const ContentExploreSeller = (props) => {
                     {productmessage}
                 </Alert>
             </Snackbar>
+
+            <Deleteconfirmdialogue deleteopen={deleteopen} handleDeleteCloseYes={handleDeleteCloseYes} handleDeleteCloseNo={handleDeleteCloseNo} />
+
             <Grid container spacing={2}>
-                {allproducts.map((val, index) => {
+                {(allproducts?allproducts:[]).map((val, index) => {
                     return <Grid item md={4} sm={12} xs={12} lg={4} key={index}><ContentExplorecard editProduct={editProduct} deleteProduct={deleteProduct} val={val} likefun={addlikes} interestfun={addfavorites}
                        profilerestrict={profileresponse}
                     /></Grid>
                 })}
             </Grid>
             <Box display="flex" justifyContent="center" alignItems="center" mt={5} mb={5}>
-                <Pagination onChange={handlePagechange} count={10} color="primary" />
+                <Pagination onChange={handlePagechange} count={Math.floor(totalrecords/8)} color="primary" />
             </Box>
 
         </>

@@ -422,7 +422,7 @@ export default function TableMaterialMessages(props) {
     form_data.append('to', 'producer')
 
     axios.post(url + 'admin/getsellermessages/', form_data, config).then(res => {
-      if (!res.data.error) {
+      if (res.data.status == 200) {
 
         // setRows(res.data.GETmethodData)
         
@@ -430,6 +430,12 @@ export default function TableMaterialMessages(props) {
         setProductmessage("Message has been sent")
         setOpen(true);
         setAlertseverity('success')
+
+      }else{
+        setIsbackdrop(false)
+        setProductmessage('Something is went wrong')
+        setOpen(true);
+        setAlertseverity('error')
 
       }
     }).catch(err => {
@@ -740,7 +746,7 @@ export default function TableMaterialMessages(props) {
             Cancel
           </Button>
           <Button onClick={handleMessageReply} color="primary">
-            SendMessage
+            Send Message
           </Button>
         </DialogActions>
         {/* <TextField
@@ -769,7 +775,7 @@ export default function TableMaterialMessages(props) {
             select variant="standard">
             <MenuItem value="creator">My Messages</MenuItem>
             <MenuItem value="inbox">Sent Items</MenuItem>
-            <MenuItem value="requests">Requests</MenuItem>
+            {/* <MenuItem value="requests">Requests</MenuItem> */}
             <MenuItem value="all">Platform Messages</MenuItem>
       </TextField>
       <Paper className={classes.paper}>

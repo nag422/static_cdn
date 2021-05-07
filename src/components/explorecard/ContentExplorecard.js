@@ -177,9 +177,9 @@ export default function ContentExplorecard(props) {
         {props.profilerestrict.content == "creator" && 
         <>
         
-        <CreateIcon onClick={() => props.editProduct(props.val.id)} />
+        <CreateIcon style={{cursor:"pointer"}} onClick={() => props.editProduct(props.val.id)} />
        
-        <DeleteOutlineIcon onClick={() => props.deleteProduct(props.val.id)} />
+        <DeleteOutlineIcon style={{cursor:"pointer"}} onClick={() => props.deleteProduct(props.val.id)} />
        
         
         

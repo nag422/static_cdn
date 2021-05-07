@@ -113,7 +113,7 @@ export const getallproducts = async (payload) =>{
         console.log('pagenumber',payload.pageNumber)
         return await axios
           .get(`${url}admin/getProductsall/?page=${payload.pageNumber}`,config)
-          .then(resp => resp.data.obs)
+          .then(resp => resp.data)
           .catch(error => error);
       
           
@@ -134,7 +134,7 @@ export const getsellerproducts = async (payload) =>{
   console.log('pagenumber',payload.pageNumber)
   return await axios
     .get(`${url}admin/getproductsofcreator/?page=${payload.pageNumber}`,config)
-    .then(resp => resp.data.obs)
+    .then(resp => resp.data)
     .catch(error => []);
 
     
@@ -147,7 +147,8 @@ export const getalllikedproducts = async (payload) =>{
         const config = {
             headers: {
                 'content-type': 'application/json',          
-                'X-CSRFToken': getCookie('csrftoken')
+                'X-CSRFToken': getCookie('csrftoken'),
+                'Authorization': 'Token '+getToken()
             }
         }
 
@@ -155,7 +156,7 @@ export const getalllikedproducts = async (payload) =>{
         console.log('pagenumber',payload.pageNumber)
         return await axios
             .get(`${url}admin/getproductsallliked/?page=${payload.pageNumber}`,config)
-            .then(resp => resp.data.obs)
+            .then(resp => resp.data)
             .catch(error => error);
 
     
@@ -168,7 +169,8 @@ export const getalllikedproducts = async (payload) =>{
         const config = {
             headers: {
                 'content-type': 'application/json',          
-                'X-CSRFToken': getCookie('csrftoken')
+                'X-CSRFToken': getCookie('csrftoken'),
+                'Authorization': 'Token '+getToken()
             }
         }
 
@@ -176,7 +178,7 @@ export const getalllikedproducts = async (payload) =>{
         console.log('pagenumber',payload.pageNumber)
         return await axios
             .get(`${url}admin/getproductsallbagged/?page=${payload.pageNumber}`,config)
-            .then(resp => resp.data.obs)
+            .then(resp => resp.data)
             .catch(error => error);
 
     
@@ -197,7 +199,7 @@ export const getalllikedproducts = async (payload) =>{
       console.log('pagenumber',payload.pageNumber)
       return await axios
           .get(`${url}admin/getproductsallbyusers/?page=${payload.pageNumber}`,config)
-          .then(resp => resp.data.obs)
+          .then(resp => resp.data)
           .catch(error => error);
 
   

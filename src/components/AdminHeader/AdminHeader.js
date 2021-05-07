@@ -770,7 +770,7 @@ const AdminHeader = (props) => {
                   color="inherit"
                   onClick={handleNotificationClick}
                 >
-                  <Badge badgeContent={''} color="secondary">
+                  <Badge badgeContent={profileresponse.notificationcount} color="secondary">
                     <NotificationsIcon />
                   </Badge>
                 </IconButton>
@@ -786,6 +786,7 @@ const AdminHeader = (props) => {
                   color="inherit"
                 >
                   <Badge 
+                  
                   badgeContent={profileresponse.messagecount}
                    color="secondary">
                     <MailIcon />

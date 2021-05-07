@@ -59,6 +59,19 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
+const getToken = () => {
+  
+    try{
+      var unparsedtoken = localStorage.getItem('access_token');
+      var parsedtoken = JSON.parse(unparsedtoken);
+      return parsedtoken.access_token
+  
+    }catch{
+      return 'sdfsdfonfsdfsd'
+    }
+    
+  }
+
 const UsersList = () => {
 
     const calsses = useStyles();
@@ -131,7 +144,8 @@ const UsersList = () => {
         const config = {
             headers: {
                 'content-type': 'application/json',
-                'X-CSRFToken': getCookie('csrftoken')
+                'X-CSRFToken': getCookie('csrftoken'),
+                'Authorization': 'Token '+ getToken()
             }
         }
         axios.get(url + 'auth/admin/saveuser/', config).then(res => {
@@ -153,10 +167,11 @@ const UsersList = () => {
         const config = {
             headers: {
                 'content-type': 'application/json',
-                'X-CSRFToken': getCookie('csrftoken')
+                'X-CSRFToken': getCookie('csrftoken'),
+                'Authorization': 'Token '+ getToken()
             }
         }
-        axios.get(url + 'admin/getProductsall/', config).then(res => {
+        axios.get(url + 'admin/getProductsall/?page=1', config).then(res => {
 
             if (res.data.status == 200) {
 
@@ -178,7 +193,8 @@ const UsersList = () => {
         const config = {
             headers: {
                 'content-type': 'application/json',
-                'X-CSRFToken': getCookie('csrftoken')
+                'X-CSRFToken': getCookie('csrftoken'),
+                'Authorization': 'Token '+ getToken()
             }
         }
         axios.get(url + 'admin/getallgroups/', config).then(res => {
@@ -202,13 +218,13 @@ const UsersList = () => {
 
         }
     }, [])
-    React.useEffect(() => {
+    // React.useEffect(() => {
 
-        getproductlist()
-        return () => {
+    //     getproductlist()
+    //     return () => {
 
-        }
-    }, [])
+    //     }
+    // }, [])
 
 
     // Users
@@ -220,7 +236,8 @@ const UsersList = () => {
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
-                'X-CSRFToken': getCookie('csrftoken')
+                'X-CSRFToken': getCookie('csrftoken'),
+                'Authorization': 'Token '+ getToken()
             }
         }
 
@@ -485,6 +502,7 @@ const UsersList = () => {
                                     <MenuItem value={""}>Choose Category of User</MenuItem>
                                     <MenuItem value={"producer"}>Seller</MenuItem>
                                     <MenuItem value={"creator"}>Buyer</MenuItem>
+                                    <MenuItem value={"other"}>Other</MenuItem>
 
                                 </Select>
                             </FormControl>

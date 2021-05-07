@@ -510,6 +510,7 @@ export default function TableMaterialMessages(props) {
 
     const form_data = new FormData();
     form_data.append('itemlist', selected)
+    form_data.append('q', togroup)
     console.log(selected)
     setIsbackdrop(true)
     axios.post(url + 'admin/deletemessages/', form_data, config).then(res => {
@@ -775,7 +776,7 @@ export default function TableMaterialMessages(props) {
             select variant="standard">
             <MenuItem value="creator">My Messages</MenuItem>
             <MenuItem value="inbox">Sent Items</MenuItem>
-            {/* <MenuItem value="requests">Requests</MenuItem> */}
+            <MenuItem value="requests">Requests</MenuItem>
             <MenuItem value="all">Platform Messages</MenuItem>
       </TextField>
       <Paper className={classes.paper}>

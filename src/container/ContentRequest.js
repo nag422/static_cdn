@@ -119,7 +119,7 @@ const ContentRequest = (props) => {
 
     const onCreatorrequestSave = async (values) => {
         const history = props.history
-
+        setIsbackdrop(true)
         const finvalues = {
             ...values,
             author_type: 'creator',
@@ -137,12 +137,13 @@ const ContentRequest = (props) => {
         // );
 
         if (saverequestProductResponse === 200) {
-
+            setIsbackdrop(false)
             setProductmessage("Successfully request has been sent.")
             setOpen(true);
             setAlertseverity('success')
 
         } else {
+            setIsbackdrop(false)
             setProductmessage("Something is went wrong")
             setOpen(true);
             setAlertseverity('success')
@@ -154,7 +155,7 @@ const ContentRequest = (props) => {
     const onCreatorrequestProducerSave = async (values) => {
 
         const history = props.history
-
+        setIsbackdrop(true)
         const finvalues = {
             ...values,
             author_type: 'producer',
@@ -171,12 +172,13 @@ const ContentRequest = (props) => {
         // );
 
         if (saverequestProductResponse === 200) {
-
+            setIsbackdrop(false)
             setProductmessage("Successfully request has been sent.")
             setOpen(true);
             setAlertseverity('success')
 
         } else {
+            setIsbackdrop(false)
             setProductmessage("Something is went wrong")
             setOpen(true);
             setAlertseverity('success')

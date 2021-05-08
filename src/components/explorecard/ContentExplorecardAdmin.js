@@ -145,21 +145,21 @@ export default function ContentExplorecardAdminRequests(props) {
           </>
         }
         className={classes.title}
-        title={props.val.title.substring(0,48)}        
-        onClick={(e)=>detailPagenavigator(props.val.id,props.val.isfavored)}
+        title={<Link to={`/admin/section/${props.val.id}?interest=${props.val.isfavored}`}>{props.val.title.substring(0,48)}</Link>}  
+        // onClick={(e)=>detailPagenavigator(props.val.id,props.val.isfavored)}
         subheader={<Moment format="D MMM YYYY hh:mm a">{props.val.created}</Moment>}
         
       />
       <CardMedia
         className={classes.media}
-        image={`https://app.contentbond.com/media/${props.val.thumbnail}`}
+        image={`https://app.contentbond.com/${props.val.thumbnail}`}
         title={props.val.title}
         onClick={(e)=>detailPagenavigator(props.val.id,props.val.isfavored)}
       />
       <CardContent>
         <Box display="flex" justifyContent="flex-start">
           
-        <Link to={`/admin/profile/${props.val.author_id}`}>
+        <Link to={`/admin/profile/${props.val.author}`}>
           <Typography variant="body2" color="textSecondary" component="p">
 
             {props.val.customauthor}
@@ -181,7 +181,7 @@ export default function ContentExplorecardAdminRequests(props) {
 
 
       </CardContent>
-      <CardActions disableSpacing>
+      {/* <CardActions disableSpacing>
         <IconButton color={props.val.isliked ? 'primary' : 'secondary'} aria-label="add to favorites" onClick={(e) => props.likefun(e, props.val.id)}>
           <FavoriteIcon />
         </IconButton>
@@ -189,7 +189,7 @@ export default function ContentExplorecardAdminRequests(props) {
           <LocalMallIcon />
         </IconButton>
 
-      </CardActions>
+      </CardActions> */}
 
     </Card>
   );

@@ -4,7 +4,7 @@ import ContentExplorecard from '../components/explorecard/ContentExplorecardBagg
 import Pagination from '@material-ui/lab/Pagination';
 
 import * as apirequest from './api/api';
-import * as cardapi from './api/cardactionsapi';
+
 import Productskeleton from '../components/skeletons/Productskeleton';
 
 // import { useSelector } from 'react-redux';

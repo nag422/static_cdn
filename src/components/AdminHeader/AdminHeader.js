@@ -500,7 +500,7 @@ const AdminHeader = (props) => {
                 <ListItemIcon>
                   <PublishIcon />
                 </ListItemIcon>
-                <ListItemText primary="UploadProduct" />
+                <ListItemText primary="Upload Product" />
               </ListItem>
             </Link>
           </>

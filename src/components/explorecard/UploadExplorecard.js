@@ -18,6 +18,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import LocalMallIcon from '@material-ui/icons/LocalMall';
 import { Menu, MenuItem } from '@material-ui/core';
 import { useHistory } from 'react-router';
+import Moment from 'react-moment';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
   media: {
     height: 0,
     paddingTop: '56.25%', // 16:9
+    '&:hover':{
+      cursor:'pointer'
+    }
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -41,6 +45,11 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     backgroundColor: red[500],
   },
+  title:{
+    '&:hover':{
+      cursor:'pointer'
+    }
+  }
 }));
 
 export default function UploadExplorecard(props) {
@@ -134,8 +143,10 @@ export default function UploadExplorecard(props) {
         //     </Menu>
         //   </>
         // }
-        title={props.val.title}
-        subheader={props.val.created.toLocaleString()}
+        className={classes.title}
+        onClick={(e)=>detailPagenavigator(props.val.id)}
+        title={props.val.title.substring(0,50)}
+        subheader={<Moment format="D MMM YYYY hh:mm a">{props.val.created}</Moment>}
       />
       <CardMedia
         className={classes.media}
@@ -145,7 +156,7 @@ export default function UploadExplorecard(props) {
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-          {props.val.title}
+          {props.val.description.substring(0,50)}
         </Typography>
       </CardContent>
       {/* <CardActions disableSpacing>

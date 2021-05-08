@@ -157,7 +157,9 @@ const UsersList = () => {
             }
         }).catch(err => {
 
-            alert('myalert', err.message)
+            setUsercreatedmessage(err.message)
+            setOpen(true)
+            setAlertseverity('error')
 
         })
     }
@@ -181,7 +183,9 @@ const UsersList = () => {
             }
         }).catch(err => {
 
-            alert(err.message)
+            setUsercreatedmessage(err.message)
+            setOpen(true)
+            setAlertseverity('error')
 
         })
     }
@@ -206,7 +210,9 @@ const UsersList = () => {
             }
         }).catch(err => {
 
-            alert(err.message)
+            setUsercreatedmessage(err.message)
+            setOpen(true)
+            setAlertseverity('error')
 
         })
     }
@@ -277,10 +283,16 @@ const UsersList = () => {
         // console.log(u.map(val => val.id))
         var response = await ProductUserSave({ userdata: u.map(val => val.id), productdata: p.map(val => val.id), action: 'saveuserproducts' })
         if (response.status == 200){
-            alert(response.message)
+            
+            setUsercreatedmessage(response.message)
+            setOpen(true)
+            setAlertseverity('success')
         }
         else if(response.status == 400){
-            alert(response.message)
+            
+            setUsercreatedmessage(response.message)
+            setOpen(true)
+            setAlertseverity('error')
         }
 
     }
@@ -294,10 +306,14 @@ const UsersList = () => {
         // console.log(u.map(val => val.id))
         var response = await ProductUserSave({ userdata: u.map(val => val.id), productdata: p.map(val => val.id), action: 'removeuserproducts' })
         if (response.status == 200){
-            alert(response.message)
+            setUsercreatedmessage(response.message)
+            setOpen(true)
+            setAlertseverity('success')
         }
         else if(response.status == 400){
-            alert(response.message)
+            setUsercreatedmessage(response.message)
+            setOpen(true)
+            setAlertseverity('error')
         }
 
     }
@@ -490,7 +506,7 @@ const UsersList = () => {
                                 <Select
                                     labelId="category"
                                     id="category"
-                                    variant="outlined"
+                                 variant="outlined"
                                     name="category"
                                     style={{ marginTop: '30px' }}
                                     value={usercategory}

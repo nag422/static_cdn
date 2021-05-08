@@ -31,7 +31,8 @@ import * as authapi from '../../container/api/userapi'
 
 import Moment from 'react-moment';
 import { useHistory } from 'react-router';
-import { Button } from '@material-ui/core';
+import { Button, Snackbar } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
 function createData(id,role, category, name, email, created) {
   return { id,role, category, name, email, created };
 }
@@ -317,6 +318,11 @@ export default function TableMaterialuser(props) {
   const [querycontent, setQuerycontent] = React.useState('all');
   const [querycategory, setQuerycategory] = React.useState('all');
 
+
+  const [open, setOpen] = React.useState(false)
+  const [usercreatedmessage, setUsercreatedmessage] = React.useState('')
+  const [alertseverity, setAlertseverity] = React.useState('success')
+
   const history = useHistory()
 
       // backend operations
@@ -352,7 +358,7 @@ export default function TableMaterialuser(props) {
 
       const handleuserClickOpen = (e) => {
         
-        console.log(selected[0]);
+        // console.log(selected[0]);
         if (selected.length > 1){
            return alert('select one only')
         }
@@ -370,7 +376,7 @@ export default function TableMaterialuser(props) {
       };
 
       const handleuserClickActivateStatus = (status) => {
-        alert('Activate status : '+status)
+        // alert('Activate status : '+status)
         const form_data = new FormData();
         form_data.append('itemlist',selected)
         form_data.append('status',status)
@@ -391,10 +397,15 @@ export default function TableMaterialuser(props) {
           //   setRows(res.data.GETmethodData)
             
           // }
-          alert('Success')
+          setUsercreatedmessage("Success")
+          setOpen(true)
+          setAlertseverity('success')
       }).catch(err=>{
           
-          alert(err.message)
+         
+          setUsercreatedmessage(err.message)
+          setOpen(true)
+          setAlertseverity('error')
           
       })
 
@@ -414,7 +425,10 @@ export default function TableMaterialuser(props) {
         }
     }).catch(err=>{
         
-        alert(err.message)
+        
+        setUsercreatedmessage(err.message)
+        setOpen(true)
+        setAlertseverity('error')
         
     })
     }
@@ -434,7 +448,9 @@ export default function TableMaterialuser(props) {
           }
       }).catch(err=>{
           
-          alert(err.message)
+        setUsercreatedmessage(err.message)
+        setOpen(true)
+        setAlertseverity('error')
           
       })
       
@@ -477,12 +493,17 @@ export default function TableMaterialuser(props) {
         axios.post(url+'auth/admin/deleteusers/',form_data,config).then(res=>{
           if(!res.data.error){
               
-            alert('Successfully Deleted')
+            
+            setUsercreatedmessage('Successfully Deleted')
+            setOpen(true)
+            setAlertseverity('success')
             
           }
       }).catch(err=>{
           
-          alert(err.message)
+        setUsercreatedmessage(err.message)
+        setOpen(true)
+        setAlertseverity('error')
           
       })
 
@@ -500,12 +521,17 @@ export default function TableMaterialuser(props) {
         axios.post(url+'admin/assignedtogroup/',form_data,config).then(res=>{
           if(!res.data.error){
               
-            alert('Successfully assigned')
+          
+            setUsercreatedmessage('Successfully assigned')
+            setOpen(true)
+            setAlertseverity('success')
             
           }
       }).catch(err=>{
           
-          alert(err.message)
+        setUsercreatedmessage(err.message)
+        setOpen(true)
+        setAlertseverity('error')
           
       })
 
@@ -564,9 +590,15 @@ export default function TableMaterialuser(props) {
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-
+  const vertical = "top"
+  const horizontal = "right"
   return (
     <div className={classes.root}>
+      <Snackbar anchorOrigin={{ vertical, horizontal }} open={open} autoHideDuration={4000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity={alertseverity}>
+                    {usercreatedmessage}
+                </Alert>
+            </Snackbar>
       <ConfirmModel 
 
         setQueryfromodel = {setQueryfromodel}

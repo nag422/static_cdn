@@ -32,7 +32,8 @@ import * as authapi from '../../container/api/userapi'
 
 import Moment from 'react-moment';
 import { useHistory } from 'react-router';
-import { Button, DialogActions, DialogContent, DialogContentText, MenuItem, TextField } from '@material-ui/core';
+import { Backdrop, Button, CircularProgress, DialogActions, DialogContent, DialogContentText, MenuItem, Snackbar, TextField } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 function createData(id, role, category, name, email, created) {
   return { id, role, category, name, email, created };
 }
@@ -228,7 +229,7 @@ const EnhancedTableToolbar = (props) => {
         </Typography>
       ) : (
         <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-          All Messages
+          {/* All Messages */}
         </Typography>
       )}
 
@@ -287,6 +288,10 @@ const useStyles = makeStyles((theme) => ({
     top: 20,
     width: 1,
   },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
 }));
 
 export default function TableMaterialMessagesSeller(props) {
@@ -299,6 +304,7 @@ export default function TableMaterialMessagesSeller(props) {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [queryfromodel, setQueryfromodel] = React.useState('');
   const [togroup, setTogroup] = React.useState('creator');
+  const [rowlength, setRowlength] = React.useState(0);
 
 
   const history = useHistory()
@@ -317,7 +323,11 @@ export default function TableMaterialMessagesSeller(props) {
   })
 
 
-
+  const [open, setOpen] = React.useState(false)
+  const [alertseverity, setAlertseverity] = React.useState('success')
+  const [productmessage, setProductmessage] = React.useState('')
+  const [isbackdrop, setIsbackdrop] = React.useState(false);
+  
   const handleChangeeditForm = (e) => {
     setUserupdateform({
       ...userupdateform,
@@ -343,7 +353,11 @@ export default function TableMaterialMessagesSeller(props) {
 
     console.log(selected[0]);
     if (selected.length > 1) {
-      return alert('select one only')
+
+      setProductmessage('select one only')
+      setOpen(true);
+      setAlertseverity('error')
+      return 
     }
     var updated = rows.filter((val) => +val.id === +(selected[0]));
     setUsereditmodelopen(true);
@@ -365,15 +379,21 @@ export default function TableMaterialMessagesSeller(props) {
   };
 
   const getallusers = async () => {
-    axios.get(url + 'admin/getadminmesssages/?q='+togroup, config).then(res => {
+    setIsbackdrop(true)
+    axios.get(url + 'admin/getadminmesssages/?q='+togroup+'&currentpage='+(+page+1)+'&perpages='+rowsPerPage, config).then(res => {
       if (!res.data.error) {
 
         setRows(res.data.mesgs)
+        setRowlength(res.data.totalrecords)
+        setIsbackdrop(false)
 
       }
     }).catch(err => {
 
-      alert(err.message)
+      setIsbackdrop(false)
+      setProductmessage(err.message.toString())
+      setOpen(true);
+      setAlertseverity('error')
 
     })
   }
@@ -406,12 +426,21 @@ export default function TableMaterialMessagesSeller(props) {
       if (!res.data.error) {
 
         // setRows(res.data.GETmethodData)
-        alert('Message has been sent')
+        
+        setProductmessage('Message has been sent')
+        setOpen(true);
+        setAlertseverity('success')
+
 
       }
     }).catch(err => {
 
-      alert(err.message)
+      
+      setProductmessage(err.message.toString())
+      setOpen(true);
+      setAlertseverity('error')
+
+      
 
     })
 
@@ -433,12 +462,18 @@ export default function TableMaterialMessagesSeller(props) {
       if (!res.data.error) {
 
         // setRows(res.data.GETmethodData)
-        alert('Message has been sent')
+        
+        setProductmessage('Message has been sent')
+        setOpen(true);
+        setAlertseverity('success')
 
       }
     }).catch(err => {
 
-      alert(err.message)
+      
+      setProductmessage(err.message.toString())
+      setOpen(true);
+      setAlertseverity('error')
 
     })
     setReplymodelopen(false)
@@ -473,7 +508,7 @@ export default function TableMaterialMessagesSeller(props) {
 
 
 
-  const deleteUsers = async () => {
+  const replyTouser = async () => {
 
     // const form_data = new FormData();
     // form_data.append('itemlist',selected)
@@ -491,20 +526,33 @@ export default function TableMaterialMessagesSeller(props) {
     // })
 
   }
-  const replyTouser = async () => {
-
+  const deleteUsers = async () => {
+    setIsbackdrop(true)
     const form_data = new FormData();
     form_data.append('itemlist', selected)
+    form_data.append('q', togroup)
 
-    axios.post(url + 'auth/admin/deletemessages/', form_data, config).then(res => {
-      if (!res.data.error) {
+    axios.post(url + 'admin/deletemessages/', form_data, config).then(res => {
+      if (res.data.status == 200) {
 
-        alert('Successfully Deleted')
+        setIsbackdrop(false)
+        setProductmessage("Successfully Deleted")
+        setOpen(true);
+        setAlertseverity('success')
 
-      }
+      }else{
+        setIsbackdrop(false)
+        setProductmessage("Something is went wrong")
+        setOpen(true);
+        setAlertseverity('error')
+  
+        }
     }).catch(err => {
 
-      alert(err.message)
+      setIsbackdrop(false)
+      setProductmessage(err.message.toString())
+      setOpen(true);
+      setAlertseverity('error')
 
     })
 
@@ -561,11 +609,19 @@ export default function TableMaterialMessagesSeller(props) {
     setPage(0);
   };
 
+  const handletogroupchanger=(event) => {
+    setTogroup(event.target.value)
+    setPage(0);
+  }
+
 
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  // const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  const emptyRows = 0
+  const vertical = "top"
+  const horizontal = "right"
 
   return (
     <div className={classes.root}>
@@ -582,6 +638,15 @@ export default function TableMaterialMessagesSeller(props) {
         
       
       /> */}
+
+<Snackbar anchorOrigin={{ vertical, horizontal }} open={open} autoHideDuration={4000} onClose={() =>setOpen(false)}>
+                <Alert onClose={() =>setOpen(false)} severity={alertseverity}>
+                    {productmessage}
+                </Alert>
+            </Snackbar>
+            <Backdrop className={classes.backdrop} open={isbackdrop}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
 
       <MessageModel
 
@@ -627,7 +692,7 @@ export default function TableMaterialMessagesSeller(props) {
             Cancel
           </Button>
           <Button onClick={handleMessagesubmit} color="primary">
-            SendMessage
+            Send Message
           </Button>
         </DialogActions>
         {/* <TextField
@@ -683,7 +748,7 @@ export default function TableMaterialMessagesSeller(props) {
             Cancel
           </Button>
           <Button onClick={handleMessageReply} color="primary">
-            SendMessage
+            Send Message
           </Button>
         </DialogActions>
         {/* <TextField
@@ -708,12 +773,12 @@ export default function TableMaterialMessagesSeller(props) {
       <TextField
             
             id="select" name="togroup" label=""
-            value={togroup} onChange={(e) => setTogroup(e.target.value)}
+            value={togroup} onChange={handletogroupchanger}
             select variant="standard">
             <MenuItem value="creator">Sellers</MenuItem>
             <MenuItem value="producer">Buyers</MenuItem>
             <MenuItem value="requests">Requests</MenuItem>
-            <MenuItem value="all">All</MenuItem>
+            <MenuItem value="all">Platform Messages</MenuItem>
       </TextField>
       <Paper className={classes.paper}>
 
@@ -790,7 +855,7 @@ export default function TableMaterialMessagesSeller(props) {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={rowlength}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}

@@ -218,7 +218,7 @@ const Detailcard = (props) => {
             </IconButton> */}
 
 
-            
+  {!profileresponse.user_ptr.is_superuser &&           
 <Box mt={2} display="flex" flexDirection="row" justifyContent="space-between">
 
             <Button
@@ -252,6 +252,8 @@ const Detailcard = (props) => {
             </Button>
 
             </Box>
+
+          }
             
             <br></br>
             

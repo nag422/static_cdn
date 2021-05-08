@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     // display: 'none',
-    paddingRight:theme.spacing(2),
+    paddingRight: theme.spacing(2),
     [theme.breakpoints.up('sm')]: {
       display: 'block',
       wrap: 'noWrap'
@@ -529,7 +529,7 @@ const AdminHeader = (props) => {
               <ListItemText primary="Explore" />
             </ListItem>
           </Link>
-        :null}
+          : null}
         {!response.is_superuser && profileresponse.content == "creator" ?
           <Link to="/admin/seller/content" style={{ textDecoration: 'none', color: 'inherit' }}>
             <ListItem button>
@@ -539,7 +539,7 @@ const AdminHeader = (props) => {
               <ListItemText primary="My Uploads" />
             </ListItem>
           </Link>
-        :null}
+          : null}
         {profileresponse.content == "producer" && !response.is_superuser ?
           <>
             <Link to="/admin/favorite" style={{ textDecoration: 'none', color: 'inherit' }}>
@@ -764,18 +764,33 @@ const AdminHeader = (props) => {
               <div className={classes.grow} />
               <div className={classes.sectionDesktop}>
 
-{profileresponse.content !== "creator"?<>
-                <IconButton
-                  aria-label="show 4 new mails"
-                  color="inherit"
-                  onClick={handleNotificationClick}
-                >
-                  <Badge badgeContent={profileresponse.notificationcount} color="secondary">
-                    <NotificationsIcon />
-                  </Badge>
-                </IconButton>
-</>
-        :null}
+                {profileresponse.content !== "creator" && !response.is_superuser ? <>
+                  <IconButton
+                    aria-label="show 4 new mails"
+                    color="inherit"
+                    onClick={handleNotificationClick}
+                  >
+                    <Badge badgeContent={profileresponse.notificationcount} color="secondary">
+                      <NotificationsIcon />
+                    </Badge>
+                  </IconButton>
+                </>
+                  : null}
+
+            {response.is_superuser ? <>
+                  <IconButton
+                    aria-label="show 4 new mails"
+                    color="inherit"
+                    onClick={handleNotificationClick}
+                  >
+                    <Badge badgeContent={profileresponse.notificationcount} color="secondary">
+                      <NotificationsIcon />
+                    </Badge>
+                  </IconButton>
+                </>
+                  : null}
+
+
 
                 <IconButton
 
@@ -785,10 +800,10 @@ const AdminHeader = (props) => {
                   onClick={handleMessageClick}
                   color="inherit"
                 >
-                  <Badge 
-                  
-                  badgeContent={profileresponse.messagecount}
-                   color="secondary">
+                  <Badge
+
+                    badgeContent={profileresponse.messagecount}
+                    color="secondary">
                     <MailIcon />
                   </Badge>
 

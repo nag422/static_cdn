@@ -214,7 +214,8 @@ export const getalllikedproductsadmin = async (payload) =>{
   const config = {
       headers: {
           'content-type': 'application/json',          
-          'X-CSRFToken': getCookie('csrftoken')
+          'X-CSRFToken': getCookie('csrftoken'),
+          'Authorization': 'Token '+getToken()
       }
   }
 
@@ -222,7 +223,7 @@ export const getalllikedproductsadmin = async (payload) =>{
  
   return await axios
       .get(`${url}admin/getproductsalllikedbyid/?page=${payload.pageNumber}&id=${payload.dynoid}`,config)
-      .then(resp => resp.data.obs)
+      .then(resp => resp.data)
       .catch(error => error);
 
 
@@ -243,7 +244,7 @@ export const getallbaggedproductsadmin = async (payload) =>{
 
   return await axios
       .get(`${url}admin/getproductsallbaggedbyid/?page=${payload.pageNumber}&id=${payload.dynoid}`,config)
-      .then(resp => resp.data.obs)
+      .then(resp => resp.data)
       .catch(error => error);
 
 

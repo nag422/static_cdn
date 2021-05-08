@@ -64,7 +64,7 @@ const UserUploads = (props) => {
     const horizontal = "right"
     return (
        <>
-       {loading && <Productskeleton />}
+       
             <Snackbar anchorOrigin={{ vertical, horizontal }} open={open} autoHideDuration={4000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity={alertseverity}>
                     {productmessage}
@@ -78,6 +78,7 @@ const UserUploads = (props) => {
             <Box display="flex" justifyContent="center" alignItems="center" mt={5} mb={5}>
             <Pagination onChange={handlePagechange} count={Math.floor(totalrecords/8)} color="primary" />
             </Box>
+            {loading && <Productskeleton />}
             
 </>
            

@@ -19,7 +19,6 @@ import LocalMallIcon from '@material-ui/icons/LocalMall';
 import { Menu, MenuItem } from '@material-ui/core';
 import { useHistory } from 'react-router';
 import Moment from 'react-moment';
-
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 'auto',
@@ -52,9 +51,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function UserRecommendexplorecard(props) {
+export default function UserContentExplorecardFavorite(props) {
   const classes = useStyles();
-  const history = useHistory();
+  const history = useHistory()
  
 
 
@@ -101,7 +100,7 @@ export default function UserRecommendexplorecard(props) {
     <Card className={classes.root}>
       <CardHeader
         // avatar={
-        //   <Avatar aria-label="recipe" className={classes.avatar} src={`https://app.contentbond.com${props.val.thumbnail}`}>
+        //   <Avatar aria-label="recipe" className={classes.avatar} src={`https://app.contentbond.com/media/${props.val.thumbnail}`}>
         //     R
         //   </Avatar>
         // }
@@ -151,23 +150,25 @@ export default function UserRecommendexplorecard(props) {
       <CardMedia
         className={classes.media}
         image={`https://app.contentbond.com/media/${props.val.thumbnail}`}
-        title={props.val.title.substring(0,50)}
+        title={props.val.title}
         onClick={(e)=>detailPagenavigator(props.val.id)}
       />
+      
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
         {props.val.description.substring(0,50)}
         </Typography>
       </CardContent>
-      {/* <CardActions disableSpacing>
-        <IconButton color={props.val.isliked?'primary':'secondary'} aria-label="add to favorites" onClick={(e) => props.likefun(e,props.val.id)}>
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share" color={props.val.isfavored?'primary':'secondary'} onClick={(e) => props.interestfun(e,props.val.id)}>
-          <LocalMallIcon />
-        </IconButton>
 
-      </CardActions> */}
+      <CardActions disableSpacing>
+        {/* <IconButton color={props.val.isliked?'primary':'secondary'} aria-label="add to favorites" onClick={(e) => props.likefun(e,props.val.id)}>
+          <FavoriteIcon />
+        </IconButton> */}
+        {/* <IconButton aria-label="share" color={props.val.isfavored?'primary':'secondary'} onClick={(e) => props.interestfun(e,props.val.id)}>
+          <LocalMallIcon />
+        </IconButton> */}
+
+      </CardActions>
 
     </Card>
   );

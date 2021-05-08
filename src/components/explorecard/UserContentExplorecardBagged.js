@@ -52,9 +52,10 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function UserRecommendexplorecard(props) {
+export default function UserContentExplorecardBagged(props) {
   const classes = useStyles();
   const history = useHistory();
+
  
 
 
@@ -97,11 +98,13 @@ export default function UserRecommendexplorecard(props) {
   //   }
   // };
 
+  
+
   return (
     <Card className={classes.root}>
       <CardHeader
         // avatar={
-        //   <Avatar aria-label="recipe" className={classes.avatar} src={`https://app.contentbond.com${props.val.thumbnail}`}>
+        //   <Avatar aria-label="recipe" className={classes.avatar} src={`https://app.contentbond.com/media/${props.val.thumbnail}`}>
         //     R
         //   </Avatar>
         // }
@@ -148,26 +151,31 @@ export default function UserRecommendexplorecard(props) {
         subheader={<Moment format="D MMM YYYY hh:mm a">{props.val.created}</Moment>}
         onClick={(e)=>detailPagenavigator(props.val.id)}
       />
+      
       <CardMedia
         className={classes.media}
         image={`https://app.contentbond.com/media/${props.val.thumbnail}`}
-        title={props.val.title.substring(0,50)}
+        title={props.val.title}
         onClick={(e)=>detailPagenavigator(props.val.id)}
       />
+
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
         {props.val.description.substring(0,50)}
         </Typography>
       </CardContent>
-      {/* <CardActions disableSpacing>
-        <IconButton color={props.val.isliked?'primary':'secondary'} aria-label="add to favorites" onClick={(e) => props.likefun(e,props.val.id)}>
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share" color={props.val.isfavored?'primary':'secondary'} onClick={(e) => props.interestfun(e,props.val.id)}>
-          <LocalMallIcon />
-        </IconButton>
 
-      </CardActions> */}
+      {
+      <CardActions disableSpacing>
+        {/* <IconButton color={props.val.isliked?'primary':'secondary'} aria-label="add to favorites" onClick={(e) => props.likefun(e,props.val.id)}>
+          <FavoriteIcon />
+        </IconButton> */}
+        {/* <IconButton aria-label="share" color={props.val.isfavored?'primary':'secondary'} onClick={(e) => props.interestfun(e,props.val.id)}>
+          <LocalMallIcon />
+        </IconButton> */}
+
+      </CardActions>
+      }
 
     </Card>
   );

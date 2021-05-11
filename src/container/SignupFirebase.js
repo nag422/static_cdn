@@ -28,6 +28,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 
 import { validatingUsername, RegisterAccount } from "./api/authapi";
 import { useSelector } from "react-redux";
+import { AlertTitle } from "@material-ui/lab";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -174,7 +175,7 @@ const SignupFirebase = (props) => {
       })
         
       } else {
-        setRegistermessage("Something is went wrong");
+        setRegistermessage(submitresponse.message);
         setOpen(true);
         setAlertseverity("error");
         setIssubmitting(false)
@@ -256,6 +257,13 @@ const SignupFirebase = (props) => {
             className={classes.bordertopcolor}
           >
             {/* <LinearProgress value={40} /> */}
+
+            {open ?
+          <Alert severity={alertseverity == "success" ? "success":"error"}>
+            <AlertTitle>{alertseverity == "success" ? "Success":"Error"}</AlertTitle>
+             E-mail has been sent — <strong>{alertseverity == "success" ? "Check your inbox":"Try Again!"}</strong>
+          </Alert>
+:null}
             <Box display="flex" flexDirection="column" p={3}>
               <Box
                 display="flex"

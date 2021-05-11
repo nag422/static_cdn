@@ -14,7 +14,8 @@ import HttpsOutlinedIcon from "@material-ui/icons/HttpsOutlined";
 import { Link } from "react-router-dom";
 
 import { passwordReset } from './api/authapi';
-
+import { Alert, AlertTitle } from "@material-ui/lab";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,11 +59,28 @@ const useStyles = makeStyles((theme) => ({
 const ForgotPassword = () => {
   const classes = useStyles();
   const [email, setEmail] = React.useState();
+  const [issubmitting, setIssubmitting] = React.useState(false);
+  const [open, setOpen] = React.useState(false)
+  const [usercreatedmessage, setUsercreatedmessage] = React.useState('')
+  const [alertseverity, setAlertseverity] = React.useState('success')
 
   const passwordResetform = async (e) => {
     e.preventDefault();
-    await passwordReset({ email: email, actions: "forgotpassword" })
-    console.log(e)
+    setIssubmitting(true);
+    const resp = await passwordReset({ email: email, actions: "forgotpassword" })
+
+    if(resp.status == 200){
+      setOpen(true)
+      setUsercreatedmessage(resp.message)
+      setAlertseverity('success')
+    }else{
+      setOpen(true)
+      setUsercreatedmessage('Something is Went Wrong!')
+      setAlertseverity('error')
+    }
+    setIssubmitting(false);
+
+    
   }
   return (
     <>
@@ -82,6 +100,12 @@ const ForgotPassword = () => {
           square
           className={classes.bordertopcolor}
         >
+          {open ?
+          <Alert severity={alertseverity == "success" ? "success":"error"}>
+            <AlertTitle>{alertseverity == "success" ? "Success":"Error"}</AlertTitle>
+            {usercreatedmessage} — <strong>{alertseverity == "success" ? "Check your inbox":"Try Again!"}</strong>
+          </Alert>
+:null}
           {/* <LinearProgress value={40} /> */}
           <Box display="flex" flexDirection="column" p={3}>
             <Box
@@ -118,6 +142,13 @@ const ForgotPassword = () => {
                   style={{ marginTop: "3%" }}
                   type="submit"
                 >
+                   {issubmitting && (
+                        <CircularProgress
+                          color="secondary"
+                          size={20}
+                          thickness={4.8}
+                        />
+                      )}{" "}
                   Reset
             </Button>
               </Box>

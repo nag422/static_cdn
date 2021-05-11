@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// const url = 'http://127.0.0.1:8000/'
-const url = 'https://app.contentbond.com/'
+const url = 'http://127.0.0.1:8000/'
+// const url = 'https://app.contentbond.com/'
 const getCookie = (name) => {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -116,7 +116,8 @@ export const passwordReset =async (payload) => {
   const config = {
     headers: {
         'content-type': 'application/json',          
-        'X-CSRFToken': getCookie('csrftoken')
+        'X-CSRFToken': getCookie('csrftoken'),
+        // 'Authorization': 'Token b3ca630db1d487224dad3a90251e186b9c699d40'
     },
     cancelToken: new axios.CancelToken(c => cancel = c)
   }
@@ -130,7 +131,7 @@ export const passwordReset =async (payload) => {
   
 
   await axios
-    .post(url+"auth/password_reset/", form_data,config)
+    .post(url+"auth/password_reset_submit/", form_data,config)
     .then(resp => {statuscode=resp.data})
     .catch(e => {
     if (axios.isCancel(e)) return

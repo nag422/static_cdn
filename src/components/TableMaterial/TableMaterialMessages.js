@@ -18,6 +18,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
+import EmailIcon from '@material-ui/icons/Email';
 
 import ReplyIcon from '@material-ui/icons/Reply';
 
@@ -252,9 +253,17 @@ const EnhancedTableToolbar = (props) => {
 
         </>
       ) : (
-        <Tooltip title="Filter list">
-          <IconButton aria-label="filter list" onClick={props.handleClickOpen}>
-            <FilterListIcon />
+        <Tooltip title="Compose">
+          <IconButton aria-label="Compose">
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            startIcon={<EmailIcon />}
+            onClick={props.handleClickOpen}
+          >
+            Compose
+          </Button>
           </IconButton>
         </Tooltip>
       )}
@@ -316,6 +325,7 @@ export default function TableMaterialMessagesSeller(props) {
   const [modelopen, setModelopen] = React.useState(false);
   const [replymodelopen, setReplymodelopen] = React.useState(false);
   const [usereditmodelopen, setUsereditmodelopen] = React.useState(false);
+  const [mailormessage,setMailormessage] = React.useState('message')
 
   const [userupdateform, setUserupdateform] = React.useState({
     role: 'user',
@@ -421,6 +431,9 @@ export default function TableMaterialMessagesSeller(props) {
     const form_data = new FormData();
     form_data.append('message', queryfromodel)
     form_data.append('to', togroup)
+    
+    
+    
 
     axios.post(url + 'admin/getadminmesssages/', form_data, config).then(res => {
       if (!res.data.error) {
@@ -457,6 +470,7 @@ export default function TableMaterialMessagesSeller(props) {
     const form_data = new FormData();
     form_data.append('message', queryfromodel)
     form_data.append('itemlist', selected)
+    form_data.append('mailormessage', mailormessage)
 
     axios.post(url + 'admin/getadminmesssagesreply/', form_data, config).then(res => {
       if (!res.data.error) {
@@ -672,7 +686,7 @@ export default function TableMaterialMessagesSeller(props) {
             <MenuItem value="requests">Requests</MenuItem>
             <MenuItem value="all">All</MenuItem>
           </TextField>
-
+          <br></br><br></br>          
           <TextField
             onChange={(e) => setQueryfromodel(e.target.value)}
             autoFocus
@@ -741,6 +755,17 @@ export default function TableMaterialMessagesSeller(props) {
             multiline={true}
             rows="5"
           />
+          <TextField
+            fullWidth
+            id="select" name="mailormessage" label="Email"
+            value={mailormessage} onChange={(e) => setMailormessage(e.target.value)}
+            select variant="standard">
+            <MenuItem value="message">Only Message</MenuItem>
+            <MenuItem value="email">Only Email</MenuItem>
+            <MenuItem value="emailandmessage">Email and Message</MenuItem>
+           
+          </TextField>
+          <br></br><br></br>
 
         </DialogContent>
         <DialogActions>

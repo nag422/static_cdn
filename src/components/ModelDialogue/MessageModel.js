@@ -10,7 +10,7 @@ export default function MessageModel(props) {
       {/* <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         Open form dialog
       </Button> */}
-      <Dialog open={props.modelopen} onClose={props.handleClose} aria-labelledby="form-dialog-title">
+      <Dialog open={props.modelopen} onClose={props.handleClose} aria-labelledby="form-dialog-title" fullWidth={true}>
         {/* <DialogTitle id="form-dialog-title">Bulk Message</DialogTitle> */}
         {props.children}
         {/* <DialogContent>

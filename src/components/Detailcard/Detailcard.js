@@ -188,29 +188,29 @@ const Detailcard = (props) => {
         <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
           <Card style={{ padding: "2%",paddingLeft:"4%" }}>
             <Typography variant="h5" component="h3">Title: {post.title}</Typography><br></br>
-            <Typography component="p" variant="subtitle1"><Chip size="small" color="primary" label="Description : "></Chip><br></br> {post.description}</Typography>
-            <br></br>
-            <Typography component="p" variant="subtitle1"><Chip size="small" color="primary" label={"Language : "}></Chip>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {post.language}</Typography>
-            <br></br>
-            <Typography component="p" variant="subtitle1"><Chip size="small" color="primary" label="Country : "></Chip>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {post.country}</Typography>
-            <br></br>
-            <Typography component="p" variant="subtitle1"><Chip size="small" color="primary" label="Rights : "></Chip>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {post.rights}</Typography>
-            <br></br>
-            <Typography component="p" variant="subtitle1"><Chip size="small" color="primary" label="Category : "></Chip>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {post.category}</Typography>
-            <br></br>
-            <Typography component="p" variant="subtitle1"><Chip size="small" color="primary" label="Genere : "></Chip>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {post.genre}</Typography>
-            <br></br>
-            <Typography component="p" variant="subtitle1"><Chip size="small" color="primary" label="Keywords : "></Chip>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {post.keywords}</Typography>
-            <br></br>
-            <Typography component="p" variant="subtitle1"><Chip size="small" color="primary" label="Region : "></Chip>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {post.rightsregion}</Typography>
-            <br></br>
-            <Typography component="p" variant="subtitle1"><Chip size="small" color="primary" label="Runtime(minuts) : "></Chip>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {post.runtime}</Typography>
-            <br></br>
-            <Typography component="p" variant="subtitle1"><Chip size="small" color="primary" label="No.of Videos : "></Chip>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {post.numbofvideos}</Typography>
-            <br></br>
-            <Typography component="p" variant="subtitle1"><Chip size="small" color="primary" label="Terms & Conditions : "></Chip>&nbsp;{post.termsconditions}</Typography>
+            <Chip size="small" color="primary" label="Description : "></Chip><br></br> {post.description}
+            <br></br><br></br>
+            <Chip size="small" color="primary" label={"Language : "}></Chip>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {post.language}
+            <br></br><br></br>
+            <Chip size="small" color="primary" label="Country : "></Chip>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {post.country}
+            <br></br><br></br>
+            <Chip size="small" color="primary" label="Rights : "></Chip>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {post.rights}
+            <br></br><br></br>
+            <Chip size="small" color="primary" label="Category : "></Chip>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {post.category}
+            <br></br><br></br>
+            <Chip size="small" color="primary" label="Genere : "></Chip>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {post.genre}
+            <br></br><br></br>
+            <Chip size="small" color="primary" label="Keywords : "></Chip>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {post.keywords}
+            <br></br><br></br>
+            <Chip size="small" color="primary" label="Region : "></Chip>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {post.rightsregion}
+            <br></br><br></br>
+            <Chip size="small" color="primary" label="Runtime(minuts) : "></Chip>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {post.runtime}
+            <br></br><br></br>
+            <Chip size="small" color="primary" label="No.of Videos : "></Chip>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {post.numbofvideos}
+            <br></br><br></br>
+            <Chip size="small" color="primary" label="Terms & Conditions : "></Chip>&nbsp;{post.termsconditions}
             {profileresponse.content != "producer"?<>
-            <br></br><Typography component="p" variant="subtitle1"><Chip size="small" color="primary" label="Cost : "></Chip>&nbsp;{post.price} Rs</Typography>
+            <br></br><br></br><Chip size="small" color="primary" label="Cost : "></Chip>&nbsp;{post.price} Rs
             </>:null}
 
             {/* <IconButton aria-label="share" color={favorite == "true" ? 'primary' : 'secondary'} onClick={(e) => addfavorites(e, post.id)}>
@@ -265,10 +265,11 @@ const Detailcard = (props) => {
 
         <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
           <div>
+          <Chip color="secondary" size="small" label="Video:" style={{marginBottom:"3%"}} />
             <ReactPlayer className='reactplayer' 
                 light = {`https://app.contentbond.com/media/${post.thumbnail}`}
                 playIcon = {<PlayCircleOutlineIcon style={{color:"white",marginLeft:"-16%"}} fontSize="large" />}
-                playing={false} controls={true} url={`https://app.contentbond.com/media/uploads/58339943_276469819969410_211101138701778944_n_XhFjQT5.mp4`} 
+                playing={false} controls={true} url={`https://app.contentbond.com/media/${post.videofile}`} 
             />
           </div>
           <br></br>

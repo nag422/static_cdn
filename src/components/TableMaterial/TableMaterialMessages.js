@@ -254,7 +254,7 @@ const EnhancedTableToolbar = (props) => {
         </>
       ) : (
         <Tooltip title="Compose">
-          <IconButton aria-label="Compose">
+          
           <Button
             variant="contained"
             color="primary"
@@ -264,7 +264,7 @@ const EnhancedTableToolbar = (props) => {
           >
             Compose
           </Button>
-          </IconButton>
+          
         </Tooltip>
       )}
     </Toolbar>
@@ -422,7 +422,7 @@ export default function TableMaterialMessagesSeller(props) {
   React.useEffect(() => {
     
     getallusers()
-  }, [togroup])
+  }, [togroup,page])
 
   const handleMessagesubmit = async (e) => {
 
@@ -431,6 +431,7 @@ export default function TableMaterialMessagesSeller(props) {
     const form_data = new FormData();
     form_data.append('message', queryfromodel)
     form_data.append('to', togroup)
+    form_data.append('mailormessage', mailormessage)
     
     
     
@@ -686,7 +687,21 @@ export default function TableMaterialMessagesSeller(props) {
             <MenuItem value="requests">Requests</MenuItem>
             <MenuItem value="all">All</MenuItem>
           </TextField>
-          <br></br><br></br>          
+          <br></br><br></br>      
+
+          
+          <TextField
+            fullWidth
+            id="select" name="mailormessage" label="Email"
+            value={mailormessage} onChange={(e) => setMailormessage(e.target.value)}
+            select variant="standard">
+            <MenuItem value="message">Only Message</MenuItem>
+            <MenuItem value="email">Only Email</MenuItem>
+            <MenuItem value="emailandmessage">Email and Message</MenuItem>
+           
+          </TextField>    
+
+          <br></br><br></br>
           <TextField
             onChange={(e) => setQueryfromodel(e.target.value)}
             autoFocus
@@ -699,6 +714,9 @@ export default function TableMaterialMessagesSeller(props) {
             multiline={true}
             rows="5"
           />
+
+
+          <br></br>
 
         </DialogContent>
         <DialogActions>
@@ -836,7 +854,8 @@ export default function TableMaterialMessagesSeller(props) {
             />
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .slice(0, rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;

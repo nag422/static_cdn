@@ -16,25 +16,22 @@ import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
-import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
+import faker from 'faker';
 import axios from 'axios';
 import ConfirmModel from '../ModelDialogue/ConfirmModel'
-import UserEditModel from '../ModelDialogue/UserEditModel'
+import { Button, CardMedia } from '@material-ui/core';
 import CreateIcon from '@material-ui/icons/Create';
+import { Edit, MailOutline } from '@material-ui/icons';
 
-import Brightness3Icon from '@material-ui/icons/Brightness3';
-import Brightness1Icon from '@material-ui/icons/Brightness1';
-
-import * as authapi from '../../container/api/userapi'
-
-import Moment from 'react-moment';
+import * as apirequest from '../../container/api/api';
 import { useHistory } from 'react-router';
-import { Button, Snackbar } from '@material-ui/core';
-import Alert from '@material-ui/lab/Alert';
-function createData(id,role, category, name, email, created) {
-  return { id,role, category, name, email, created };
+
+function createData(id,groupname, rule, users) {
+  return { id,groupname, rule, users };
 }
 // const url = "http://127.0.0.1:8000/"
 const url = 'https://app.contentbond.com/'
@@ -67,12 +64,12 @@ const getToken = () => {
   }
   
 }
+
 const config = {
   headers: {
       'content-type': 'multipart/form-data',          
       'X-CSRFToken': getCookie('csrftoken'),
-      'Authorization': 'Token '+getToken(),
-      // 'Authorization':'Token b3ca630db1d487224dad3a90251e186b9c699d40'
+      'Authorization': 'Token '+getToken()
   }
 }
 
@@ -128,14 +125,8 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'role', numeric: false, disablePadding: true, label: 'Role' },
-  { id: 'category', numeric: false, disablePadding: false, label: 'Category' },
-  { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
-  { id: 'email', numeric: false, disablePadding: false, label: 'Email' },
-  { id: 'is_active', numeric: false, disablePadding: false, label: 'Status' },
-  { id: 'created', numeric: false, disablePadding: false, label: 'Created' },
-  { id: 'group', numeric: false, disablePadding: false, label: 'Group' },
-  { id: 'id', numeric: false, disablePadding: false, label: 'Profile' },
+  { id: 'title', numeric: false, disablePadding: true, label: 'Title' }, 
+  { id: 'thumbnail', numeric: false, disablePadding: true, label: 'Thumbnail' }  
   
 ];
 
@@ -232,27 +223,14 @@ const EnhancedTableToolbar = (props) => {
         </Typography>
       ) : (
         <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-          All Users
+          
         </Typography>
       )}
 
-      {numSelected > 0 ? (
+      {/* {numSelected > 0 ? (
         <>
- 
-        <Tooltip title="Activate">
-          <IconButton aria-label="activate" onClick={() =>props.handleuserClickActivateStatus('activate')}>
-            <Brightness1Icon />            
-          </IconButton>
-        </Tooltip>
-
-        <Tooltip title="Deactivate">
-          <IconButton aria-label="delete" onClick={() =>props.handleuserClickActivateStatus('deactivate')}>
-            <Brightness3Icon />            
-          </IconButton>
-        </Tooltip>
-
         <Tooltip title="Edit">
-          <IconButton aria-label="edit" onClick={props.handleuserClickOpen}>
+          <IconButton aria-label="edit">
             <CreateIcon />            
           </IconButton>
         </Tooltip>
@@ -261,19 +239,18 @@ const EnhancedTableToolbar = (props) => {
             <DeleteIcon />            
           </IconButton>
         </Tooltip>
-        <Tooltip title="Assign">
-          <IconButton aria-label="assign" onClick={props.assignuserstogroupclick}>
-            <AssignmentIndIcon />            
-          </IconButton>
-        </Tooltip>
+        
         </>
-      ) : (
+      ) : 
+      (
         <Tooltip title="Filter list">
           <IconButton aria-label="filter list" onClick = {props.handleClickOpen}>
+          <IconButton aria-label="filter list">
             <FilterListIcon />            
           </IconButton>
-        </Tooltip>
-      )}
+         </Tooltip>
+      )
+      null} */}
     </Toolbar>
   );
 };
@@ -293,6 +270,9 @@ const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 750,
   },
+  media: {
+    height: 140,
+  },
   visuallyHidden: {
     border: 0,
     clip: 'rect(0 0 0 0)',
@@ -306,7 +286,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TableMaterialuser(props) {
+export default function TableMaterialproducts(props) {
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
@@ -314,39 +294,19 @@ export default function TableMaterialuser(props) {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
+  const [rowslength, setRowslength] = React.useState(0);
   const [queryfromodel, setQueryfromodel] = React.useState('');
-  const [querycontent, setQuerycontent] = React.useState('all');
-  const [querycategory, setQuerycategory] = React.useState('all');
 
+    const [loading, setLoading] = React.useState(false)
+    const [totalrecords,setTotalrecords] = React.useState(0)
 
-  const [open, setOpen] = React.useState(false)
-  const [usercreatedmessage, setUsercreatedmessage] = React.useState('')
-  const [alertseverity, setAlertseverity] = React.useState('success')
-
-  const history = useHistory()
+    const history = useHistory();
 
       // backend operations
 
     const [rows,setRows] = React.useState([])
     
     const [modelopen, setModelopen] = React.useState(false);
-    const [usereditmodelopen, setUsereditmodelopen] = React.useState(false);
-
-    const [userupdateform,setUserupdateform] = React.useState({
-      role:'user',
-      category:'producer'
-    })
-
-    
-
-    const handleChangeeditForm = (e) => {
-      setUserupdateform({
-          ...userupdateform,
-          [e.target.name]:e.target.value
-      })
-  };
-    
 
       const handleClickOpen = () => {
         setModelopen(true);
@@ -356,197 +316,44 @@ export default function TableMaterialuser(props) {
         setModelopen(false);
       };
 
-      const handleAlertClose = () => {
-        setOpen(false)
-      }
+    const getallproducts = async() => {
 
-
-      const handleuserClickOpen = (e) => {
-        
-        // console.log(selected[0]);
-        if (selected.length > 1){
-           return alert('select one only')
-        }
-        var updated = rows.filter((val) => +val.id === +(selected[0]));
-        setUsereditmodelopen(true);
-        updated.map(val=> {
-          return setUserupdateform({
-            ...userupdateform,
-            role:val.is_staff? val.is_superuser? 'superuser':'admin':'user',
-            category:val.content?val.content:'creator'
-        })
-        })
-       
-
-      };
-
-      const handleuserClickActivateStatus = (status) => {
-        // alert('Activate status : '+status)
-        const form_data = new FormData();
-        form_data.append('itemlist',selected)
-        form_data.append('status',status)
-        var statusbool = false
-        if(status == "activate"){
-          statusbool = true
-        }
-        
-        axios.post(url+'auth/useractiveordeactivate/',form_data,config).then(res=>{
-
-          var rowsupdateuser = rows.filter((val,key) =>{
-            return [...rows, selected.includes(val.id) ? val.is_active=statusbool:val]
-           
-           });
-           setRows(rowsupdateuser)
-          // if(!res.data.error){
-              
-          //   setRows(res.data.GETmethodData)
-            
-          // }
-          setUsercreatedmessage("Success")
-          setOpen(true)
-          setAlertseverity('success')
-      }).catch(err=>{
-          
-         
-          setUsercreatedmessage(err.message)
-          setOpen(true)
-          setAlertseverity('error')
-          
-      })
-
-
-      }
-
-      const handleuserClose = () => {
-        setUsereditmodelopen(false);
-      };
-
-    const getallusers = async() => {
-      axios.get(url+'auth/admin/saveuser/',config).then(res=>{
+      axios.get(url+'admin/getallgroups/',config).then(res=>{
         if(!res.data.error){
             
-          setRows(res.data.GETmethodData)
+          setRows(res.data.groups)
+          setRowslength(res.data.totalrecords)
           
         }
     }).catch(err=>{
         
-        
-        setUsercreatedmessage(err.message)
-        setOpen(true)
-        setAlertseverity('error')
+        alert(err.message)
         
     })
     }
+
 
     React.useEffect(() => {
-      getallusers()
-    }, [])
+        const setprod = async () => {
+            setLoading(true)
+            const allprod = await apirequest.getallproducts({ 'pageNumber': page+1 })
 
-    const handleSearchsubmit = async (e) => {
+            setRows(allprod.obs)
+            setTotalrecords(allprod.totalrecords)
+            setLoading(false)
 
-        setModelopen(false)
-        axios.get(url+'auth/admin/getsingleuser/?username='+(queryfromodel)+'&usertype='+(querycategory)+'&usercontent='+(querycontent),config).then(res=>{
-          if(!res.data.error){
-              
-            setRows(res.data.GETmethodData)
-            
-          }
-      }).catch(err=>{
-          
-        setUsercreatedmessage(err.message)
-        setOpen(true)
-        setAlertseverity('error')
-          
-      })
-      
-
-    }
-
-    const handleUpdateSubmit = async (e) => {
-
-    //   setModelopen(false)
-     
-    const payload = {
-      id:selected[0],
-      role:userupdateform.role,
-      category:userupdateform.category
-    }
-    var response = await authapi.userupdate(payload)
-    setUsereditmodelopen(false)
-    if(response.status == 200){
-      const updatedusers = rows.filter((val,key) =>{
-        return [...rows, +val.id == +payload.id ? payload.role==="superuser"?(val.is_superuser=true,val.is_staff=true,val.is_active=true,val.content=payload.category):payload.role==="admin"?(val.is_superuser=false,val.is_staff=true,val.is_active=true,val.content=payload.category):(val.is_superuser=false,val.is_staff=false,val.is_active=true,val.content=payload.category):null]
-    })
-    setRows(updatedusers);
-      return props.userstatusupdate('success')
-    }else{
-      return props.userstatusupdate('error')
-    }
-    
-    
-
-  }
+        }
+        setprod()
 
 
-    
 
-    const deleteUsers = async () => {
+    }, [page])
 
-      const form_data = new FormData();
-      form_data.append('itemlist',selected)
-      
-        axios.post(url+'auth/admin/deleteusers/',form_data,config).then(res=>{
-          if(!res.data.error){
-              
-            
-            setUsercreatedmessage('Successfully Deleted')
-            setOpen(true)
-            setAlertseverity('success')
-            
-          }
-      }).catch(err=>{
-          
-        setUsercreatedmessage(err.message)
-        setOpen(true)
-        setAlertseverity('error')
-          
-      })
+ 
 
-    }
 
-    
 
-    const assignuserstoGroup = async () => {
-
-      const form_data = new FormData();
-      form_data.append('itemlist',selected)
-      form_data.append('groupname',props.usergroup)
-      if(props.usergroup == ""){
-        setUsercreatedmessage('Select group name')
-        setOpen(true)
-        setAlertseverity('error')
-        return 
-      }
-      
-      
-        axios.post(url+'admin/assignedtogroup/',form_data,config).then(res=>{
-          if(!res.data.error){
-              
-          
-            setUsercreatedmessage('Successfully assigned')
-            setOpen(true)
-            setAlertseverity('success')
-            
-          }
-      }).catch(err=>{
-          
-        setUsercreatedmessage(err.message)
-        setOpen(true)
-        setAlertseverity('error')
-          
-      })
-
-    }
+   
 
 
     // backedn operations
@@ -562,6 +369,7 @@ export default function TableMaterialuser(props) {
     if (event.target.checked) {
       const newSelecteds = rows.map((n) => n.id);
       setSelected(newSelecteds);
+      props.selectedgroupslist(newSelecteds)
       return;
     }
     setSelected([]);
@@ -585,6 +393,7 @@ export default function TableMaterialuser(props) {
     }
 
     setSelected(newSelected);
+    props.selectedgroupslist(newSelected)
   };
 
   const handleChangePage = (event, newPage) => {
@@ -596,54 +405,20 @@ export default function TableMaterialuser(props) {
     setPage(0);
   };
 
-  
+  const detailPagenavigator = async(id,isinterested) => {
+    history.push('/admin/section/'+id+'?interest='+isinterested)
+  }
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-  const vertical = "top"
-  const horizontal = "right"
+  // const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  const emptyRows = 0;
+
   return (
     <div className={classes.root}>
-      <Snackbar anchorOrigin={{ vertical, horizontal }} open={open} autoHideDuration={4000} onClose={handleAlertClose}>
-                <Alert onClose={handleAlertClose} severity={alertseverity}>
-                    {usercreatedmessage}
-                </Alert>
-            </Snackbar>
-      <ConfirmModel 
-
-        setQueryfromodel = {setQueryfromodel}
-        setQuerycontent = {setQuerycontent} 
-        setQuerycategory = {setQuerycategory}
-
-        querycontent = {querycontent}
-        querycategory = {querycategory}
-
-        modelopen={modelopen} 
-        handleSearchsubmit={handleSearchsubmit} handleClickOpen={handleClickOpen} 
-        handleClose={handleClose} 
-      />
-      <UserEditModel 
-        usereditmodelopen={usereditmodelopen} 
-        handleuserClose = {handleuserClose}
-        userupdateform={userupdateform}
-        handleChangeeditForm={handleChangeeditForm}
-        handleUpdateSubmit={handleUpdateSubmit}
-        
-      
-      />
-
-      
+      <ConfirmModel setQueryfromodel = {setQueryfromodel} modelopen={modelopen} handleClickOpen={handleClickOpen} handleClose={handleClose} />
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar 
-        assignuserstogroupclick={assignuserstoGroup} 
-        deleteUsersclick={deleteUsers} 
-        numSelected={selected.length} 
-        handleClickOpen={handleClickOpen}
-        handleuserClickOpen={handleuserClickOpen}
-        handleuserClickActivateStatus = {handleuserClickActivateStatus}
-        
-        />
+        <EnhancedTableToolbar numSelected={selected.length} handleClickOpen={handleClickOpen} />
         <TableContainer>
           <Table
             className={classes.table}
@@ -662,7 +437,8 @@ export default function TableMaterialuser(props) {
             />
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                // .slice(0,page+1 * rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
@@ -683,17 +459,22 @@ export default function TableMaterialuser(props) {
                           inputProps={{ 'aria-labelledby': labelId }}
                         />
                       </TableCell>
-                      <TableCell component="th" id={labelId} scope="row" padding="none">
-                        {row.is_staff?row.is_superuser? 'Superuser':'Admin':'User'}
+                      <TableCell component="th" id={labelId} scope="row" padding="none" style={{ wordWrap: 'break-word',maxWidth:100}}>
+                        {row.title}
                       </TableCell>
-                      {/* <TableCell align="left">{row.role}</TableCell> */}
-                      <TableCell align="left">{row.content?row.content =="creator"?"seller":"buyer":'-------'}</TableCell>
-                      <TableCell align="left">{row.username}</TableCell>
-                      <TableCell align="left">{row.email?row.email:'-----------'}</TableCell>
-                      <TableCell align="left">{row.is_active?'active':'deactivte'}</TableCell>
-                      <TableCell align="left"><Moment format="YYYY/MM/DD">{row.date_joined}</Moment></TableCell>
-                      <TableCell align="left">{row.group?row.group:'---------'}</TableCell>
-                      <TableCell align="left" onClick={(e) => history.push(`/admin/profile/${row.id}`)}><Button variant="contained" color="primary" style={{cursor:"pointer"}}>View Profile</Button></TableCell>
+                      {/* <TableCell align="left">20</TableCell> */}
+                      <TableCell align="left">
+                      <CardMedia
+        className={classes.media}
+        image={`https://app.contentbond.com/${row.thumbnail}`}
+        title={row.title}
+        onClick={(e)=>detailPagenavigator(row.id,row.isfavored)}
+        
+      />
+        </TableCell>
+                      
+            
+                      
                      
                     </TableRow>
                   );
@@ -709,7 +490,7 @@ export default function TableMaterialuser(props) {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={rowslength}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}

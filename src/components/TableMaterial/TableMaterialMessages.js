@@ -684,7 +684,7 @@ export default function TableMaterialMessagesSeller(props) {
             select variant="standard">
             <MenuItem value="creator">Sellers</MenuItem>
             <MenuItem value="producer">Buyers</MenuItem>
-            <MenuItem value="requests">Requests</MenuItem>
+            <MenuItem value="requests">Requests</MenuItem>            
             <MenuItem value="all">All</MenuItem>
           </TextField>
           <br></br><br></br>      
@@ -821,6 +821,7 @@ export default function TableMaterialMessagesSeller(props) {
             <MenuItem value="creator">Sellers</MenuItem>
             <MenuItem value="producer">Buyers</MenuItem>
             <MenuItem value="requests">Requests</MenuItem>
+            <MenuItem value="groupmessages">Group Messages</MenuItem>
             <MenuItem value="all">Platform Messages</MenuItem>
       </TextField>
       <Paper className={classes.paper}>

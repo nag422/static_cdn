@@ -689,7 +689,7 @@ const UsersList = () => {
                         >
                             <MenuItem value="">Choose Group</MenuItem>
                             {usersgroupdata.map((val, index) => {
-                                return <MenuItem key={val.id} value={val.id}>{val.groupname}({val.rule})</MenuItem>
+                                return <MenuItem key={val.id} value={val.id}>{val.name}</MenuItem>
                             })}
                         </Select>
                     </FormControl>

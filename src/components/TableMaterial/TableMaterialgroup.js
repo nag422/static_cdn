@@ -22,9 +22,12 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import faker from 'faker';
 import axios from 'axios';
-import ConfirmModel from '../ModelDialogue/ConfirmModel'
-import { Button } from '@material-ui/core';
+
+import { Button, DialogActions, DialogContent, DialogContentText, MenuItem, Snackbar, TextField } from '@material-ui/core';
 import CreateIcon from '@material-ui/icons/Create';
+import { Edit, EmailOutlined, MailOutline } from '@material-ui/icons';
+import MessageModel from 'components/ModelDialogue/MessageModel';
+import { Alert } from '@material-ui/lab';
 function createData(id,groupname, rule, users) {
   return { id,groupname, rule, users };
 }
@@ -120,8 +123,9 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'groupname', numeric: false, disablePadding: true, label: 'GroupName' },
-  { id: 'rule', numeric: false, disablePadding: false, label: 'Rule' },
+  { id: 'name', numeric: false, disablePadding: true, label: 'GroupName' }, 
+  { id: 'products', numeric: false, disablePadding: true, label: 'Products' }, 
+  { id: 'messages', numeric: false, disablePadding: true, label: 'Messages' }, 
   { id: 'users', numeric: true, disablePadding: false, label: 'TotalUsers' },
   
   
@@ -220,16 +224,22 @@ const EnhancedTableToolbar = (props) => {
         </Typography>
       ) : (
         <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-          All Users
+          
         </Typography>
       )}
 
       {numSelected > 0 ? (
         <>
         <Tooltip title="Edit">
-          <IconButton aria-label="edit">
-            <CreateIcon />            
-          </IconButton>
+        <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            startIcon={<EmailOutlined />}
+            onClick={props.handleClickOpen}
+          >
+            Compose
+          </Button>
         </Tooltip>
         <Tooltip title="Delete">
           <IconButton aria-label="delete" onClick={props.deleteUsersclick}>
@@ -237,14 +247,16 @@ const EnhancedTableToolbar = (props) => {
           </IconButton>
         </Tooltip>
         </>
-      ) : (
-        <Tooltip title="Filter list">
-          {/* <IconButton aria-label="filter list" onClick = {props.handleClickOpen}> */}
-          <IconButton aria-label="filter list">
-            <FilterListIcon />            
-          </IconButton>
-        </Tooltip>
-      )}
+      ) : 
+      // (
+      //   <Tooltip title="Filter list">
+      //     <IconButton aria-label="filter list" onClick = {props.handleClickOpen}>
+      //     <IconButton aria-label="filter list">
+      //       <FilterListIcon />            
+      //     </IconButton>
+      //    </Tooltip>
+      // )
+      null}
     </Toolbar>
   );
 };
@@ -277,7 +289,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TableMaterialgroup() {
+export default function TableMaterialgroup(props) {
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
@@ -285,7 +297,14 @@ export default function TableMaterialgroup() {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowslength, setRowslength] = React.useState(0);
   const [queryfromodel, setQueryfromodel] = React.useState('');
+  const [mailormessage,setMailormessage] = React.useState('message')
+
+  const [open, setOpen] = React.useState(false)
+  const [alertseverity, setAlertseverity] = React.useState('success')
+  const [productmessage, setProductmessage] = React.useState('')
+  const [isbackdrop, setIsbackdrop] = React.useState(false);
 
       // backend operations
 
@@ -302,10 +321,12 @@ export default function TableMaterialgroup() {
       };
 
     const getallgroups = async() => {
+
       axios.get(url+'admin/getallgroups/',config).then(res=>{
         if(!res.data.error){
             
           setRows(res.data.groups)
+          setRowslength(res.data.totalrecords)
           
         }
     }).catch(err=>{
@@ -316,26 +337,13 @@ export default function TableMaterialgroup() {
     }
 
     React.useEffect(() => {
-      getallgroups()
+      getallgroups();
+      return () => {
+        setRows([])
+      }
     }, [])
 
-    const handleSearchsubmit = async (e) => {
-
-        setModelopen(false)
-        axios.get(url+'auth/admin/getsingleuser/?username='+(queryfromodel),config).then(res=>{
-          if(!res.data.error){
-              
-            setRows(res.data.GETmethodData)
-            
-          }
-      }).catch(err=>{
-          
-          alert(err.message)
-          
-      })
-      
-
-    }
+    
 
     const deleteUsers = async () => {
 
@@ -357,6 +365,51 @@ export default function TableMaterialgroup() {
     }
 
 
+    const handleMessagesubmit = async (e) => {
+
+      setModelopen(false)
+  
+      const form_data = new FormData();
+      form_data.append('message', queryfromodel)
+      form_data.append('to', selected)
+      form_data.append('mailormessage', mailormessage)
+      
+      // const url = "http://127.0.0.1:8000/"
+      // const config = {
+      //   headers: {
+      //       'content-type': 'multipart/form-data',          
+      //       'X-CSRFToken': getCookie('csrftoken'),
+      //       'Authorization': 'Token b3ca630db1d487224dad3a90251e186b9c699d40'
+      //   }
+      // }
+      
+  
+      axios.post(url + 'admin/getallgroupsmessages/', form_data, config).then(res => {
+        if (!res.data.error) {
+  
+          // setRows(res.data.GETmethodData)
+          
+          setProductmessage('Message has been sent')
+          setOpen(true);
+          setAlertseverity('success')
+  
+  
+        }
+      }).catch(err => {
+  
+        
+        setProductmessage(err.message.toString())
+        setOpen(true);
+        setAlertseverity('error')
+  
+        
+  
+      })
+  
+  
+    }
+
+
     // backedn operations
   
 
@@ -369,7 +422,8 @@ export default function TableMaterialgroup() {
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelecteds = rows.map((n) => n.id);
-      setSelected(newSelecteds);
+      setSelected(newSelecteds);     
+      props.selectedgroupslist(newSelecteds) 
       return;
     }
     setSelected([]);
@@ -393,6 +447,7 @@ export default function TableMaterialgroup() {
     }
 
     setSelected(newSelected);
+    props.selectedgroupslist(newSelected)
   };
 
   const handleChangePage = (event, newPage) => {
@@ -408,11 +463,89 @@ export default function TableMaterialgroup() {
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  // const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  const emptyRows = 0;
+  const vertical = "top"
+  const horizontal = "right"
 
   return (
     <div className={classes.root}>
-      <ConfirmModel setQueryfromodel = {setQueryfromodel} modelopen={modelopen} handleSearchsubmit={handleSearchsubmit} handleClickOpen={handleClickOpen} handleClose={handleClose} />
+      <Snackbar anchorOrigin={{ vertical, horizontal }} open={open} autoHideDuration={4000} onClose={() =>setOpen(false)}>
+                <Alert onClose={() =>setOpen(false)} severity={alertseverity}>
+                    {productmessage}
+                </Alert>
+            </Snackbar>
+      
+
+      <MessageModel
+
+        modelopen={modelopen}
+
+        handleClickOpen={handleClickOpen}
+
+      >
+
+        <DialogContent>
+
+          <DialogContentText>
+            To Sellers or Buyers
+        </DialogContentText>
+
+          
+
+          
+          <TextField
+            fullWidth
+            id="select" name="mailormessage" label="Email"
+            value={mailormessage} onChange={(e) => setMailormessage(e.target.value)}
+            select variant="standard">
+            <MenuItem value="message">Only Message</MenuItem>
+            <MenuItem value="email">Only Email</MenuItem>
+            <MenuItem value="emailandmessage">Email and Message</MenuItem>
+           
+          </TextField>    
+
+          <br></br><br></br>
+          <TextField
+            onChange={(e) => setQueryfromodel(e.target.value)}
+            autoFocus
+            margin="dense"
+            id="message"
+            label="Message"
+            type="text"
+            placeholder="Enter Message"
+            fullWidth
+            multiline={true}
+            rows="5"
+          />
+
+
+          <br></br>
+
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleMessagesubmit} color="primary">
+            Send Message
+          </Button>
+        </DialogActions>
+        {/* <TextField
+          onChange={(e)=>setQueryfromodel(e.target.value)}
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Username"
+            type="text"
+            placeholder="enter userName"
+            fullWidth
+          /> */}
+
+
+
+      </MessageModel>
+
       <Paper className={classes.paper}>
         <EnhancedTableToolbar deleteUsersclick={deleteUsers} numSelected={selected.length} handleClickOpen={handleClickOpen} />
         <TableContainer>
@@ -433,7 +566,8 @@ export default function TableMaterialgroup() {
             />
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .slice(0,page+1 * rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
@@ -455,10 +589,11 @@ export default function TableMaterialgroup() {
                         />
                       </TableCell>
                       <TableCell component="th" id={labelId} scope="row" padding="none">
-                        {row.groupname}
+                        {row.name}
                       </TableCell>
-                      {/* <TableCell align="left">{row.role}</TableCell> */}
-                      <TableCell align="left">{row.rule?row.rule:'-------'}</TableCell>
+                      <TableCell align="left">20</TableCell>
+                      <TableCell align="left">20</TableCell>
+                      
                       <TableCell align="right">{row.users?row.users:"--------"}</TableCell>
                       
                      
@@ -476,7 +611,7 @@ export default function TableMaterialgroup() {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={rowslength}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}

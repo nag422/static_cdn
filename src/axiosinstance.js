@@ -1,5 +1,6 @@
 import axios from 'axios';
-const baseURL = "http://127.0.0.1:8000/";
+// const baseURL = "http://127.0.0.1:8000/";
+const baseURL = "https://app.contentbond.com/";
 
 const getCookie = (name) => {
     let cookieValue = null;

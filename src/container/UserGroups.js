@@ -130,13 +130,13 @@ const UserGroups = () => {
          
 
             if(res.data.status==200){
-              setUsercreatedmessage("Group created successfully")
+              setUsercreatedmessage("Product assigned is successfully")
               setOpen(true)
               setAlertseverity('success')
              
              
           }else{
-              setUsercreatedmessage("Group Creation is Failed")
+              setUsercreatedmessage("Product assigned is Failed")
             setOpen(true);
             setAlertseverity('error')
   

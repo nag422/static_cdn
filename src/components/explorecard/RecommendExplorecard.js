@@ -150,7 +150,7 @@ export default function RecommendExplorecard(props) {
       />
       <CardMedia
         className={classes.media}
-        image={`https://app.contentbond.com${props.val.thumbnail}`}
+        image={`https://app.contentbond.com/media/${props.val.thumbnail}`}
         title={props.val.title}
         onClick={(e)=>detailPagenavigator(props.val.id,props.val.isfavored,props.val.isliked)}
       />

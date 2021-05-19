@@ -777,6 +777,7 @@ export default function TableMaterialMessages(props) {
             <MenuItem value="creator">My Messages</MenuItem>
             <MenuItem value="inbox">Sent Items</MenuItem>
             <MenuItem value="requests">Requests</MenuItem>
+            <MenuItem value="groupmessages">Group Messages</MenuItem>
             <MenuItem value="all">Platform Messages</MenuItem>
       </TextField>
       <Paper className={classes.paper}>

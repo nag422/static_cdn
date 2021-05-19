@@ -15,6 +15,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import FullscreenOutlinedIcon from '@material-ui/icons/FullscreenOutlined';
+import SupervisedUserCircleOutlinedIcon from '@material-ui/icons/SupervisedUserCircleOutlined';
 import Grow from '@material-ui/core/Grow';
 import Hidden from '@material-ui/core/Hidden';
 import Switch from '@material-ui/core/Switch';
@@ -576,7 +577,7 @@ const AdminHeader = (props) => {
         }
 
         {profileresponse.content == "producer" && !response.is_superuser ?
-
+<>
           <Link to="/admin/recommended" style={{ textDecoration: 'none', color: 'inherit' }}>
             <ListItem button>
               <ListItemIcon>
@@ -585,6 +586,14 @@ const AdminHeader = (props) => {
               <ListItemText primary="Recommended" />
             </ListItem>
           </Link>
+          <Link to="/admin/relevant" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <ListItem button>
+            <ListItemIcon>
+              <SupervisedUserCircleOutlinedIcon />
+            </ListItemIcon>
+            <ListItemText primary="Relevanted" />
+          </ListItem>
+        </Link></>
           : null}
 
 

@@ -13,6 +13,7 @@ import UserGroups from '../container/UserGroups';
 import ContentExploreFavorite from '../container/ContentExploreFavorite';
 import ContentExploreAdminBagged from '../container/ContentExploreAdminBagged';
 import Recommended from 'container/Recommended';
+import Relevanted from 'container/Relevanted';
 import ConfirmPassword from 'container/ConfirmPassword';
 import Detailcard from '../components/Detailcard/Detailcard'
 import ContentEdit from '../container/ContentEdit'
@@ -158,6 +159,14 @@ export default [
         exact: true,
         layout:'admin'
     },
+    {
+        path: "relevant",
+        component: Relevanted,
+        exact: true,
+        layout:'admin'
+    },
+
+    
     // Admin
 
     {

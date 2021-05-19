@@ -205,6 +205,27 @@ export const getalllikedproducts = async (payload) =>{
   
   }
 
+  export const getallrelevantedproducts = async (payload) =>{
+
+    let statuscode = ''
+    const config = {
+        headers: {
+            'content-type': 'application/json',          
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Authorization': 'Token '+getToken()
+        }
+    }
+
+
+    console.log('pagenumber',payload.pageNumber)
+    return await axios
+        .get(`${url}admin/getgroupproductsallbyusers/?page=${payload.pageNumber}`,config)
+        .then(resp => resp.data)
+        .catch(error => error);
+
+
+}
+
 
 // Admin Dyno DataFetching
 
